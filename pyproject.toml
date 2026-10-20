@@ -1,0 +1,8 @@
+[project]
+name = "cbys-developer-kit"
+version = "1.0.0"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+check = ["PyYAML>=6.0,<7", "openapi-spec-validator>=0.7,<0.9", "jsonschema>=4.20,<5"]

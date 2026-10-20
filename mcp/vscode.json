@@ -1,0 +1,8 @@
+{
+  "servers": {
+    "cbys": {
+      "type": "http",
+      "url": "https://checkbeforeyoushop.com/mcp"
+    }
+  }
+}
