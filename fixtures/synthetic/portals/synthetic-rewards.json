@@ -1,0 +1,21 @@
+{
+  "data": {
+    "portal": {
+      "portal_id": "synthetic-rewards",
+      "name": "Synthetic Rewards",
+      "program": "Synthetic Rewards",
+      "category": "card",
+      "category_label": "Credit-card points",
+      "merchants_tracked": 0,
+      "cadence_hours": 168,
+      "last_success_at": null,
+      "page_url": "https://checkbeforeyoushop.com/p/synthetic-rewards"
+    },
+    "top_rates": []
+  },
+  "data_as_of": null,
+  "source": "CheckBeforeYouShop",
+  "attribution": "Data from CheckBeforeYouShop (checkbeforeyoushop.com), free to use with attribution and a link to each item's page_url.",
+  "disclosure": "Rates are read from each portal's pages and can change or go stale, so always confirm on the portal before shopping. Some portal links may earn us a referral bonus; that never changes the rates or their order.",
+  "_synthetic_note": "Registered but never successfully checked."
+}
