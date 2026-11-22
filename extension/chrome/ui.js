@@ -4,6 +4,7 @@
   const origin = 'https://checkbeforeyoushop.com';
   const searchPath = (query) => '/api/v1/search.json?q=' + encodeURIComponent(query);
   const merchantPath = (slug) => '/api/v1/merchants/' + encodeURIComponent(slug) + '.json';
+  const noListings = 'No tracked listings returned for this store.';
   const unitLabels = new Map([
     ['earn_rate:pct_cash', 'Cash back %'],
     ['earn_rate:miles_per_dollar', 'Airline miles per $'],
@@ -50,6 +51,20 @@
       Boolean(store.domain && normalizeHost(store.domain) === normalizeHost(query));
   }
 
+  function formatCategoryRate(value, unit) {
+    const number = value.toFixed(2).replace(/\.0+$|(\.\d*?)0+$/, '$1');
+    switch (unit) {
+      case 'pct_cash': return number + '%';
+      case 'miles_per_dollar': return number + ' mi/$';
+      case 'points_per_dollar': return number + (number === '1' ? ' pt/$' : ' pts/$');
+      case 'cents_per_gallon': return number + '¢/gal';
+      case 'flat_cash': return '$' + number;
+      case 'flat_miles': return value.toLocaleString('en-US') + (value === 1 ? ' mile' : ' miles');
+      case 'flat_points': return value.toLocaleString('en-US') + (value === 1 ? ' pt' : ' pts');
+      default: return number + ' ' + unit;
+    }
+  }
+
   function renderRate(rate) {
     const row = element('li', 'rate');
     const portal = externalLink(rate.portal_name, rate.go_url, '/go/', 'portal');
@@ -77,7 +92,8 @@
 
     row.append(label, amount, check);
     if (rate.is_up_to && rate.best_category_value != null && rate.best_category_label) {
-      row.append(element('div', 'confirmation', 'Confirmed category · ' + rate.best_category_label));
+      const categoryRate = formatCategoryRate(rate.best_category_value, rate.rate_unit);
+      row.append(element('div', 'confirmation', ['Confirmed category', rate.best_category_label, categoryRate].join(' · ')));
     }
     return row;
   }
@@ -105,6 +121,7 @@
       heading.id = 'rates-' + sections.childElementCount;
       section.setAttribute('aria-labelledby', heading.id);
       rows.sort((a, b) =>
+        Number(Boolean(a.is_stale)) - Number(Boolean(b.is_stale)) ||
         (b.best_category_value ?? b.rate_value) - (a.best_category_value ?? a.rate_value) ||
         Number(a.is_up_to) - Number(b.is_up_to),
       );
@@ -183,11 +200,16 @@
       const { merchant, verdict, rates } = envelope.data;
       const intro = element('div', 'store-intro');
       if (merchant.domain) intro.append(element('p', 'domain', merchant.domain));
-      if (verdict?.headline) intro.append(element('p', 'verdict', verdict.headline));
+      if (verdict?.headline || verdict?.caveats?.length) {
+        const card = element('div', 'verdict');
+        if (verdict.headline) card.append(element('p', '', verdict.headline));
+        for (const caveat of verdict.caveats ?? []) card.append(element('p', '', caveat));
+        intro.append(card);
+      }
       intro.append(externalLink('View on CheckBeforeYouShop', merchant.page_url, '/m/', 'view-store'));
       const content = rates.length
         ? renderGroups(rates)
-        : element('p', 'empty', 'No tracked portal listings were returned.');
+        : element('p', 'empty', noListings);
       cite(envelope);
       show(merchant.name, [intro, content], focusFrom);
     }
@@ -224,11 +246,11 @@
       }
     }
 
-    async function loadStore(slug, signal, focusFrom) {
-      const response = await request(merchantPath(slug), signal);
+    async function loadStore(store, signal, focusFrom) {
+      const response = await request(merchantPath(store.slug), signal);
       if (signal.aborted) return;
       if (response.status === 404) {
-        show('No tracked store found', [element('p', 'empty', 'Try another name or website.')], focusFrom);
+        show(store.name, [element('p', 'empty', noListings)], focusFrom);
         return;
       }
       if (response.status !== 200) throw new Error('Merchant lookup failed');
@@ -246,7 +268,7 @@
         choice.addEventListener('click', (event) => {
           if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
           event.preventDefault();
-          run(choice, (signal) => loadStore(store.slug, signal, choice));
+          run(choice, (signal) => loadStore(store, signal, choice));
         });
         item.append(choice);
         list.append(item);
@@ -276,7 +298,7 @@
         const exact = stores.filter((store) => exactMatch(store, query));
         cite(response.body);
         if (exact.length === 1) {
-          await loadStore(exact[0].slug, signal, focusFrom);
+          await loadStore(exact[0], signal, focusFrom);
           return;
         }
         if (exact.length === 0 && resolveSlug) {

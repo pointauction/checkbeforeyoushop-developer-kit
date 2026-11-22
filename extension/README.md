@@ -21,7 +21,7 @@ The extension runs as shipped, with no build step or runtime dependencies. Distr
 
 A unique exact slug, name, or domain match opens directly. A partial match or a shared domain prompts you to choose a store, even if there is only one partial match. The API search returns up to 25 results, including portals, which the popup filters out. A tracked store may have no listing for a particular portal.
 
-Each group shows rates in their original units, with one-time bonuses in their own groups. Within a group, an exact rate sorts ahead of an equal “up to” rate. When the API provides a supported category value, the ordering uses that value and the row still shows the advertised maximum. Each listing shows its own last confirmation in UTC. Stale rows carry a visible label. Store links, attribution, and disclosure come from the API.
+Each group shows rates in their original units, with one-time bonuses in their own groups. Fresh listings appear before stale ones. For listings with the same freshness and value, an exact rate appears ahead of an “up to” rate. When the API provides a supported category rate, the popup shows it alongside the advertised maximum and uses the category rate for sorting. Each listing shows its own last confirmation in UTC. Stale rows carry a visible label. Verdict caveats appear below the headline. Store links, attribution, and disclosure come from the API.
 
 ## Offline demo
 
@@ -42,7 +42,7 @@ npm test
 npm run screenshots
 ```
 
-Playwright checks the demo over `file://` and opens the installed extension from Chromium's toolbar in a persistent headless context. The extension test intercepts network requests and serves committed fixtures, including replaying captured results for a domain search and a slug lookup. The stale screenshot uses a synthetic timestamp and stale flag on one listing.
+Playwright checks the demo over `file://` and opens the installed extension from Chromium's toolbar in a persistent headless context. The extension test intercepts network requests and serves committed fixtures, including replaying captured results for a domain search and a slug lookup. The stale screenshot uses a synthetic stale flag and timestamp on Nike's TopCashback listing. The caveat screenshot uses synthetic verdict caveats.
 
 | Nike, light | Nike, dark |
 | --- | --- |
@@ -51,3 +51,5 @@ Playwright checks the demo over `file://` and opens the installed extension from
 | ![Store picker for American](screenshots/popup-ambiguous.png) | ![Square with three one-time bonus groups](screenshots/popup-square-bonuses.png) |
 | **No tracked store** | **Stale listing** |
 | ![No tracked store found](screenshots/popup-not-found.png) | ![Nike with a synthetic stale listing](screenshots/popup-stale.png) |
+| **Verdict caveats** | |
+| ![Nike with synthetic verdict caveats](screenshots/popup-caveat.png) | |
