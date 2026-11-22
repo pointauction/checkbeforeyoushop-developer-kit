@@ -570,7 +570,12 @@ test('resource lookups normalize slug and portal ID before encoding', async () =
   } });
   await mocked.getStore(' cafe\u0301-shop ');
   await mocked.getPortal(' re\u0301wards ');
-  assert.deepEqual(paths, ['/api/v1/merchants/caf%C3%A9-shop.json', '/api/v1/portals/r%C3%A9wards.json']);
+  await mocked.getPortal('example/plus?region#uk');
+  assert.deepEqual(paths, [
+    '/api/v1/merchants/caf%C3%A9-shop.json',
+    '/api/v1/portals/r%C3%A9wards.json',
+    '/api/v1/portals/example%2Fplus%3Fregion%23uk.json',
+  ]);
 });
 
 test('program matching uses NFC on both sides', () => {

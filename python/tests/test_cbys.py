@@ -251,6 +251,22 @@ class HTTPTests(unittest.TestCase):
         os.environ.pop("CBYS_FIXTURES_DIR", None)
         self.client = Client(base_url="https://example.test/", timeout=3, user_agent="cbys-test")
 
+    def test_portal_detail_uses_one_encoded_path_segment(self):
+        for portal_id, segment in (
+            ("rakuten", "rakuten"),
+            ("example/plus?region#uk", "example%2Fplus%3Fregion%23uk"),
+        ):
+            with (
+                self.subTest(portal_id=portal_id),
+                patch("cbys.client._open", return_value=FakeResponse(
+                    read_fixture("portals/rakuten.json"),
+                )) as transport,
+            ):
+                self.client.get_portal(portal_id)
+                transport.assert_called_once()
+                self.assertEqual(transport.call_args.args[0].selector,
+                                 f"/api/v1/portals/{segment}.json")
+
     def test_retries_429_503_and_honors_retry_after(self):
         with (
             patch("cbys.client._open", side_effect=[
