@@ -157,6 +157,8 @@ class Client:
             raise HTTPError(status, "API returned an invalid JSON object")
         try:
             return _envelope(payload, decode)
+        except ValueError as exc:
+            raise HTTPError(status, f"API returned an invalid response for {path}. {exc}") from exc
         except (KeyError, TypeError, AttributeError) as exc:
             raise HTTPError(status, f"API returned an invalid response for {path}") from exc
 

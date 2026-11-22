@@ -260,6 +260,19 @@ test('malformed JSON and malformed envelopes are terminal HTTP errors', async ()
   }
 });
 
+test('store detail rejects malformed rates or merchant and accepts an empty rates array', async () => {
+  for (const [data, message] of [
+    [{ merchant: {} }, /data\.rates/],
+    [{ merchant: {}, rates: {} }, /data\.rates/],
+    [{ rates: [] }, /data\.merchant/],
+  ]) {
+    const mocked = new CbysClient({ fetch: async () => jsonResponse(envelope(data)) });
+    await assert.rejects(mocked.getStore('nike'), { name: 'CbysHttpError', status: 200, message });
+  }
+  const mocked = new CbysClient({ fetch: async () => jsonResponse(envelope({ merchant: {}, rates: [] })) });
+  assert.deepEqual((await mocked.getStore('nike')).data.rates, []);
+});
+
 test('timeout aborts a slow fetch even when it ignores the signal', async () => {
   let calls = 0;
   let signal;
@@ -553,7 +566,7 @@ test('resource lookups normalize slug and portal ID before encoding', async () =
   const paths = [];
   const mocked = new CbysClient({ fetch: async (url) => {
     paths.push(new URL(url).pathname);
-    return jsonResponse(envelope({}));
+    return jsonResponse(envelope({ merchant: {}, rates: [] }));
   } });
   await mocked.getStore(' cafe\u0301-shop ');
   await mocked.getPortal(' re\u0301wards ');

@@ -74,7 +74,11 @@ export class CbysClient {
   }
 
   async getStore(slug: string): Promise<Envelope<StoreData>> {
-    return this.#get(this.#resourceUrl('merchants', slug));
+    return this.#get(this.#resourceUrl('merchants', slug), (data) => {
+      if (!isObject(data.merchant)) return 'data.merchant';
+      if (!Array.isArray(data.rates)) return 'data.rates';
+      return undefined;
+    });
   }
 
   async listPortals(): Promise<Envelope<PortalsData>> {
@@ -158,7 +162,7 @@ export class CbysClient {
     return url;
   }
 
-  async #get<T>(url: URL): Promise<Envelope<T>> {
+  async #get<T>(url: URL, invalidDataField?: (data: T) => string | undefined): Promise<Envelope<T>> {
     for (let attempt = 0; ; attempt++) {
       const canRetry = attempt < this.#retries;
       let result: Download;
@@ -180,6 +184,10 @@ export class CbysClient {
       const payload = parseResponse(response, body, url.href);
       if (!isEnvelope<T>(payload)) {
         throw new CbysHttpError(response.status, 'Invalid API response envelope', url.href);
+      }
+      const field = invalidDataField?.(payload.data);
+      if (field) {
+        throw new CbysHttpError(response.status, `Missing or invalid ${field} in API response`, url.href);
       }
       return payload;
     }

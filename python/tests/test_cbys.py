@@ -540,6 +540,44 @@ class CLITests(unittest.TestCase):
         self.assertIn("unrecognized arguments", result.stderr)
         self.assert_attribution(result.stderr, "https://checkbeforeyoushop.com")
 
+    def test_example_rejects_invalid_store_fields_before_printing(self):
+        for field, bad_value in (
+            ("data.rates", {}),
+            ("data.merchant", []),
+            ("attribution", None),
+            ("disclosure", None),
+        ):
+            for missing in (True, False):
+                with self.subTest(field=field, missing=missing):
+                    payload = read_fixture("merchants/nike.json")
+                    target = payload["data"] if field.startswith("data.") else payload
+                    key = field.split(".")[-1]
+                    if missing:
+                        del target[key]
+                    else:
+                        target[key] = bad_value
+                    result = self.example_with_store_fixture(payload)
+                    self.assertEqual(result.returncode, 1, result.stderr)
+                    self.assertIn(field, result.stderr)
+                    self.assertNotIn("Traceback", result.stderr)
+                    self.assertEqual(result.stdout, "")
+
+    def test_example_accepts_an_empty_rates_array(self):
+        payload = read_fixture("merchants/nike.json")
+        payload["data"].update(rates=[], best_rates=[])
+        result = self.example_with_store_fixture(payload)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("No tracked rate rows match this selection.", result.stdout)
+
+    def example_with_store_fixture(self, payload):
+        with synthetic_fixtures("Synthetic merchant detail for CLI regression tests", {
+            "/api/v1/merchants/nike.json": (200, payload),
+        }) as directory:
+            return subprocess.run(
+                [sys.executable, "example.py", "nike", "--fixtures", directory],
+                cwd=ROOT, capture_output=True, text=True, timeout=10,
+            )
+
     def test_store_shows_full_verdict_without_cross_unit_summary(self):
         payload = read_fixture("merchants/nike.json")
         verdict = payload["data"]["verdict"]

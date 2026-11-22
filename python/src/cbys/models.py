@@ -42,9 +42,15 @@ class Envelope(_Model, Generic[_DataT]):
 def _envelope(
     payload: JsonObject, decode: Callable[[JsonObject], _DataT]
 ) -> Envelope[_DataT]:
+    data = payload.get("data")
+    if not isinstance(data, dict):
+        raise ValueError("Missing or invalid data")
+    for field in ("attribution", "disclosure"):
+        if not isinstance(payload.get(field), str):
+            raise ValueError(f"Missing or invalid {field}")
     known = {"data", "data_as_of", "source", "attribution", "disclosure"}
     return Envelope(
-        data=decode(payload["data"]),
+        data=decode(data),
         data_as_of=payload["data_as_of"],
         source=payload["source"],
         attribution=payload["attribution"],
@@ -140,16 +146,22 @@ class StoreData(_Model):
 
     @classmethod
     def _decode(cls, payload: JsonObject) -> StoreData:
+        merchant = payload.get("merchant")
+        if not isinstance(merchant, dict):
+            raise ValueError("Missing or invalid data.merchant")
+        rates = payload.get("rates")
+        if not isinstance(rates, list):
+            raise ValueError("Missing or invalid data.rates")
         verdict = payload["verdict"]
         return _model(
             cls, payload,
-            merchant=_model(Merchant, payload["merchant"]),
+            merchant=_model(Merchant, merchant),
             verdict=(
                 _model(Verdict, verdict, caveats=tuple(verdict["caveats"]))
                 if verdict is not None else None
             ),
             best_rates=tuple(_model(MerchantRate, row) for row in payload["best_rates"]),
-            rates=tuple(_model(MerchantRate, row) for row in payload["rates"]),
+            rates=tuple(_model(MerchantRate, row) for row in rates),
         )
 
 
