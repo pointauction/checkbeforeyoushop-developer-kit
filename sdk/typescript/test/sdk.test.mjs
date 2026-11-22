@@ -612,6 +612,32 @@ test('formatRate labels a gift card payout, and the store example labels it once
   assert.equal(line?.match(/gift card payout/g)?.length, 1);
 });
 
+test('the Delta example shows each listing qualifier beside its rate', async (t) => {
+  const dir = await mkdtemp(join(tmpdir(), 'cbys-sdk-test-'));
+  t.after(() => rm(dir, { recursive: true, force: true }));
+  const request = '/api/v1/merchants/nike.json';
+  const capture = JSON.parse(await readFile(join(fixtureDir, 'merchants/nike.json'), 'utf8'));
+  const [row] = filterByProgram(capture.data.rates, 'delta');
+  capture.data.rates = [
+    { ...row, rate_value: 5, rate_display: '5 mi/$', listing_label: 'New customers only' },
+    { ...row, rate_value: 3, rate_display: '3 mi/$', listing_label: 'Returning customers only' },
+    { ...row, rate_value: 2, rate_display: '2 mi/$', listing_label: null },
+  ];
+  await Promise.all([
+    writeFile(join(dir, 'manifest.json'), JSON.stringify({ requests: { [request]: { file: 'nike.json', status: 200 } } })),
+    writeFile(join(dir, 'nike.json'), JSON.stringify(capture)),
+  ]);
+  const output = execFileSync(process.execPath, [
+    fileURLToPath(new URL('../examples/delta-check.mjs', import.meta.url)), 'nike',
+  ], { env: { ...process.env, CBYS_FIXTURES_DIR: dir }, encoding: 'utf8' });
+  const rows = output.split('\n').filter((line) => line.startsWith(row.portal_name));
+  assert.deepEqual(rows, [
+    `${row.portal_name} / New customers only | 5 mi/$ | confirmed ${row.last_confirmed_at}`,
+    `${row.portal_name} / Returning customers only | 3 mi/$ | confirmed ${row.last_confirmed_at}`,
+    `${row.portal_name} | 2 mi/$ | confirmed ${row.last_confirmed_at}`,
+  ]);
+});
+
 test('README and public type declarations give the limits of upstream summary and verdict prose', async () => {
   const [readme, types] = await Promise.all([
     readFile(new URL('../README.md', import.meta.url), 'utf8'),

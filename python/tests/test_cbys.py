@@ -569,6 +569,25 @@ class CLITests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertIn("No tracked rate rows match this selection.", result.stdout)
 
+    def test_example_prints_each_rows_listing_qualifier(self):
+        payload = read_fixture("merchants/nike.json")
+        row = payload["data"]["rates"][0]
+        payload["data"]["rates"] = [
+            dict(row, rate_value=5, rate_display="5%", listing_label="New customers only"),
+            dict(row, rate_value=3, rate_display="3%", listing_label="Returning customers only"),
+            dict(row, rate_value=2, rate_display="2%", listing_label=None),
+        ]
+        result = self.example_with_store_fixture(payload)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        rows = [line for line in result.stdout.splitlines() if line.startswith("- ")]
+        self.assertEqual(len(rows), 3)
+        self.assertIn("(New customers only)", rows[0])
+        self.assertIn("5%", rows[0])
+        self.assertIn("(Returning customers only)", rows[1])
+        self.assertIn("3%", rows[1])
+        self.assertIn("2%", rows[2])
+        self.assertNotIn("only)", rows[2])
+
     def example_with_store_fixture(self, payload):
         with synthetic_fixtures("Synthetic merchant detail for CLI regression tests", {
             "/api/v1/merchants/nike.json": (200, payload),

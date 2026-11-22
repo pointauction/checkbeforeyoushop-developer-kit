@@ -21,6 +21,7 @@ console.log(`\n${merchant.name} | ${credit.page_url}`);
 const deltaRows = filterByProgram(rates, 'delta');
 if (deltaRows.length === 0) console.log('No tracked Delta SkyMiles listing was returned.');
 for (const row of deltaRows) {
-  console.log(`${row.portal_name} | ${formatRate(row)} | confirmed ${row.last_confirmed_at}`);
+  const listing = row.listing_label ? ` / ${row.listing_label}` : '';
+  console.log(`${row.portal_name}${listing} | ${formatRate(row)} | confirmed ${row.last_confirmed_at}`);
 }
 console.log(`\n${credit.attribution}\n${credit.disclosure}`);
