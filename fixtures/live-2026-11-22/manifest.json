@@ -1,0 +1,103 @@
+{
+  "captured_at": "2026-11-22T23:30:00Z",
+  "base_url": "https://checkbeforeyoushop.com",
+  "note": "Serial, throttled (>=1.2s) public GETs captured once for offline tests and evals. Real responses, unmodified except pretty-printing. Live data changes; never treat these values as current.",
+  "requests": {
+    "/api/v1/highs.json": {
+      "file": "highs.json",
+      "status": 200
+    },
+    "/api/v1/merchants/apple.json": {
+      "file": "merchants/apple.json",
+      "status": 200
+    },
+    "/api/v1/merchants/daily-harvest.json": {
+      "file": "merchants/daily-harvest.json",
+      "status": 200
+    },
+    "/api/v1/merchants/delta-air-lines.json": {
+      "file": "merchants/delta-air-lines.json",
+      "status": 200
+    },
+    "/api/v1/merchants/does-not-exist-zzq.json": {
+      "file": "merchants/does-not-exist-zzq.json",
+      "status": 404
+    },
+    "/api/v1/merchants/macys-com.json": {
+      "file": "merchants/macys-com.json",
+      "status": 200
+    },
+    "/api/v1/merchants/nike.json": {
+      "file": "merchants/nike.json",
+      "status": 200
+    },
+    "/api/v1/merchants/ross-simons.json": {
+      "file": "merchants/ross-simons.json",
+      "status": 200
+    },
+    "/api/v1/merchants/square.json": {
+      "file": "merchants/square.json",
+      "status": 200
+    },
+    "/api/v1/merchants/t-mobile-postpaid.json": {
+      "file": "merchants/t-mobile-postpaid.json",
+      "status": 200
+    },
+    "/api/v1/merchants/the-home-depot.json": {
+      "file": "merchants/the-home-depot.json",
+      "status": 200
+    },
+    "/api/v1/portals.json": {
+      "file": "portals.json",
+      "status": 200
+    },
+    "/api/v1/portals/delta-skymiles.json": {
+      "file": "portals/delta-skymiles.json",
+      "status": 200
+    },
+    "/api/v1/portals/does-not-exist-zzq.json": {
+      "file": "portals/does-not-exist-zzq.json",
+      "status": 404
+    },
+    "/api/v1/portals/rakuten.json": {
+      "file": "portals/rakuten.json",
+      "status": 200
+    },
+    "/api/v1/search.json?q=a": {
+      "file": "search/short-q.json",
+      "status": 400
+    },
+    "/api/v1/search.json?q=american": {
+      "file": "search/american.json",
+      "status": 200
+    },
+    "/api/v1/search.json?q=apple": {
+      "file": "search/apple.json",
+      "status": 200
+    },
+    "/api/v1/search.json?q=delta": {
+      "file": "search/delta.json",
+      "status": 200
+    },
+    "/api/v1/search.json?q=home depot": {
+      "file": "search/home-depot.json",
+      "status": 200
+    },
+    "/api/v1/search.json?q=macys": {
+      "file": "search/macys.json",
+      "status": 200
+    },
+    "/api/v1/search.json?q=nike": {
+      "file": "search/nike.json",
+      "status": 200
+    },
+    "/api/v1/search.json?q=square": {
+      "file": "search/square.json",
+      "status": 200
+    },
+    "/api/v1/search.json?q=zzqxnotastore": {
+      "file": "search/zzqxnotastore.json",
+      "status": 200
+    }
+  }
+}

@@ -1,0 +1,119 @@
+{
+  "data": {
+    "merchant": {
+      "slug": "delta-air-lines",
+      "name": "Delta Air Lines",
+      "domain": null,
+      "page_url": "https://checkbeforeyoushop.com/m/delta-air-lines",
+      "portals_tracked": 3,
+      "tracked_since": "2026-07-12T12:35:31.521106+00:00"
+    },
+    "summary": "As of Nov 22, 2026, the best cashback for Delta Air Lines is 10% (Swagbucks SB) via Swagbucks and Upromise, across the 3 portals carrying Delta Air Lines.",
+    "verdict": {
+      "headline": "10% (Swagbucks SB) is the highest we've ever seen for Delta Air Lines (typical 3%). Swagbucks and Upromise both pay it.",
+      "tone": "ath",
+      "caveats": []
+    },
+    "best_rates": [
+      {
+        "portal_id": "swagbucks",
+        "portal_name": "Swagbucks",
+        "program": "Swagbucks SB",
+        "payout_kind": null,
+        "rate_value": 10,
+        "rate_unit": "pct_cash",
+        "rate_kind": "earn_rate",
+        "rate_display": "10%",
+        "unit_group": "Cashback",
+        "is_up_to": false,
+        "best_category_value": null,
+        "best_category_label": null,
+        "is_elevated": true,
+        "is_stale": false,
+        "last_confirmed_at": "2026-11-22T19:07:45.446899+00:00",
+        "go_url": "https://checkbeforeyoushop.com/go/swagbucks?plc=api&m=aae23c9a-684c-4b38-9b40-8a630f75fa7e"
+      },
+      {
+        "portal_id": "mypoints",
+        "portal_name": "MyPoints",
+        "program": "MyPoints points",
+        "payout_kind": null,
+        "rate_value": 10,
+        "rate_unit": "points_per_dollar",
+        "rate_kind": "earn_rate",
+        "rate_display": "10 pts/$",
+        "unit_group": "Points",
+        "is_up_to": false,
+        "best_category_value": null,
+        "best_category_label": null,
+        "is_elevated": true,
+        "is_stale": false,
+        "last_confirmed_at": "2026-11-22T15:25:16.489987+00:00",
+        "go_url": "https://checkbeforeyoushop.com/go/mypoints?plc=api&m=aae23c9a-684c-4b38-9b40-8a630f75fa7e"
+      }
+    ],
+    "rates": [
+      {
+        "portal_id": "mypoints",
+        "portal_name": "MyPoints",
+        "program": "MyPoints points",
+        "payout_kind": null,
+        "rate_value": 10,
+        "rate_unit": "points_per_dollar",
+        "rate_kind": "earn_rate",
+        "rate_display": "10 pts/$",
+        "unit_group": "Points",
+        "is_up_to": false,
+        "best_category_value": null,
+        "best_category_label": null,
+        "is_elevated": true,
+        "is_stale": false,
+        "last_confirmed_at": "2026-11-22T15:25:16.489987+00:00",
+        "listing_label": null,
+        "go_url": "https://checkbeforeyoushop.com/go/mypoints?plc=api&m=aae23c9a-684c-4b38-9b40-8a630f75fa7e"
+      },
+      {
+        "portal_id": "upromise",
+        "portal_name": "Upromise",
+        "program": "Upromise",
+        "payout_kind": null,
+        "rate_value": 10,
+        "rate_unit": "pct_cash",
+        "rate_kind": "earn_rate",
+        "rate_display": "10%",
+        "unit_group": "Cashback",
+        "is_up_to": false,
+        "best_category_value": null,
+        "best_category_label": null,
+        "is_elevated": true,
+        "is_stale": false,
+        "last_confirmed_at": "2026-11-22T18:20:19.060731+00:00",
+        "listing_label": null,
+        "go_url": "https://checkbeforeyoushop.com/go/upromise?plc=api&m=aae23c9a-684c-4b38-9b40-8a630f75fa7e"
+      },
+      {
+        "portal_id": "swagbucks",
+        "portal_name": "Swagbucks",
+        "program": "Swagbucks SB",
+        "payout_kind": null,
+        "rate_value": 10,
+        "rate_unit": "pct_cash",
+        "rate_kind": "earn_rate",
+        "rate_display": "10%",
+        "unit_group": "Cashback",
+        "is_up_to": false,
+        "best_category_value": null,
+        "best_category_label": null,
+        "is_elevated": true,
+        "is_stale": false,
+        "last_confirmed_at": "2026-11-22T19:07:45.446899+00:00",
+        "listing_label": null,
+        "go_url": "https://checkbeforeyoushop.com/go/swagbucks?plc=api&m=aae23c9a-684c-4b38-9b40-8a630f75fa7e"
+      }
+    ]
+  },
+  "data_as_of": "2026-11-22T19:07:45.446899+00:00",
+  "source": "CheckBeforeYouShop",
+  "attribution": "Data from CheckBeforeYouShop (checkbeforeyoushop.com), free to use with attribution and a link to each item's page_url.",
+  "disclosure": "Rates are read from each portal's pages and can change or go stale, so always confirm on the portal before shopping. Some portal links may earn us a referral bonus; that never changes the rates or their order."
+}

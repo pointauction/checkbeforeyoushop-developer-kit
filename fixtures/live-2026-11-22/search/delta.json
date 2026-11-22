@@ -1,0 +1,133 @@
+{
+  "data": {
+    "query": "delta",
+    "count": 15,
+    "results": [
+      {
+        "kind": "portal",
+        "slug": "delta-skymiles",
+        "name": "Delta SkyMiles Shopping",
+        "domain": null,
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/p/delta-skymiles"
+      },
+      {
+        "kind": "merchant",
+        "slug": "delta-faucet",
+        "name": "Delta Faucet",
+        "domain": "deltafaucet.com",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/delta-faucet"
+      },
+      {
+        "kind": "merchant",
+        "slug": "delta-beverages",
+        "name": "Delta Beverages",
+        "domain": "drinkdelta.com",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/delta-beverages"
+      },
+      {
+        "kind": "merchant",
+        "slug": "delta-xl",
+        "name": "Delta XL",
+        "domain": "deltaxl.com",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/delta-xl"
+      },
+      {
+        "kind": "merchant",
+        "slug": "delta-extrax",
+        "name": "Delta Extrax",
+        "domain": "deltaextrax.com",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/delta-extrax"
+      },
+      {
+        "kind": "merchant",
+        "slug": "delta-waterfowl",
+        "name": "Delta Waterfowl",
+        "domain": "deltawaterfowl.org",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/delta-waterfowl"
+      },
+      {
+        "kind": "merchant",
+        "slug": "delta-children",
+        "name": "Delta Children",
+        "domain": "deltachildren.com",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/delta-children"
+      },
+      {
+        "kind": "merchant",
+        "slug": "delta-air-lines",
+        "name": "Delta Air Lines",
+        "domain": null,
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/delta-air-lines"
+      },
+      {
+        "kind": "merchant",
+        "slug": "delta-munchies",
+        "name": "Delta Munchies",
+        "domain": "deltamunchies.com",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/delta-munchies"
+      },
+      {
+        "kind": "merchant",
+        "slug": "delta-remedys",
+        "name": "Delta Remedys",
+        "domain": "deltaremedys.com",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/delta-remedys"
+      },
+      {
+        "kind": "merchant",
+        "slug": "delta-bombshell",
+        "name": "Delta Bombshell",
+        "domain": null,
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/delta-bombshell"
+      },
+      {
+        "kind": "merchant",
+        "slug": "deltastar",
+        "name": "Deltastar",
+        "domain": null,
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/deltastar"
+      },
+      {
+        "kind": "merchant",
+        "slug": "charlie-bravo-delta",
+        "name": "Charlie Bravo Delta",
+        "domain": "charliebravodelta.com",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/charlie-bravo-delta"
+      },
+      {
+        "kind": "merchant",
+        "slug": "just-delta",
+        "name": "Just Delta",
+        "domain": null,
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/just-delta"
+      },
+      {
+        "kind": "merchant",
+        "slug": "drinkdelta-com",
+        "name": "drinkdelta.com",
+        "domain": null,
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/drinkdelta-com"
+      }
+    ],
+    "did_you_mean": false
+  },
+  "data_as_of": null,
+  "source": "CheckBeforeYouShop",
+  "attribution": "Data from CheckBeforeYouShop (checkbeforeyoushop.com), free to use with attribution and a link to each item's page_url.",
+  "disclosure": "Rates are read from each portal's pages and can change or go stale, so always confirm on the portal before shopping. Some portal links may earn us a referral bonus; that never changes the rates or their order."
+}

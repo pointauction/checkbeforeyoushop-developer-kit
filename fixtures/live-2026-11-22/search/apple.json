@@ -1,0 +1,181 @@
+{
+  "data": {
+    "query": "apple",
+    "count": 21,
+    "results": [
+      {
+        "kind": "merchant",
+        "slug": "apple",
+        "name": "Apple",
+        "domain": "apple.com",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/apple"
+      },
+      {
+        "kind": "merchant",
+        "slug": "apple-vacations",
+        "name": "Apple Vacations",
+        "domain": "applevacations.com",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/apple-vacations"
+      },
+      {
+        "kind": "merchant",
+        "slug": "apple-forms",
+        "name": "Apple Forms",
+        "domain": "appleforms.com",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/apple-forms"
+      },
+      {
+        "kind": "merchant",
+        "slug": "apple-avenue",
+        "name": "Apple-avenue",
+        "domain": null,
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/apple-avenue"
+      },
+      {
+        "kind": "merchant",
+        "slug": "apple-world-inc",
+        "name": "APPLE WORLD INC.",
+        "domain": null,
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/apple-world-inc"
+      },
+      {
+        "kind": "merchant",
+        "slug": "apple-products-on-amazon",
+        "name": "Apple Products on Amazon",
+        "domain": null,
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/apple-products-on-amazon"
+      },
+      {
+        "kind": "merchant",
+        "slug": "apple-hk",
+        "name": "Apple HK",
+        "domain": null,
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/apple-hk"
+      },
+      {
+        "kind": "merchant",
+        "slug": "apple-store-cn",
+        "name": "Apple Store CN",
+        "domain": null,
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/apple-store-cn"
+      },
+      {
+        "kind": "merchant",
+        "slug": "applebee-s",
+        "name": "Applebee's",
+        "domain": null,
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/applebee-s"
+      },
+      {
+        "kind": "merchant",
+        "slug": "appleseed-s",
+        "name": "Appleseed's",
+        "domain": "appleseeds.com",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/appleseed-s"
+      },
+      {
+        "kind": "merchant",
+        "slug": "apples-of-gold",
+        "name": "Apples of Gold",
+        "domain": null,
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/apples-of-gold"
+      },
+      {
+        "kind": "merchant",
+        "slug": "appleyard-flowers",
+        "name": "Appleyard Flowers",
+        "domain": "appleyardflowers.com",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/appleyard-flowers"
+      },
+      {
+        "kind": "merchant",
+        "slug": "appleyard",
+        "name": "Appleyard",
+        "domain": null,
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/appleyard"
+      },
+      {
+        "kind": "merchant",
+        "slug": "applesofgold-com",
+        "name": "ApplesofGold.com",
+        "domain": null,
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/applesofgold-com"
+      },
+      {
+        "kind": "merchant",
+        "slug": "mactrade-apple-store-de",
+        "name": "MacTrade - Apple Store DE",
+        "domain": null,
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/mactrade-apple-store-de"
+      },
+      {
+        "kind": "merchant",
+        "slug": "flying-blue-apple-store-us",
+        "name": "Flying Blue Apple Store US",
+        "domain": null,
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/flying-blue-apple-store-us"
+      },
+      {
+        "kind": "merchant",
+        "slug": "win-an-apple-5-watch-and-airpods-soi-nz",
+        "name": "Win an Apple 5 Watch and Airpods - SOI (NZ)",
+        "domain": null,
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/win-an-apple-5-watch-and-airpods-soi-nz"
+      },
+      {
+        "kind": "merchant",
+        "slug": "spunky-pineapple",
+        "name": "Spunky Pineapple",
+        "domain": "spunkypineapple.com",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/spunky-pineapple"
+      },
+      {
+        "kind": "merchant",
+        "slug": "pineapples-palms-too",
+        "name": "Pineapples Palms Too",
+        "domain": "pineapplespalms.com",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/pineapples-palms-too"
+      },
+      {
+        "kind": "merchant",
+        "slug": "goldapple",
+        "name": "Goldapple",
+        "domain": null,
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/goldapple"
+      },
+      {
+        "kind": "merchant",
+        "slug": "pineapple-clothing",
+        "name": "Pineapple Clothing",
+        "domain": "pineappleclothing.com",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/pineapple-clothing"
+      }
+    ],
+    "did_you_mean": false
+  },
+  "data_as_of": null,
+  "source": "CheckBeforeYouShop",
+  "attribution": "Data from CheckBeforeYouShop (checkbeforeyoushop.com), free to use with attribution and a link to each item's page_url.",
+  "disclosure": "Rates are read from each portal's pages and can change or go stale, so always confirm on the portal before shopping. Some portal links may earn us a referral bonus; that never changes the rates or their order."
+}

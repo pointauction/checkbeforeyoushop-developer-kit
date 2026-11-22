@@ -1,0 +1,213 @@
+{
+  "data": {
+    "query": "american",
+    "count": 25,
+    "results": [
+      {
+        "kind": "portal",
+        "slug": "aa-eshopping",
+        "name": "American AAdvantage eShopping",
+        "domain": null,
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/p/aa-eshopping"
+      },
+      {
+        "kind": "merchant",
+        "slug": "american-tourister",
+        "name": "American Tourister",
+        "domain": "americantourister.com",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/american-tourister"
+      },
+      {
+        "kind": "merchant",
+        "slug": "american-blinds",
+        "name": "American Blinds",
+        "domain": "americanblinds.com",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/american-blinds"
+      },
+      {
+        "kind": "merchant",
+        "slug": "american-eagle-outfitters",
+        "name": "American Eagle Outfitters",
+        "domain": "ae.com",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/american-eagle-outfitters"
+      },
+      {
+        "kind": "merchant",
+        "slug": "american-girl",
+        "name": "American Girl",
+        "domain": "americangirl.com",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/american-girl"
+      },
+      {
+        "kind": "merchant",
+        "slug": "american-tall",
+        "name": "American Tall",
+        "domain": "americantall.com",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/american-tall"
+      },
+      {
+        "kind": "merchant",
+        "slug": "american-fighter",
+        "name": "American Fighter",
+        "domain": "americanfighter.com",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/american-fighter"
+      },
+      {
+        "kind": "merchant",
+        "slug": "american-leather-co",
+        "name": "American Leather Co.",
+        "domain": "americanleatherco.com",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/american-leather-co"
+      },
+      {
+        "kind": "merchant",
+        "slug": "american-health-care-academy",
+        "name": "American Health Care Academy",
+        "domain": "cpraedcourse.com",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/american-health-care-academy"
+      },
+      {
+        "kind": "merchant",
+        "slug": "american-standard",
+        "name": "American Standard",
+        "domain": null,
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/american-standard"
+      },
+      {
+        "kind": "merchant",
+        "slug": "american-vinegar-works",
+        "name": "American Vinegar Works",
+        "domain": "americanvinegarworks.com",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/american-vinegar-works"
+      },
+      {
+        "kind": "merchant",
+        "slug": "american-national-standards-institute",
+        "name": "American National Standards Institute",
+        "domain": "webstore.ansi.org",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/american-national-standards-institute"
+      },
+      {
+        "kind": "merchant",
+        "slug": "american-provenance",
+        "name": "American Provenance",
+        "domain": "americanprovenance.com",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/american-provenance"
+      },
+      {
+        "kind": "merchant",
+        "slug": "american-home-shield",
+        "name": "American Home Shield",
+        "domain": "ahs.com",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/american-home-shield"
+      },
+      {
+        "kind": "merchant",
+        "slug": "american-blossom-linens",
+        "name": "American Blossom Linens",
+        "domain": null,
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/american-blossom-linens"
+      },
+      {
+        "kind": "merchant",
+        "slug": "american-rag",
+        "name": "American Rag",
+        "domain": "americanrag.com",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/american-rag"
+      },
+      {
+        "kind": "merchant",
+        "slug": "american-barbell",
+        "name": "American Barbell",
+        "domain": "americanbarbell.com",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/american-barbell"
+      },
+      {
+        "kind": "merchant",
+        "slug": "american-cpr-care-association",
+        "name": "American CPR Care Association",
+        "domain": "cprcare.com",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/american-cpr-care-association"
+      },
+      {
+        "kind": "merchant",
+        "slug": "american-buffalo-knife-and-tool",
+        "name": "American Buffalo Knife and Tool",
+        "domain": "abkt.com",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/american-buffalo-knife-and-tool"
+      },
+      {
+        "kind": "merchant",
+        "slug": "american-blossom",
+        "name": "American Blossom",
+        "domain": "americanblossomlinens.com",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/american-blossom"
+      },
+      {
+        "kind": "merchant",
+        "slug": "american-water-resources",
+        "name": "American Water Resources",
+        "domain": "awrusa.com",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/american-water-resources"
+      },
+      {
+        "kind": "merchant",
+        "slug": "american-eagle-gift-cards",
+        "name": "American Eagle Gift Cards",
+        "domain": null,
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/american-eagle-gift-cards"
+      },
+      {
+        "kind": "merchant",
+        "slug": "american-blossom-linens-card-linked",
+        "name": "American Blossom Linens - Card Linked",
+        "domain": null,
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/american-blossom-linens-card-linked"
+      },
+      {
+        "kind": "merchant",
+        "slug": "american-crew",
+        "name": "American Crew",
+        "domain": "americancrew.com",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/american-crew"
+      },
+      {
+        "kind": "merchant",
+        "slug": "american-hat-makers",
+        "name": "American Hat Makers",
+        "domain": null,
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/american-hat-makers"
+      }
+    ],
+    "did_you_mean": false
+  },
+  "data_as_of": null,
+  "source": "CheckBeforeYouShop",
+  "attribution": "Data from CheckBeforeYouShop (checkbeforeyoushop.com), free to use with attribution and a link to each item's page_url.",
+  "disclosure": "Rates are read from each portal's pages and can change or go stale, so always confirm on the portal before shopping. Some portal links may earn us a referral bonus; that never changes the rates or their order."
+}
