@@ -1,0 +1,83 @@
+{
+  "data": {
+    "merchant": {
+      "slug": "synthetic-kitchen",
+      "name": "Synthetic Kitchen",
+      "domain": "synthetic-kitchen.example",
+      "page_url": "https://checkbeforeyoushop.com/m/synthetic-kitchen",
+      "portals_tracked": 2,
+      "tracked_since": "2026-07-11T12:56:08.83287+00:00"
+    },
+    "summary": "2 portal listings for Synthetic Kitchen.",
+    "verdict": {
+      "headline": "2 portal listings for Synthetic Kitchen.",
+      "tone": "young",
+      "caveats": []
+    },
+    "best_rates": [
+      {
+        "portal_id": "topcashback",
+        "portal_name": "TopCashback",
+        "program": "cash",
+        "payout_kind": null,
+        "rate_value": 8,
+        "rate_unit": "pct_cash",
+        "rate_kind": "earn_rate",
+        "rate_display": "8%",
+        "unit_group": "Cashback",
+        "is_up_to": false,
+        "best_category_value": null,
+        "best_category_label": null,
+        "is_elevated": false,
+        "is_stale": false,
+        "last_confirmed_at": "2026-11-22T13:00:00+00:00",
+        "go_url": "https://checkbeforeyoushop.com/go/topcashback?plc=api&m=da21e955-518c-553f-9a07-56925d6b4862"
+      }
+    ],
+    "rates": [
+      {
+        "portal_id": "rakuten",
+        "portal_name": "Rakuten",
+        "program": "cash",
+        "payout_kind": null,
+        "rate_value": 8,
+        "rate_unit": "pct_cash",
+        "rate_kind": "earn_rate",
+        "rate_display": "8%",
+        "unit_group": "Cashback",
+        "is_up_to": true,
+        "best_category_value": null,
+        "best_category_label": null,
+        "is_elevated": false,
+        "is_stale": false,
+        "last_confirmed_at": "2026-11-22T13:00:00+00:00",
+        "listing_label": null,
+        "go_url": "https://checkbeforeyoushop.com/go/rakuten?plc=api&m=da21e955-518c-553f-9a07-56925d6b4862"
+      },
+      {
+        "portal_id": "topcashback",
+        "portal_name": "TopCashback",
+        "program": "cash",
+        "payout_kind": null,
+        "rate_value": 8,
+        "rate_unit": "pct_cash",
+        "rate_kind": "earn_rate",
+        "rate_display": "8%",
+        "unit_group": "Cashback",
+        "is_up_to": false,
+        "best_category_value": null,
+        "best_category_label": null,
+        "is_elevated": false,
+        "is_stale": false,
+        "last_confirmed_at": "2026-11-22T13:00:00+00:00",
+        "listing_label": null,
+        "go_url": "https://checkbeforeyoushop.com/go/topcashback?plc=api&m=da21e955-518c-553f-9a07-56925d6b4862"
+      }
+    ]
+  },
+  "data_as_of": "2026-11-22T13:00:00+00:00",
+  "source": "CheckBeforeYouShop",
+  "attribution": "Data from CheckBeforeYouShop (checkbeforeyoushop.com), free to use with attribution and a link to each item's page_url.",
+  "disclosure": "Rates are read from each portal's pages and can change or go stale, so always confirm on the portal before shopping. Some portal links may earn us a referral bonus; that never changes the rates or their order.",
+  "_synthetic_note": "Capped and flat cashback tied at their nominal value."
+}

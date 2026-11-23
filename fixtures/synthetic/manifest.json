@@ -1,0 +1,84 @@
+{
+  "captured_at": "2026-11-22T23:30:00Z",
+  "base_url": "https://checkbeforeyoushop.com",
+  "note": "Fictional cases for offline evaluation.",
+  "requests": {
+    "/api/v1/merchants/synthetic-outdoor.json": {
+      "file": "merchants/synthetic-outdoor.json",
+      "status": 200
+    },
+    "/api/v1/search.json?q=synthetic outdoor": {
+      "file": "search/synthetic-outdoor-name.json",
+      "status": 200
+    },
+    "/api/v1/search.json?q=synthetic-outdoor": {
+      "file": "search/synthetic-outdoor.json",
+      "status": 200
+    },
+    "/api/v1/merchants/synthetic-studio.json": {
+      "file": "merchants/synthetic-studio.json",
+      "status": 200
+    },
+    "/api/v1/search.json?q=synthetic-studio": {
+      "file": "search/synthetic-studio.json",
+      "status": 200
+    },
+    "/api/v1/search.json?q=synthetic studio": {
+      "file": "search/synthetic-studio-name.json",
+      "status": 200
+    },
+    "/api/v1/merchants/synthetic-kitchen.json": {
+      "file": "merchants/synthetic-kitchen.json",
+      "status": 200
+    },
+    "/api/v1/search.json?q=synthetic kitchen": {
+      "file": "search/synthetic-kitchen-name.json",
+      "status": 200
+    },
+    "/api/v1/search.json?q=synthetic-kitchen": {
+      "file": "search/synthetic-kitchen.json",
+      "status": 200
+    },
+    "/api/v1/merchants/synthetic-books.json": {
+      "file": "merchants/synthetic-books.json",
+      "status": 200
+    },
+    "/api/v1/search.json?q=synthetic books": {
+      "file": "search/synthetic-books-name.json",
+      "status": 200
+    },
+    "/api/v1/search.json?q=synthetic-books": {
+      "file": "search/synthetic-books.json",
+      "status": 200
+    },
+    "/api/v1/merchants/synthetic-supply.json": {
+      "file": "merchants/synthetic-supply.json",
+      "status": 200
+    },
+    "/api/v1/search.json?q=synthetic supply": {
+      "file": "search/synthetic-supply-name.json",
+      "status": 200
+    },
+    "/api/v1/search.json?q=synthetic-supply": {
+      "file": "search/synthetic-supply.json",
+      "status": 200
+    },
+    "/api/v1/portals.json": {
+      "file": "portals.json",
+      "status": 200
+    },
+    "/api/v1/portals/synthetic-rewards.json": {
+      "file": "portals/synthetic-rewards.json",
+      "status": 200
+    },
+    "/api/v1/search.json?q=synthetic-rewards": {
+      "file": "search/synthetic-rewards.json",
+      "status": 200
+    },
+    "/api/v1/search.json?q=synthetic rewards": {
+      "file": "search/synthetic-rewards-name.json",
+      "status": 200
+    }
+  },
+  "_synthetic_note": "Fictional cases for offline evaluation."
+}

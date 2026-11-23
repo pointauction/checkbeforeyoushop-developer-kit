@@ -1,0 +1,22 @@
+{
+  "data": {
+    "query": "synthetic studio",
+    "count": 1,
+    "results": [
+      {
+        "kind": "merchant",
+        "slug": "synthetic-studio",
+        "name": "Synthetic Studio",
+        "domain": "synthetic-studio.example",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/synthetic-studio"
+      }
+    ],
+    "did_you_mean": false
+  },
+  "data_as_of": null,
+  "source": "CheckBeforeYouShop",
+  "attribution": "Data from CheckBeforeYouShop (checkbeforeyoushop.com), free to use with attribution and a link to each item's page_url.",
+  "disclosure": "Rates are read from each portal's pages and can change or go stale, so always confirm on the portal before shopping. Some portal links may earn us a referral bonus; that never changes the rates or their order.",
+  "_synthetic_note": "Fictional exact search result."
+}
