@@ -1,0 +1,13 @@
+{
+  "name": "cbys-quick-lookup",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "fixtures": "node scripts/build-demo-fixtures.mjs",
+    "test": "playwright test",
+    "screenshots": "CBYS_SCREENSHOTS=1 playwright test tests/demo.spec.mjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.65.0"
+  }
+}
