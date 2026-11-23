@@ -1,0 +1,1261 @@
+[
+  {
+    "expected_pass": true,
+    "case": "overall-nike",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_store_rates",
+          "args": {
+            "store": "nike"
+          }
+        }
+      ],
+      "answer": "TopCashback's 10% beats Price.com's 9% for cash back. For miles, Asia Miles leads at 3 miles per dollar. For points, Radisson Rewards leads at 12 points per dollar.\nhttps://checkbeforeyoushop.com/m/nike"
+    },
+    "reasons": [],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": true,
+    "case": "overall-nike",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_store_rates",
+          "args": {
+            "store": "nike"
+          }
+        }
+      ],
+      "answer": "The best cash back is TopCashback at 10%. For miles, Asia Miles leads with 3 mi/$. Radisson Rewards Shop leads points at 12 pts/$.\nhttps://checkbeforeyoushop.com/m/nike"
+    },
+    "reasons": [],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": true,
+    "case": "overall-nike",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_store_rates",
+          "args": {
+            "store": "nike"
+          }
+        }
+      ],
+      "answer": "| Portal | Cash back | Miles per dollar | Points per dollar |\n|---|---|---|---|\n| TopCashback | 10% | | |\n| Asia Miles Milesback (US) | | 3 | |\n| Radisson Rewards Shop | | | 12 |\nhttps://checkbeforeyoushop.com/m/nike"
+    },
+    "reasons": [
+      "missing paired Asia Miles Milesback (US) and 3 mi/$",
+      "missing paired Radisson Rewards Shop and 12 pts/$"
+    ],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": true,
+    "case": "delta-macys-com",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_store_rates",
+          "args": {
+            "store": "macys-com"
+          }
+        }
+      ],
+      "answer": "Delta SkyMiles Shopping lists 3.5 mi/$ (up to), confirmed November 22, 2026.\nhttps://checkbeforeyoushop.com/m/macys-com"
+    },
+    "reasons": [],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": true,
+    "case": "delta-macys-com",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_store_rates",
+          "args": {
+            "store": "macys-com"
+          }
+        }
+      ],
+      "answer": "Delta SkyMiles Shopping lists 3.5 mi/$ at most, last confirmed 2026-11-22.\nhttps://checkbeforeyoushop.com/m/macys-com"
+    },
+    "reasons": [
+      "missing ceiling qualifier for Delta SkyMiles Shopping"
+    ],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": true,
+    "case": "delta-macys-com",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_store_rates",
+          "args": {
+            "store": "macys-com"
+          }
+        }
+      ],
+      "answer": "| Portal | Rate | Qualifier | Confirmed |\n|---|---|---|---|\n| Delta SkyMiles Shopping | 3.5 mi/$ | Up to | 2026-11-22 |\nhttps://checkbeforeyoushop.com/m/macys-com"
+    },
+    "reasons": [
+      "missing ceiling qualifier for Delta SkyMiles Shopping"
+    ],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": true,
+    "case": "old-synthetic-outdoor",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_store_rates",
+          "args": {
+            "store": "synthetic-outdoor"
+          }
+        }
+      ],
+      "answer": "Delta showed 7 miles per dollar, last checked 9 days ago (2026-11-13). Verify before relying on it today.\nhttps://checkbeforeyoushop.com/m/synthetic-outdoor"
+    },
+    "reasons": [
+      "missing stale caveat for Delta SkyMiles Shopping"
+    ],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": true,
+    "case": "old-synthetic-supply",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_store_rates",
+          "args": {
+            "store": "synthetic-supply"
+          }
+        }
+      ],
+      "answer": "Rakuten last showed 9% on 2026-11-13. That was nine days ago, so check again before you shop.\nhttps://checkbeforeyoushop.com/m/synthetic-supply"
+    },
+    "reasons": [
+      "missing stale caveat for Rakuten"
+    ],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": true,
+    "case": "nike-citation",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_store_rates",
+          "args": {
+            "store": "nike"
+          }
+        }
+      ],
+      "answer": "Delta SkyMiles Shopping\n- 1 mile per dollar spent at Nike.\nhttps://checkbeforeyoushop.com/m/nike"
+    },
+    "reasons": [
+      "missing paired Delta SkyMiles Shopping and 1 mi/$"
+    ],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": true,
+    "case": "delta-nike",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_store_rates",
+          "args": {
+            "store": "nike"
+          }
+        }
+      ],
+      "answer": "Delta awards 1 SkyMile per dollar at Nike. Last checked 2026-11-22.\nhttps://checkbeforeyoushop.com/m/nike"
+    },
+    "reasons": [
+      "missing paired Delta SkyMiles Shopping and 1 mi/$"
+    ],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": true,
+    "case": "bonus-square",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_store_rates",
+          "args": {
+            "store": "square"
+          }
+        }
+      ],
+      "answer": "Rakuten pays a one-time bonus of $20, regardless of dollars spent.\nhttps://checkbeforeyoushop.com/m/square"
+    },
+    "reasons": [],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": true,
+    "case": "kitchen-tie",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_store_rates",
+          "args": {
+            "store": "synthetic-kitchen"
+          }
+        }
+      ],
+      "answer": "Both advertise 8%. TopCashback pays 8% on eligible purchases. Rakuten pays up to 8%, so TopCashback guarantees more.\nhttps://checkbeforeyoushop.com/m/synthetic-kitchen"
+    },
+    "reasons": [
+      "did not identify the flat-rate leader in the tie"
+    ],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": true,
+    "case": "profile-delta-skymiles",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_portal",
+          "args": {
+            "portal": "delta-skymiles"
+          }
+        }
+      ],
+      "answer": "Delta SkyMiles Shopping covers 1,313 stores and is scheduled to check every six hours.\nhttps://checkbeforeyoushop.com/p/delta-skymiles"
+    },
+    "reasons": [
+      "missing hours: 6"
+    ],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": true,
+    "case": "directory-active",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "list_portals",
+          "args": {}
+        }
+      ],
+      "answer": "The directory lists 47 portals, of which 44 are active."
+    },
+    "reasons": [],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": true,
+    "case": "directory-active",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "list_portals",
+          "args": {}
+        }
+      ],
+      "answer": "The directory lists 47 portals. Of these, 44 currently have active status."
+    },
+    "reasons": [
+      "missing directory_counts: directory_counts"
+    ],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": true,
+    "case": "missing-delta-synthetic-books",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_store_rates",
+          "args": {
+            "store": "synthetic-books"
+          }
+        }
+      ],
+      "answer": "CBYS returned no Delta listing. That doesn't mean there is no Delta offer.\nhttps://checkbeforeyoushop.com/m/synthetic-books"
+    },
+    "reasons": [],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": true,
+    "case": "missing-delta-synthetic-books",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_store_rates",
+          "args": {
+            "store": "synthetic-books",
+            "program": "SkyMiles",
+            "include_stale": false,
+            "unit": "miles_per_dollar"
+          }
+        }
+      ],
+      "answer": "Delta isn't listed in the tracked results, so check directly.\nhttps://checkbeforeyoushop.com/m/synthetic-books"
+    },
+    "reasons": [
+      "trace does not establish absence of a Delta listing"
+    ],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": true,
+    "case": "activate-nike",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_store_rates",
+          "args": {
+            "store": "nike"
+          }
+        }
+      ],
+      "answer": "I can’t activate an offer for you. Delta SkyMiles Shopping lists 1 mi/$. Open the link before you shop.\nhttps://checkbeforeyoushop.com/go/delta-skymiles?plc=api&m=2f5f8858-4f9d-4afa-af1c-cbeda29147be\nhttps://checkbeforeyoushop.com/m/nike"
+    },
+    "reasons": [],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": true,
+    "case": "clarify-delta",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "search_stores",
+          "args": {
+            "query": "delta"
+          }
+        }
+      ],
+      "answer": "Are you asking about the Delta SkyMiles Shopping portal or the Delta Faucet store?"
+    },
+    "reasons": [
+      "did not ask the shopper to identify the listing"
+    ],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": true,
+    "case": "inactive-profile",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_portal",
+          "args": {
+            "portal": "synthetic-rewards"
+          }
+        }
+      ],
+      "answer": "Synthetic Rewards is inactive, reports 0 stores and has yet to finish a check successfully.\nhttps://checkbeforeyoushop.com/p/synthetic-rewards"
+    },
+    "reasons": [],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": true,
+    "case": "valuation-nike",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_store_rates",
+          "args": {
+            "store": "nike"
+          }
+        }
+      ],
+      "answer": "Delta pays 1 mile per dollar. TopCashback pays 10%. Under your adjustable 1.5 cpp assumption, Delta is equivalent to 1.5% back and TopCashback comes out ahead on that basis.\nhttps://checkbeforeyoushop.com/m/nike"
+    },
+    "reasons": [
+      "converted the shopper's valuation into another unit"
+    ],
+    "detected_cross": true
+  },
+  {
+    "expected_pass": true,
+    "case": "valuation-macys-com",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_store_rates",
+          "args": {
+            "store": "macys-com"
+          }
+        }
+      ],
+      "answer": "Delta lists up to 3.5 mi/$. RebatesMe lists up to 15%. At your adjustable 1.5 cpp, Delta's ceiling works out to 5.25%. RebatesMe has the higher ceiling on that basis.\nhttps://checkbeforeyoushop.com/m/macys-com"
+    },
+    "reasons": [
+      "converted the shopper's valuation into another unit"
+    ],
+    "detected_cross": true
+  },
+  {
+    "expected_pass": false,
+    "case": "overall-nike",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_store_rates",
+          "args": {
+            "store": "nike"
+          }
+        }
+      ],
+      "answer": "TopCashback pays 10%. Asia Miles Milesback (US) leads miles at 3 mi/$. Radisson Rewards Shop leads points at 12 pts/$. Overall TopCashback edges out the other two.\nhttps://checkbeforeyoushop.com/m/nike"
+    },
+    "reasons": [],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": false,
+    "case": "valuation-nike",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_store_rates",
+          "args": {
+            "store": "nike"
+          }
+        }
+      ],
+      "answer": "Delta pays 1 mile per dollar. TopCashback pays 10%. I'd go with the 10% since it's worth more than 1 mile.\nhttps://checkbeforeyoushop.com/m/nike"
+    },
+    "reasons": [
+      "arithmetic or ranking across native units"
+    ],
+    "detected_cross": true
+  },
+  {
+    "expected_pass": false,
+    "case": "valuation-nike",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_store_rates",
+          "args": {
+            "store": "nike"
+          }
+        }
+      ],
+      "answer": "Delta pays 1 mile per dollar. TopCashback pays 10%. Overall TopCashback edges out Delta.\nhttps://checkbeforeyoushop.com/m/nike"
+    },
+    "reasons": [],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": false,
+    "case": "valuation-nike",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_store_rates",
+          "args": {
+            "store": "nike"
+          }
+        }
+      ],
+      "answer": "Delta pays 1 mile per dollar. TopCashback pays 10%. A mile always buys 1.5¢ of value, so take the cash.\nhttps://checkbeforeyoushop.com/m/nike"
+    },
+    "reasons": [
+      "unlabelled personal valuation"
+    ],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": false,
+    "case": "valuation-nike",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_store_rates",
+          "args": {
+            "store": "nike"
+          }
+        }
+      ],
+      "answer": "Delta pays 1 mile per dollar. TopCashback pays 10%. Using your adjustable 1.5 cpp, Delta is 15% cashback, so take Delta.\nhttps://checkbeforeyoushop.com/m/nike"
+    },
+    "reasons": [],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": false,
+    "case": "valuation-macys-com",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_store_rates",
+          "args": {
+            "store": "macys-com"
+          }
+        }
+      ],
+      "answer": "Delta pays up to 3.5 mi/$ and RebatesMe pays up to 15%. RebatesMe beats Delta for every purchase.\nhttps://checkbeforeyoushop.com/m/macys-com"
+    },
+    "reasons": [],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": false,
+    "case": "bonus-square",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_store_rates",
+          "args": {
+            "store": "square"
+          }
+        }
+      ],
+      "answer": "Rakuten pays a $20 one-time bonus. Add that to AA's 1,100 miles and you collect both on the same order.\nhttps://checkbeforeyoushop.com/m/square"
+    },
+    "reasons": [],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": false,
+    "case": "bonus-square",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_store_rates",
+          "args": {
+            "store": "square"
+          }
+        }
+      ],
+      "answer": "Rakuten calls it a one-time bonus, but you earn at a 20 dollar rate on every dollar spent.\nhttps://checkbeforeyoushop.com/m/square"
+    },
+    "reasons": [
+      "described a bonus as a rate"
+    ],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": false,
+    "case": "high-flat_miles",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_highs",
+          "args": {
+            "unit": "flat_miles",
+            "kind": "one_time_bonus"
+          }
+        }
+      ],
+      "answer": "At Square, American AAdvantage eShopping shows a one-time bonus of 1,100 miles. You collect $20 plus 1,100 miles.\nhttps://checkbeforeyoushop.com/m/square"
+    },
+    "reasons": [
+      "arithmetic or ranking across native units"
+    ],
+    "detected_cross": true
+  },
+  {
+    "expected_pass": false,
+    "case": "delta-macys-com",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_store_rates",
+          "args": {
+            "store": "macys-com"
+          }
+        }
+      ],
+      "answer": "Delta lists 3.5 mi/$ at Macy's, confirmed 2026-11-22.\nhttps://checkbeforeyoushop.com/m/macys-com"
+    },
+    "reasons": [
+      "missing ceiling qualifier for Delta SkyMiles Shopping"
+    ],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": false,
+    "case": "old-synthetic-outdoor",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_store_rates",
+          "args": {
+            "store": "synthetic-outdoor"
+          }
+        }
+      ],
+      "answer": "Delta pays 7 miles per dollar, confirmed 2026-11-13.\nhttps://checkbeforeyoushop.com/m/synthetic-outdoor"
+    },
+    "reasons": [
+      "missing stale caveat for Delta SkyMiles Shopping"
+    ],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": false,
+    "case": "outdoor-both",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_store_rates",
+          "args": {
+            "store": "synthetic-outdoor"
+          }
+        }
+      ],
+      "answer": "Rakuten's stale cashback is 4% as of 2026-11-13. Delta currently pays 7 mi/$.\nhttps://checkbeforeyoushop.com/m/synthetic-outdoor"
+    },
+    "reasons": [],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": false,
+    "case": "supply-envelope",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_store_rates",
+          "args": {
+            "store": "synthetic-supply"
+          }
+        }
+      ],
+      "answer": "Rakuten's stale 9% was last confirmed 2026-11-22. The overall snapshot is dated 2026-11-13.\nhttps://checkbeforeyoushop.com/m/synthetic-supply"
+    },
+    "reasons": [],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": false,
+    "case": "missing-delta-synthetic-books",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_store_rates",
+          "args": {
+            "store": "synthetic-books"
+          }
+        }
+      ],
+      "answer": "No tracked Delta listing returned. There is no Delta offer.\nhttps://checkbeforeyoushop.com/m/synthetic-books"
+    },
+    "reasons": [
+      "claimed real-world absence"
+    ],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": false,
+    "case": "missing-delta-synthetic-books",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_store_rates",
+          "args": {
+            "store": "synthetic-books"
+          }
+        }
+      ],
+      "answer": "CBYS has no Delta listing. You definitely won't earn SkyMiles at this store.\nhttps://checkbeforeyoushop.com/m/synthetic-books"
+    },
+    "reasons": [],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": false,
+    "case": "activate-nike",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_store_rates",
+          "args": {
+            "store": "nike"
+          }
+        }
+      ],
+      "answer": "Delta pays 1 mi/$. I've activated the link for you. You can start shopping.\nhttps://checkbeforeyoushop.com/go/delta-skymiles?plc=api&m=2f5f8858-4f9d-4afa-af1c-cbeda29147be\nhttps://checkbeforeyoushop.com/m/nike"
+    },
+    "reasons": [
+      "claimed to perform an outbound action"
+    ],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": false,
+    "case": "activate-nike",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_store_rates",
+          "args": {
+            "store": "nike"
+          }
+        }
+      ],
+      "answer": "Delta pays 1 mi/$. Activation is complete on my end. You can start shopping.\nhttps://checkbeforeyoushop.com/go/delta-skymiles?plc=api&m=2f5f8858-4f9d-4afa-af1c-cbeda29147be\nhttps://checkbeforeyoushop.com/m/nike"
+    },
+    "reasons": [],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": false,
+    "case": "clarify-american",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "search_stores",
+          "args": {
+            "query": "american"
+          }
+        }
+      ],
+      "answer": "Click American Eagle Outfitters."
+    },
+    "reasons": [
+      "missing candidates: candidates",
+      "did not ask the shopper to identify the listing"
+    ],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": false,
+    "case": "clarify-american",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "search_stores",
+          "args": {
+            "query": "american"
+          }
+        }
+      ],
+      "answer": "I picked American Eagle Outfitters for you. American Tourister is a different brand, which also appears in search."
+    },
+    "reasons": [],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": false,
+    "case": "clarify-delta",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "search_stores",
+          "args": {
+            "query": "delta"
+          }
+        }
+      ],
+      "answer": "Which store did you mean, Delta XL or Delta Children?"
+    },
+    "reasons": [],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": false,
+    "case": "kitchen-tie",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_store_rates",
+          "args": {
+            "store": "synthetic-kitchen"
+          }
+        }
+      ],
+      "answer": "TopCashback's flat 8% and Rakuten's up to 8% are tied. Rakuten has the higher guaranteed payout.\nhttps://checkbeforeyoushop.com/m/synthetic-kitchen"
+    },
+    "reasons": [],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": false,
+    "case": "overall-nike",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_store_rates",
+          "args": {
+            "store": "nike"
+          }
+        }
+      ],
+      "answer": "TopCashback earns 3 mi/$ and Asia Miles Milesback (US) pays 10% while Radisson Rewards Shop pays 12 pts/$.\nhttps://checkbeforeyoushop.com/m/nike"
+    },
+    "reasons": [],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": false,
+    "case": "profile-rakuten",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_portal",
+          "args": {
+            "portal": "r-a-k-u-t-e-n"
+          }
+        }
+      ],
+      "answer": "Rakuten covers 3,121 stores and checks every 24 hours.\nhttps://checkbeforeyoushop.com/p/rakuten"
+    },
+    "reasons": [],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": false,
+    "case": "directory-active",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "list_portals",
+          "args": {
+            "category": "airline"
+          }
+        }
+      ],
+      "answer": "47 registered, 44 active."
+    },
+    "reasons": [],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": false,
+    "case": "studio-mixed",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_store_rates",
+          "args": {
+            "store": "synthetic-studio"
+          }
+        }
+      ],
+      "answer": "TopCashback: 6%. Rakuten: $24. TopCashback also offers a one-time bonus. Rakuten pays per dollar.\nhttps://checkbeforeyoushop.com/m/synthetic-studio"
+    },
+    "reasons": [],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": false,
+    "case": "square-delta",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_store_rates",
+          "args": {
+            "store": "square"
+          }
+        }
+      ],
+      "answer": "Delta pays 900 miles per purchase as a one-time bonus. Delta also gives you 900 miles per dollar.\nhttps://checkbeforeyoushop.com/m/square"
+    },
+    "reasons": [],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": false,
+    "case": "high-pct_cash",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_highs",
+          "args": {
+            "unit": "pct_cash",
+            "kind": "earn_rate"
+          }
+        }
+      ],
+      "answer": "TopCashback's 8% at Buckle is the highest cashback anywhere in the entire market.\nhttps://checkbeforeyoushop.com/m/buckle"
+    },
+    "reasons": [],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": false,
+    "case": "valuation-nike",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_store_rates",
+          "args": {
+            "store": "nike"
+          }
+        }
+      ],
+      "answer": "Delta pays 1 mile per dollar. TopCashback pays 10%. Every Delta mile is inherently worth 1.5 cents, regardless of who redeems it.\nhttps://checkbeforeyoushop.com/m/nike"
+    },
+    "reasons": [
+      "unlabelled personal valuation",
+      "converted the shopper's valuation into another unit"
+    ],
+    "detected_cross": true
+  },
+  {
+    "expected_pass": true,
+    "case": "old-synthetic-supply",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_store_rates",
+          "args": {
+            "store": "synthetic-supply"
+          }
+        }
+      ],
+      "answer": "Rakuten last showed 9% on November 13, 2026. That listing is stale.\nhttps://checkbeforeyoushop.com/m/synthetic-supply"
+    },
+    "reasons": [
+      "missing stale caveat for Rakuten"
+    ],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": true,
+    "case": "missing-delta-synthetic-books",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_store_rates",
+          "args": {
+            "store": "Synthetic Books",
+            "program": "Delta"
+          }
+        }
+      ],
+      "answer": "No Delta offer was returned in CBYS's tracked listings.\nhttps://checkbeforeyoushop.com/m/synthetic-books"
+    },
+    "reasons": [],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": true,
+    "case": "activate-nike",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_store_rates",
+          "args": {
+            "store": "nike"
+          }
+        }
+      ],
+      "answer": "You'll need to activate it. I opened the local tool result to check the rate. Delta pays 1 mile per dollar.\nhttps://checkbeforeyoushop.com/go/delta-skymiles?plc=api&m=2f5f8858-4f9d-4afa-af1c-cbeda29147be\nhttps://checkbeforeyoushop.com/m/nike"
+    },
+    "reasons": [
+      "claimed to perform an outbound action"
+    ],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": true,
+    "case": "delta-nike",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_store_rates",
+          "args": {
+            "store": "NIKE"
+          }
+        }
+      ],
+      "answer": "I found 1 mile per dollar on Delta SkyMiles Shopping. Last confirmed 2026-11-22.\nhttps://checkbeforeyoushop.com/m/nike"
+    },
+    "reasons": [],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": false,
+    "case": "delta-nike",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_store_rates",
+          "args": {
+            "store": "Nike.com"
+          }
+        }
+      ],
+      "answer": "Delta pays 1 mi/$, confirmed 2026-11-22.\nhttps://checkbeforeyoushop.com/m/nike"
+    },
+    "reasons": [],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": false,
+    "case": "valuation-nike",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_store_rates",
+          "args": {
+            "store": "nike"
+          }
+        }
+      ],
+      "answer": "Delta pays 1 mile per dollar. TopCashback pays 10%. One SkyMile has a cash value of two cents, so TopCashback wins.\nhttps://checkbeforeyoushop.com/m/nike"
+    },
+    "reasons": [],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": false,
+    "case": "valuation-nike",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_store_rates",
+          "args": {
+            "store": "nike"
+          }
+        }
+      ],
+      "answer": "Delta pays 1 mile per dollar. TopCashback pays 10%.\nhttps://checkbeforeyoushop.com/m/nike"
+    },
+    "reasons": [],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": false,
+    "case": "newsletter",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_store_rates",
+          "args": {
+            "store": "nike"
+          }
+        }
+      ],
+      "answer": "TopCashback did not offer 10% at Nike.\nhttps://checkbeforeyoushop.com/m/nike\nRates are read from each portal's pages and can change or go stale, so always confirm on the portal before shopping. Some portal links may earn us a referral bonus; that never changes the rates or their order."
+    },
+    "reasons": [],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": false,
+    "case": "old-synthetic-outdoor",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_store_rates",
+          "args": {
+            "store": "synthetic-outdoor"
+          }
+        }
+      ],
+      "answer": "Delta's current rate is 7 mi/$. Last confirmed 2026-11-13. The old rate was different.\nhttps://checkbeforeyoushop.com/m/synthetic-outdoor"
+    },
+    "reasons": [
+      "missing stale caveat for Delta SkyMiles Shopping"
+    ],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": false,
+    "case": "high-flat_miles",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_highs",
+          "args": {
+            "unit": "flat_miles",
+            "kind": "one_time_bonus"
+          }
+        }
+      ],
+      "answer": "The better Square offer is Rakuten's $20. The American AAdvantage eShopping one-time bonus is 1,100 miles, which is worth less.\nhttps://checkbeforeyoushop.com/m/square"
+    },
+    "reasons": [],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": false,
+    "case": "bonus-square",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_store_rates",
+          "args": {
+            "store": "square"
+          }
+        }
+      ],
+      "answer": "Rakuten shows a $20 one-time bonus. You'll also get 1,100 AA miles on top of the cash for the same click.\nhttps://checkbeforeyoushop.com/m/square"
+    },
+    "reasons": [],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": false,
+    "case": "delta-macys-com",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "get_store_rates",
+          "args": {
+            "store": "macys-com"
+          }
+        }
+      ],
+      "answer": "Delta advertises up to 3.5 mi/$. Every purchase earns exactly 3.5 mi/$, confirmed 2026-11-22.\nhttps://checkbeforeyoushop.com/m/macys-com"
+    },
+    "reasons": [],
+    "detected_cross": false
+  },
+  {
+    "expected_pass": false,
+    "case": "clarify-apple",
+    "record": {
+      "model": "test",
+      "runner": "test",
+      "tool_calls": [
+        {
+          "tool": "search_stores",
+          "args": {
+            "query": "apple"
+          }
+        }
+      ],
+      "answer": "Do you mean Apple?"
+    },
+    "reasons": [
+      "missing candidates: candidates"
+    ],
+    "detected_cross": false
+  }
+]

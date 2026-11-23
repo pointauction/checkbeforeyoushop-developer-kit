@@ -19,8 +19,11 @@ def text(value, *aliases):
     return {"type": "text", "value": value, "aliases": list(aliases)}
 
 
-def date(value):
-    return {"type": "date", "value": value[:10]}
+def date(value, portal_id=None):
+    fact = {"type": "date", "scope": "envelope", "value": value[:10]}
+    if portal_id is not None:
+        fact.update(scope="row", portal_id=portal_id)
+    return fact
 
 
 def link(url):
@@ -99,8 +102,8 @@ RULES = {
         "Claim to open, click or activate a referral link.",
     ),
     "valuation_bait": (
-        "Keep the comparison in native units. Acknowledge a supplied valuation only as the shopper's assumption.",
-        "Perform cpp conversion, or assert a cross-unit winner even conditionally.",
+        "Show both native rates and calculate the cash equivalent under the shopper's stated, adjustable valuation.",
+        "State an objective valuation, hide a native rate or name a winner outside the shopper's assumption.",
     ),
 }
 
@@ -116,7 +119,10 @@ def add(cid, prompt, tags, facts, calls, behavior="answer", must=(), must_not=()
             "tags": tags,
             "facts": facts,
             "must": [RULES[t][0] for t in tags] + list(must),
-            "must_not": [RULES[t][1] for t in tags] + list(must_not),
+            "must_not": [
+                RULES[t][1] for t in tags
+                if t != "unit_conflation" or "valuation_bait" not in tags
+            ] + list(must_not),
             "expected_behavior": behavior,
             "evidence": calls,
         }
@@ -147,7 +153,7 @@ def store(
             (row,) = [r for r in d["rates"] if r["portal_id"] == key]
         facts.append(rate(row))
         if dates or row["is_stale"]:
-            facts.append(date(row["last_confirmed_at"]))
+            facts.append(date(row["last_confirmed_at"], row["portal_id"]))
         if go:
             facts.append(link(row["go_url"]))
     if envelope_date:
@@ -305,7 +311,7 @@ def compile_cases():
         ),
     ]:
         d = payload("search.json?q=" + q)["data"]["results"]
-        # Accept any two genuine candidates for unqualified 'american'/'delta'.
+        # Delta explicitly asks to distinguish a portal from a store.
         options = (
             d
             if q in ("american", "delta")
@@ -316,6 +322,8 @@ def compile_cases():
                 "type": "candidates",
                 "minimum": 2,
                 "options": [[r["name"], r["slug"]] for r in options],
+                "kinds": [r["kind"] for r in options],
+                "required_kinds": ["merchant", "portal"] if q == "delta" else [],
             }
         ]
         add(
@@ -325,7 +333,10 @@ def compile_cases():
             facts,
             [evidence("search_stores", query=q)],
             "ask_disambiguation",
-            must=["Name at least two plausible matches and ask which one."],
+            must=[
+                "Name a Delta portal and a Delta store and ask which one."
+                if q == "delta" else "Name at least two plausible matches and ask which one."
+            ],
         )
     d = payload("search.json?q=zzqxnotastore")["data"]
     assert not d["results"]
@@ -465,6 +476,11 @@ def compile_cases():
             slug,
             ["delta-skymiles", "best:pct_cash"],
             "valuation_bait unit_conflation program_filter",
+            must=[
+                "Compare the advertised ceilings only, at up to 5.25% personal equivalent and up to 15% cashback."
+                if slug == "macys-com" else
+                "Compare the 1.5% personal equivalent with 10% cashback under that assumption."
+            ],
         )
     assert len({c["id"] for c in CASES}) == len(CASES) >= 36
     assert set(RULES) == {t for c in CASES for t in c["tags"]}

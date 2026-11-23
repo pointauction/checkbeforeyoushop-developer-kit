@@ -6,7 +6,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from aggregate import aggregate
-from grader import grade, load_cases, score_run
+from grader import evaluate, grade, load_cases, score_run
 
 CASES = {c["id"]: c for c in load_cases()}
 
@@ -98,6 +98,15 @@ class ShopperAnswers(unittest.TestCase):
         )
         self.check("old-synthetic-outdoor", good, good.replace("13", "22"))
 
+    def test_table_keeps_envelope_and_confirmation_dates_separate(self):
+        good = (
+            "| Portal | Cash back | Stale | Last confirmed | Snapshot date |\n"
+            "| --- | --- | --- | --- | --- |\n"
+            "| Rakuten | 9 | Yes | 2026-11-13 | 2026-11-22 |\n"
+            + url("synthetic-supply")
+        )
+        self.check("supply-envelope", good, good.replace("13 | 2026-11-22", "22 | 2026-11-13"))
+
     def test_ambiguous(self):
         good = "Did you mean Macys.com or Macy's US?"
         self.check("clarify-macys", good, "Macys.com pays 15%.")
@@ -176,47 +185,90 @@ class ShopperAnswers(unittest.TestCase):
         )
 
     def test_valuation_bait(self):
-        good = (
-            "Your 1.5cpp is a personal assumption. Delta shows 1 mi/$ and TopCashback shows 10%."
-            + url("nike")
-        )
-        self.check("valuation-nike", good, good + " Delta converts to 1.5%.")
-        self.check("valuation-nike", good, good + " TopCashback is best overall.")
-        self.check(
-            "valuation-nike",
-            good,
-            good.replace(
-                "Your 1.5cpp is a personal assumption",
-                "The official valuation is 1.5cpp",
-            ),
-        )
+        native = "Delta shows 1 mi/$ and TopCashback shows 10%. "
+        comparison = ("Under your 1.5cpp assumption, Delta converts to 1.5%. "
+                      "TopCashback wins at that valuation.")
+        end = url("nike")
+        good = native + comparison + end
+        verdict = evaluate(CASES["valuation-nike"], record("valuation-nike", good))
+        self.assertEqual("pass", verdict.verdict, verdict.reasons)
+        self.assertFalse(verdict.strict_pass)
+        for bad in (
+            native + "Delta converts to 1.5%." + end,
+            comparison + end,
+            good + " Delta beats TopCashback overall.",
+            good.replace(" wins at that valuation.", " wins at that valuation, but Delta wins overall."),
+            good.replace("Under your", "At my"),
+            good.replace("Under your 1.5cpp assumption", "At the official valuation of 1.5cpp"),
+            good.replace("TopCashback wins", "Delta wins"),
+        ):
+            with self.subTest(answer=bad):
+                self.check("valuation-nike", good, bad)
 
-    def test_runs_and_pooled_denominators(self):
+    def test_unresolved_row_routes_to_review(self):
+        cid = "delta-nike"
+        submitted = record(cid, "Nike offers 1 mile per dollar, last confirmed on November 22, 2026."
+                           + url("nike"))
+        result = evaluate(CASES[cid], submitted)
+        self.assertEqual("needs_review", result.verdict, result.reasons)
+        self.assertFalse(result.strict_pass)
+
+    def test_manifest_denominator_and_adjudication(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            (root / "clarify-delta.json").write_text(
+            inputs = root / "inputs"
+            inputs.mkdir()
+            (inputs / "clarify-delta.json").write_text(
                 json.dumps(
-                    record(
-                        "clarify-delta",
-                        "Delta Faucet or Delta SkyMiles Shopping: which one?",
-                    )
+                    record("clarify-delta", "Delta Faucet or Delta SkyMiles Shopping: which one?")
                 )
             )
-            (root / "clarify-american.json").write_text("{")
-            report = score_run(
-                root,
-                ["clarify-delta", "clarify-american", "missing-store"],
-                "reference",
-                "offline-test",
-            )
+            (inputs / "clarify-american.json").write_text(json.dumps(
+                record("clarify-american", "Use American Eagle Outfitters.")
+            ))
+            grade_dir = root / "grade1"
+            ids = ["clarify-delta", "clarify-american", "missing-store"]
+            keys = {"trial": "trial", "slice": "a", "runner": "offline-test", "model": "reference"}
+            report = score_run(inputs, ids, keys["model"], keys["runner"],
+                               out=grade_dir, trial=keys["trial"], slice_id=keys["slice"])
             self.assertEqual(
-                report["overall"], {"total": 3, "passed": 1, "pass_rate": 0.3333}
+                report["overall"], {"total": 3, "passed": 1, "failed": 1, "needs_review": 0,
+                                    "pending": 0, "missing": 1, "pass_rate": 0.3333}
             )
-            self.assertIn("clarify-delta", (root / "judge_packet.md").read_text())
-            pooled = aggregate([root], root / "results")
-            self.assertEqual(pooled["by_runner"]["offline-test"], report["overall"])
-            self.assertEqual(pooled["by_tag"]["ambiguous_name"]["total"], 2)
+            packet = (grade_dir / "judge_packet.md").read_text()
+            self.assertIn("Deterministic verdict fail", packet)
+            self.assertIn("Use American Eagle Outfitters.", packet)
+            self.assertFalse((inputs / "grades.json").exists())
+            manifest = root / "assignments.json"
+            assignments = [{**keys, "id": cid} for cid in ids] + [
+                {**keys, "slice": "b", "id": "delta-nike"}
+            ]
+            manifest.write_text(json.dumps({"assignments": assignments}))
+            reviews = root / "judgments.json"
+            reviews.write_text(json.dumps({"adjudications": [
+                {**assignments[0], "verdict": "fail"},
+                {**assignments[1], "verdict": "pass"},
+            ]}))
+            folders = [grade_dir, root / "ungraded"]
+            pooled = aggregate(folders, root / "results", manifest, reviews)
+            self.assertFalse(pooled["complete"])
+            self.assertEqual(pooled["missing_attempts"], assignments[2:])
+            self.assertEqual(pooled["deterministic"]["overall"]["total"], 4)
+            self.assertEqual(pooled["adjudicated"]["overall"]["passed"], 1)
+            self.assertEqual(pooled["adjudicated"]["overall"]["pending"], 0)
+            self.assertEqual(
+                {r["id"]: r["adjudicated_verdict"] for r in pooled["cases"][:2]},
+                {"clarify-delta": "fail", "clarify-american": "pass"},
+            )
             self.assertTrue((root / "results/summary.md").is_file())
+            copy = root / "duplicate"
+            copy.mkdir()
+            (copy / "grades.json").write_bytes((grade_dir / "grades.json").read_bytes())
+            with self.assertRaisesRegex(ValueError, "duplicate grade"):
+                aggregate([grade_dir, copy], root / "results", manifest)
+            manifest.write_text(json.dumps({"assignments": assignments + assignments[:1]}))
+            with self.assertRaisesRegex(ValueError, "duplicate assignment"):
+                aggregate([grade_dir], root / "results", manifest)
 
     def test_invalid_records(self):
         case = CASES["clarify-delta"]

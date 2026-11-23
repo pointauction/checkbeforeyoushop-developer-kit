@@ -9,6 +9,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from build_fixtures import HERE, LIVE, SYNTHETIC, build, read
+from evidence import replay
 from grader import load_cases
 
 
@@ -47,7 +48,7 @@ class FixtureContract(unittest.TestCase):
         env = dict(os.environ, CBYS_FIXTURES_DIR=str(build()))
         cache = {}
 
-        def invoke(call):
+        def invoke_raw(call):
             key = (call["tool"], json.dumps(call["args"], sort_keys=True))
             if key not in cache:
                 proc = subprocess.run(
@@ -58,21 +59,20 @@ class FixtureContract(unittest.TestCase):
                     text=True,
                     timeout=45,
                 )
-                response = json.loads(proc.stdout)
-                if (
-                    call
-                    == {"tool": "search_stores", "args": {"query": "zzqxnotastore"}}
-                    and response["isError"]
-                ):
-                    self.assertIn("no tracked", response["text"].lower())
-                    self.assertIn("zzqxnotastore", response["text"])
-                    cache[key] = {}
-                    return cache[key]
-                self.assertFalse(response["isError"], response["text"])
-                data = response["structuredContent"]
-                self.assertTrue(data["fixture_mode"])
-                cache[key] = data
+                cache[key] = json.loads(proc.stdout)
             return cache[key]
+
+        def invoke(call):
+            response = invoke_raw(call)
+            if call == {"tool": "search_stores", "args": {"query": "zzqxnotastore"}}:
+                self.assertTrue(response["isError"])
+                self.assertIn("no tracked", response["text"].lower())
+                self.assertIn("zzqxnotastore", response["text"])
+                return {}
+            self.assertFalse(response["isError"], response["text"])
+            data = response["structuredContent"]
+            self.assertTrue(data["fixture_mode"])
+            return data
 
         for case in load_cases():
             with self.subTest(case=case["id"]):
@@ -110,3 +110,31 @@ class FixtureContract(unittest.TestCase):
                     )
                 if case["id"] == "inactive-profile":
                     self.assertEqual(data["portal"]["data_status"], "never_succeeded")
+
+
+        # Check fixture replay against the same calls that challenged the grader,
+        # including failed lookups and the prefilter program-miss response.
+        probes = read(Path(__file__).parent / "data/review_probes.json")
+        reviewed_calls = {
+            json.dumps(call, sort_keys=True)
+            for probe in probes for call in probe["record"]["tool_calls"]
+        }
+        for encoded in sorted(reviewed_calls):
+            call = json.loads(encoded)
+            with self.subTest(call=call):
+                actual = invoke_raw(call)
+                replayed = replay(call)
+                self.assertEqual(actual["isError"], bool(replayed.error or replayed.no_match))
+                if actual["isError"]:
+                    continue
+                data = actual["structuredContent"]
+                for key in ("count", "active_count", "program_match", "store", "data_as_of"):
+                    if key in replayed.data:
+                        self.assertEqual(data[key], replayed.data[key])
+                groups = data.get("rates_by_unit", data.get("highs_by_unit", {}))
+                actual_rows = [row for group in groups.values() for row in group["rows"]]
+                fields = ("portal_id", "rate_unit", "rate_value")
+                self.assertCountEqual(
+                    [tuple(r[k] for k in fields) for r in actual_rows],
+                    [tuple(r[k] for k in fields) for r in replayed.rows],
+                )

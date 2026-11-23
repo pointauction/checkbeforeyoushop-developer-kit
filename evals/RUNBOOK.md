@@ -1,97 +1,127 @@
 # Shopping portal answer eval
 
-The corpus has 42 shopper questions against the November 22, 2026 snapshot and six fictional merchant or portal profiles. Prepare the assignments before starting the answering agents. Keep the scoring corpus, gold facts, other answers and tests out of their context.
+The corpus contains 42 shopper questions against the November 22, 2026 snapshot and labeled synthetic listings. The coordinator prepares assignments, stages prompts, grades answers and keeps the answer key private.
 
-## Prepare the corpus and assignments
+## Build and smoke-test the corpus
 
-Run these commands from the kit root with Python 3.10 or newer. The grader, compiler and aggregator use the standard library. The local MCP server needs its own dependencies and built entry point in `mcp-server/dist`. Use its project build instructions before the offline run.
+Use Python 3.10 or newer from the kit root. The scorer, compiler and aggregator use the standard library. The Node harness needs its installed dependencies and built entry point.
 
 ```sh
+export CBYS_EVAL_HARNESS=/absolute/path/to/mcp-server/scripts/call-tool.mjs
 python3 evals/build_fixtures.py
 export CBYS_FIXTURES_DIR="$PWD/evals/fixtures-merged"
-node mcp-server/scripts/call-tool.mjs get_store_rates '{"store":"synthetic-outdoor","program":"Delta"}'
+node "$CBYS_EVAL_HARNESS" get_store_rates '{"store":"synthetic-outdoor","program":"Delta"}'
 python3 evals/make_cases.py
 python3 -m unittest discover -s evals/tests -v
 ```
 
-The smoke call should report fixture mode. Synthetic directory data adds one inactive portal to the captured list, leaving the active count unchanged. Manifest keys select the synthetic response when the two inputs share a key. The compiler refreshes the merged corpus and derives its answers from those manifests. The integration test exercises every case through MCP when the built server is present. Set `CBYS_EVAL_HARNESS` to the absolute path to another checkout's built server's `scripts/call-tool.mjs` to use it instead.
+Set `CBYS_EVAL_HARNESS` to the built server's script in the sibling checkout when the eval branch lacks `mcp-server`. The smoke result should report fixture mode and a stale Delta listing at 7 mi/$, confirmed November 13. The merged manifest uses the synthetic response when both layers cover the same request. The integration test exercises the offline harness when its path is configured or it is built in the kit checkout.
 
-For six disjoint assignments, run the following once as the coordinator. Use seven or eight in place of six if desired. Start a new run directory for each trial. Give each answering agent only its prompts, its output directory, the harness command and the runner instructions below.
+## Stage runner prompts and the assignment manifest
+
+Keep the coordinator's checkout, manifests, grades, reference answers and tests in a private directory. Give each runner its own writable directory outside the checkout. Stage only that runner's `prompts.jsonl` there before the run. Keep the harness and merged fixtures in a separate read-only location accessible to the runner, or expose the harness through a coordinator-owned command.
+
+For a blind trial, run each answering agent under a filesystem sandbox or separate identity that can read its prompts and invoke the harness. Limit its mounts or permissions to those paths and its own output directory. The prompt directory layout alone provides convenience. Before launch, verify under the runner identity that a fixture call succeeds and that opening the coordinator's `cases.jsonl` or another runner's submissions is denied. An ordinary same-user shell with access to the checkout cannot provide this isolation.
+
+Set `CBYS_RUNNER_ROOT` to the absolute base for the staged directories, outside the kit checkout. Set `CBYS_TRIAL` to a new trial ID. Replace the illustrative runner/model pairs in this coordinator-only example with the assigned identities. Each pair gets a disjoint slice. For multiple models answering the same slice, repeat the slice IDs in the manifest with their distinct runner/model assignments and use separate runner directories.
 
 ```sh
 python3 - <<'PY'
 import json
+import os
 from pathlib import Path
-root = Path("evals/runs/trial-01")
+
+trial = os.environ["CBYS_TRIAL"]
+private = Path("evals/runs") / trial
+staging = Path(os.environ["CBYS_RUNNER_ROOT"]).resolve() / trial
+if staging.is_relative_to(Path.cwd().resolve()):
+    raise SystemExit("Place runner staging outside the kit checkout.")
+private.mkdir(parents=True, exist_ok=False)
 cases = [json.loads(line) for line in Path("evals/cases.jsonl").read_text().splitlines()]
-slots = 6
-for i in range(slots):
-    batch = cases[i::slots]
-    folder = root / f"slice-{i+1}"
+slots = [("runner-a", "model-a"), ("runner-b", "model-b")]
+assignments = []
+for i, (runner, model) in enumerate(slots):
+    batch = cases[i::len(slots)]
+    slice_id = f"slice-{i + 1}"
+    folder = staging / runner
     folder.mkdir(parents=True, exist_ok=False)
-    (folder / "ids.txt").write_text("".join(c["id"] + "\n" for c in batch))
     (folder / "prompts.jsonl").write_text("".join(
-        json.dumps({k: c[k] for k in ("id", "prompt")}) + "\n" for c in batch))
+        json.dumps({k: c[k] for k in ("id", "prompt")}) + "\n" for c in batch
+    ), encoding="utf-8")
+    (private / f"{runner}.ids").write_text("".join(c["id"] + "\n" for c in batch))
+    assignments.extend(
+        {"trial": trial, "slice": slice_id, "id": c["id"], "runner": runner, "model": model}
+        for c in batch
+    )
+(private / "assignments.json").write_text(json.dumps({"assignments": assignments}, indent=2))
 PY
 ```
 
-## Runner instructions to pass to the answering agent
+## Instructions for answering agents
 
-Answer each assigned prompt as you would answer a shopper. Use only the local tool harness with the coordinator's absolute `CBYS_FIXTURES_DIR` exported. Every call uses this form:
+Answer each assigned prompt as you would answer a shopper. Invoke the offline fixture harness with the coordinator-supplied absolute paths. Keep the recorded tool name and arguments for every attempt, including retries.
 
 ```sh
-node mcp-server/scripts/call-tool.mjs <tool> '<JSON arguments>'
+export CBYS_FIXTURES_DIR=/absolute/path/to/runner-visible/fixtures
+node /absolute/path/to/mcp-server/scripts/call-tool.mjs get_store_rates '{"store":"nike"}'
 ```
 
-The five tools are `search_stores(query)`, `get_store_rates(store, program?, unit?, include_stale?)`, `list_portals(category?)`, `get_portal(portal)`, and `get_highs(unit?, kind?, limit?)`. Read the structured result, including any tool error. Use exact merchant slugs, e.g. `the-home-depot`, for known identities. Fixture search supports recorded queries only. A “not in fixtures” error is a coverage limitation and cannot establish a merchant or program is absent. Record failed calls and retry a supported lookup when available. Never switch to a live service or open an outbound URL. Do not inspect source, manifests, fixture files, gold answers, grader output or another agent's answers.
+The tools are `search_stores(query)`, `get_store_rates(store, program?, unit?, include_stale?)`, `list_portals(category?)`, `get_portal(portal)` and `get_highs(unit?, kind?, limit?)`. Use exact merchant slugs for known identities. An explicit no-match result supports an absence scoped to the snapshot. A fixture coverage error requires a supported retry when available. Leave portal navigation and activation to the shopper.
 
-Keep each quoted payout with its portal and unit. Cite the CBYS item page when reporting its data. Preserve the disclosure when re-serving rates. For each prompt, write one UTF-8 JSON object to `<run_dir>/<case_id>.json`. Keep the actual tool names and arguments in call order, including retries. Use the actual model ID and runner or harness identity assigned by the coordinator. The tool trace is self-reported. An independent coordinator can capture the harness invocations to audit it.
+Keep each payout with its portal, native unit, ceiling qualifier, and the row's own date and staleness when applicable. Cite the CBYS item page and carry the disclosure when re-serving rates. Group native payouts by unit and keep flat one-time bonuses separate from earn rates.
 
-Answer-file JSON schema:
+When a prompt explicitly asks for a conversion using the shopper's own cents-per-mile assumption, show the native rates and label the calculated cash equivalent and conclusion as conditional on that assumption. For capped payouts, compare advertised ceilings and tell the shopper that their purchase can earn less. The fixture harness describes native-unit comparisons. This evaluation additionally scores the shopper-directed calculation in the two prompts that ask for it.
+
+Write one UTF-8 JSON object per prompt to `<case_id>.json` in your assigned output directory. Use the coordinator's assigned runner label and the actual model ID.
 
 ```json
 {
-  "type": "object",
-  "required": ["answer", "tool_calls", "model", "runner"],
-  "properties": {
-    "answer": {"type": "string", "minLength": 1},
-    "model": {"type": "string", "minLength": 1},
-    "runner": {"type": "string", "minLength": 1},
-    "tool_calls": {
-      "type": "array", "minItems": 1,
-      "items": {
-        "type": "object", "required": ["tool", "args"],
-        "properties": {
-          "tool": {"enum": ["search_stores", "get_store_rates", "list_portals", "get_portal", "get_highs"]},
-          "args": {"type": "object"}
-        }
-      }
-    }
-  }
+  "answer": "Response to the shopper",
+  "tool_calls": [{"tool": "get_store_rates", "args": {"store": "nike"}}],
+  "model": "model-a",
+  "runner": "runner-a"
 }
 ```
 
-## Grade and aggregate
+## Grade and reconcile attempts
 
-Run this once per slice, substituting the assigned model and runner labels. Those flags assign missing submissions to their intended denominator. Without `--ids`, every case in the corpus counts, including missing files. Grading writes scores even when a model fails cases. Inspect the JSON for a CI pass threshold.
-
-```sh
-slice=evals/runs/trial-01/slice-1
-python3 evals/grader.py "$slice" --ids "$slice/ids.txt" --model MODEL_ID --runner RUNNER_ID
-```
-
-Each run directory receives `grades.json` with pass/fail, case reasons, tag totals and overall counts. `judge_packet.md` carries the prompt, answer, constraints, facts and trace for every answer that cleared deterministic checks. A reviewer should read those answers for unsupported factual claims, program or date mix-ups, incorrect tie explanations and indirect rankings. Inspect failed cases and their original answers for valid phrasing the text matcher missed. Keep adjudications separate so the deterministic scores stay reproducible.
-
-After grading all slices:
+Grade a slice with its coordinator-owned IDs and write output to a private directory.
 
 ```sh
-python3 evals/aggregate.py evals/runs/trial-01/slice-*
+private="evals/runs/$CBYS_TRIAL"
+python3 evals/grader.py "$CBYS_RUNNER_ROOT/$CBYS_TRIAL/runner-a" \
+  --ids "$private/runner-a.ids" --trial "$CBYS_TRIAL" --slice slice-1 \
+  --model model-a --runner runner-a --out "$private/grades/runner-a"
 ```
 
-Read `evals/results/summary.json` or `summary.md` for pass counts, denominators and rates by model, tag and runner. Pass explicit graded directories from a single trial to measure coverage. Pooling repeated prompts across trials counts each attempt. Tags overlap. The cross-unit error count measures attempts with a detected prohibited comparison or conversion, once per attempt. An incorrect numeric answer can fail its case without increasing that count. Different agents on different slices see different questions, so their pass rates alone cannot establish a model ranking.
+`grades.json` records `pass`, `fail`, or `needs_review` per submission and `missing` for an absent file. `strict_pass` also rejects rankings made under a valid personal valuation. The scorer replays recorded requests against the frozen manifest to check what those calls could return. Actual tool usage still relies on the runner's trace unless the coordinator captures invocations independently.
 
-## Valuation and interpretation
+`judge_packet.md` includes every attempt, its deterministic reasons and the original answer and calls where readable. Review ambiguous scope, row binding, unsupported extra claims and indirect rankings. The matcher recognizes specific forms of those claims. A deterministic pass covers those checks and fixture-backed evidence. It takes a human judgment to decide open-ended wording or evaluate the answer as a whole.
 
-For a shopper supplying 1.5 cents per mile, give the native Delta and cashback listings. An answer may repeat 1.5 cpp as the shopper's stated assumption. Under the developer kit contract, doing the conversion, reporting an equivalent cashback percentage, adding across units, or naming a winner across those units fails, even with a personal-valuation label. A comparison between percentages within the same earn kind is valid. Fixed bonuses need their one-time label. A flat percentage beats an equal “up to” percentage in the same unit and kind.
+Aggregate against the assignments created before launch. Missing slices and missing answers stay in the denominator. Duplicated or unassigned grade keys are rejected. A manifest covering multiple trials explicitly pools those trials.
 
-A deterministic pass covers the encoded facts and recognizable claim patterns. Reviewers decide implied claims, scope of negation, paragraph/table associations, and novel phrasings. Historical rates and fictional listings are for this offline evaluation only.
+```sh
+python3 evals/aggregate.py "$private"/grades/* \
+  --manifest "$private/assignments.json" --out "$private/results"
+```
+
+Optionally pass `--adjudications "$private/adjudications.json"`. Each adjudication has the same trial, slice, case ID, runner and model as its assignment, with a `pass` or `fail` verdict. Add a reason and, when reviewed, a boolean `unit_conflation_error`.
+
+```json
+{
+  "adjudications": [
+    {
+      "trial": "trial-01",
+      "slice": "slice-1",
+      "id": "delta-nike",
+      "runner": "runner-a",
+      "model": "model-a",
+      "verdict": "pass",
+      "reason": "The date follows and refers to the Delta listing.",
+      "unit_conflation_error": false
+    }
+  ]
+}
+```
+
+`summary.json` and `summary.md` show deterministic and adjudicated results separately. Adjudications can reverse either deterministic decision. Submitted answers awaiting an adjudication count as pending. Different question mixes across runners limit direct comparisons of their scores.

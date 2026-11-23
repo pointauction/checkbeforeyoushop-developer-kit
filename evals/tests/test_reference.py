@@ -23,6 +23,11 @@ def reference(case):
             if fact["is_stale"]:
                 value += " (stale)"
             lines.append(f"{fact['portal_name']}: {value}.")
+        elif kind == "date":
+            if fact["scope"] == "envelope":
+                lines.append(f"Overall snapshot date {fact['value']}.")
+            else:
+                lines.append(f"Last confirmed {fact['value']}.")
         elif kind == "candidates":
             lines.append(
                 "Which one: " + " or ".join(x[0] for x in fact["options"][:2]) + "?"
@@ -39,6 +44,12 @@ def reference(case):
             lines.append(f"Every {fact['value']} hours.")
         else:
             lines.append(fact["value"])
+    if case["id"] == "valuation-nike":
+        lines.append("Under your 1.5 cpp assumption, Delta is equivalent to 1.5%, "
+                     "and TopCashback wins on that basis.")
+    if case["id"] == "valuation-macys-com":
+        lines.append("Under your 1.5 cpp assumption, the Delta ceiling is equivalent to 5.25%. "
+                     "RebatesMe has the higher ceiling on that basis.")
     if case["expected_behavior"] == "report_absent":
         lines.append("No tracked listing returned.")
     if case["expected_behavior"] == "refuse_action":
