@@ -4,13 +4,14 @@ import { performance } from "node:perf_hooks";
 import { setTimeout as delay } from "node:timers/promises";
 import { z } from "zod";
 import {
-  attribution, directoryData, highsData, portalData, searchData, storeData,
+  attribution, directoryData, highsData, normalizeIdentity, portalData, searchData, storeData,
 } from "./schemas.js";
 
 const apiRoot = "/api/v1";
 const defaultBaseUrl = "https://checkbeforeyoushop.com";
 const requestIntervalMs = 1_500;
 const requestTimeoutMs = 10_000;
+const maxTimerDelayMs = 2_147_483_647;
 const manifestSchema = z.object({
   requests: z.record(
     z.string(),
@@ -19,12 +20,17 @@ const manifestSchema = z.object({
 });
 const envelope = z.object({ data: z.unknown(), ...attribution });
 const merchantPath = (slug: string) => `${apiRoot}/merchants/${encodeURIComponent(slug)}.json`;
-const searchKey = (query: string) => `${apiRoot}/search.json?q=${query.trim().toLowerCase()}`;
+const searchKey = (query: string) => `${apiRoot}/search.json?q=${query}`;
 
 export class CbysError extends Error {
-  constructor(message: string, readonly status?: number) {
+  constructor(message: string, readonly status?: number, readonly retryAfter?: string) {
     super(message);
   }
+}
+
+function retryAfterMs(value: string) {
+  if (/^\d+$/.test(value)) return Number(value) * 1_000;
+  return Date.parse(value) - Date.now();
 }
 
 export class CbysClient {
@@ -42,9 +48,9 @@ export class CbysClient {
   }
 
   search(query: string) {
-    const key = searchKey(query);
-    const params = new URLSearchParams({ q: query.trim().toLowerCase() });
-    return this.get(key, searchData, `${apiRoot}/search.json?${params}`);
+    const value = normalizeIdentity(query);
+    const params = new URLSearchParams({ q: value });
+    return this.get(searchKey(value), searchData, `${apiRoot}/search.json?${params}`);
   }
 
   merchant(slug: string) {
@@ -71,7 +77,7 @@ export class CbysClient {
 
   async hasSearchFixture(query: string) {
     if (!this.fixtureMode) return false;
-    return Object.hasOwn((await this.getManifest()).requests, searchKey(query));
+    return Object.hasOwn((await this.getManifest()).requests, searchKey(normalizeIdentity(query)));
   }
 
   private getManifest() {
@@ -120,8 +126,11 @@ export class CbysClient {
       throw new CbysError("CBYS_BASE_URL must be an HTTP(S) URL without credentials.");
     }
 
-    const wait = this.nextRequestAt - performance.now();
-    if (wait > 0) await delay(Math.ceil(wait));
+    let wait = this.nextRequestAt - performance.now();
+    while (wait > 0) {
+      await delay(Math.min(Math.ceil(wait), maxTimerDelayMs));
+      wait = this.nextRequestAt - performance.now();
+    }
     this.nextRequestAt = performance.now() + requestIntervalMs;
 
     try {
@@ -135,8 +144,20 @@ export class CbysClient {
         signal: AbortSignal.timeout(requestTimeoutMs),
       });
       if (!response.ok) {
-        await response.body?.cancel();
-        throw new CbysError(`CheckBeforeYouShop API returned HTTP ${response.status}.`, response.status);
+        const retryAfter = response.status === 429 ? response.headers.get("Retry-After") : null;
+        if (retryAfter) {
+          const wait = retryAfterMs(retryAfter);
+          if (Number.isFinite(wait) && wait > 0) {
+            this.nextRequestAt = Math.max(this.nextRequestAt, performance.now() + wait);
+          }
+        }
+        await response.body?.cancel().catch(() => undefined);
+        const suffix = retryAfter ? ` Retry-After: ${retryAfter}.` : "";
+        throw new CbysError(
+          `CheckBeforeYouShop API returned HTTP ${response.status}.${suffix}`,
+          response.status,
+          retryAfter ?? undefined,
+        );
       }
       return await response.json();
     } catch (error) {

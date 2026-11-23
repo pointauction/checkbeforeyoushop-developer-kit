@@ -1,5 +1,9 @@
 import { z } from "zod";
 
+export function normalizeIdentity(value: string) {
+  return value.trim().normalize("NFC").toLowerCase().normalize("NFC");
+}
+
 export const query = z.string().trim().min(2).max(256);
 export const term = z.string().trim().min(1).max(256);
 export const unit = z.string().regex(/^[a-z][a-z0-9_]*$/).max(64).describe(
@@ -42,12 +46,6 @@ export const storeProfile = z.object({
   portals_tracked: z.number().int(),
   tracked_since: timestamp,
 });
-export const verdict = z.object({
-  headline: z.string(),
-  tone: z.string(),
-  caveats: z.array(z.string()),
-}).nullable();
-
 const rate = z.object({
   rate_value: z.number(),
   rate_unit: unit,
@@ -79,8 +77,6 @@ export const storeRate = rate.extend({
 });
 export const storeData = z.object({
   merchant: storeProfile,
-  summary: z.string(),
-  verdict,
   rates: z.array(storeRate),
 });
 

@@ -41,6 +41,27 @@ let session;
 before(async () => { session = await connect(offline); });
 after(async () => { await session?.close(); });
 
+async function readFixture(file) {
+  return JSON.parse(await readFile(join(fixtures, file), "utf8"));
+}
+
+async function connectFixtures(t, responses) {
+  const dir = await mkdtemp(join(tmpdir(), "cbys-mcp-regression-"));
+  t.after(() => rm(dir, { recursive: true, force: true }));
+  const requests = {};
+  for (const [key, body] of Object.entries(responses)) {
+    const file = `response-${Object.keys(requests).length}.json`;
+    requests[key] = { file, status: 200 };
+    await writeFile(join(dir, file), JSON.stringify({
+      ...body, _synthetic_note: "Adapted from recorded data for an MCP regression test.",
+    }));
+  }
+  await writeFile(join(dir, "manifest.json"), JSON.stringify({ requests }));
+  const synthetic = await connect({ CBYS_FIXTURES_DIR: dir });
+  t.after(synthetic.close);
+  return synthetic;
+}
+
 async function success(name, args, { client } = session) {
   const { structuredContent: data, content, isError } = await client.callTool({ name, arguments: args });
   assert.equal(isError, undefined, JSON.stringify(content));
@@ -128,8 +149,11 @@ for (const [query, slug] of [
 test("not-found searches and 404s report actionable tool errors", async () => {
   await error("search_stores", { query: "zzqxnotastore" }, /No tracked stores or portals/);
   await error("get_store_rates", { store: "zzqxnotastore" }, /Try search_stores/);
-  await error("get_store_rates", { store: "does-not-exist-zzq" }, /No store with that slug.+Try search_stores/);
   await error("get_portal", { portal: "does-not-exist-zzq" }, /Try list_portals/);
+});
+
+test("offline slug 404 identifies the unrecorded name search", async () => {
+  await error("get_store_rates", { store: "does-not-exist-zzq" }, /slug "does-not-exist-zzq" returned HTTP 404.+name search is not in fixtures/);
 });
 
 test("fixture misses fail loudly without falling through to the network", async (t) => {
@@ -147,8 +171,31 @@ test("Square has three distinct one-time bonus units and no earn rates", async (
   assertUnitGroups(data.rates_by_unit);
   assert.ok(Object.values(data.rates_by_unit).every((group) => group.rate_kind === "one_time_bonus"));
   assert.match(text, /one-time bonus/);
-  assert.match(data.summary, /one-time bonus/);
-  assert.match(data.verdict.headline, /one-time bonus/);
+  assert.equal(data.verdict, undefined);
+  assert.equal(data.verdict_scope, undefined);
+  assert.match(data.summary, /Cash one-time bonus.+\$20 via Rakuten/);
+  assert.match(data.summary, /Miles one-time bonus.+1,100 miles via American AAdvantage eShopping/);
+  assert.match(data.summary, /Points one-time bonus.+1,100 pts via Alaska Atmos Rewards Shopping/);
+});
+
+test("Square cash-only summary names only the filtered leader", async () => {
+  const { data } = await success("get_store_rates", { store: "square", unit: "flat_cash" });
+  assert.deepEqual(Object.keys(data.rates_by_unit), ["flat_cash"]);
+  assert.match(data.summary, /Cash one-time bonus.+\$20 via Rakuten/);
+  assert.doesNotMatch(data.summary, /miles|points/i);
+  assert.equal(data.verdict, undefined);
+});
+
+test("Ross-Simons summary and text keep the cash and miles leaders in their own units", async () => {
+  const { data, text } = await success("get_store_rates", { store: "ross-simons" });
+  assertUnitGroups(data.rates_by_unit);
+  assert.equal(data.verdict, undefined);
+  for (const output of [data.summary, text]) {
+    assert.match(output, /Percent cashback.+5% via/);
+    assert.match(output, /Miles per dollar.+3\.5 mi\/\$ via American AAdvantage eShopping/);
+    assert.match(output, /Points per dollar.+6 pts\/\$ via Radisson Rewards Shop/);
+    assert.doesNotMatch(output, /highest we've ever seen/);
+  }
 });
 
 test("Macys.com orders flat rates above up-to ceilings at the same value", async () => {
@@ -164,7 +211,8 @@ test("Nike program filter is case insensitive and retains confirmed row details"
   for (const program of ["DeLTa", "Delta SkyMiles", "DELTA-SKYMILES", "Delta SkyMiles Shopping"]) {
     const { data, text } = await success("get_store_rates", { store: " Nike ", program });
     assert.equal(data.program_match, "matched");
-    assert.equal(data.verdict_scope, "store_wide");
+    assert.match(data.summary, /Miles per dollar.+Delta SkyMiles Shopping/);
+    assert.doesNotMatch(data.summary, /TopCashback/);
     assert.deepEqual(Object.keys(data.rates_by_unit), ["miles_per_dollar"]);
     const [row, ...extra] = data.rates_by_unit.miles_per_dollar.rows;
     assert.equal(extra.length, 0);
@@ -178,6 +226,48 @@ test("Nike program filter is case insensitive and retains confirmed row details"
   }
 });
 
+test("airline program aliases use whole identities and AA excludes USAA", async () => {
+  for (const [program, portalId] of [
+    ["aa", "aa-eshopping"],
+    ["american", "aa-eshopping"],
+    ["AAdvantage", "aa-eshopping"],
+    ["united", "united-mileageplus"],
+  ]) {
+    const { data } = await success("get_store_rates", { store: "nike", program });
+    assert.equal(data.program_match, "matched");
+    const rows = Object.values(data.rates_by_unit).flatMap((group) => group.rows);
+    assert.deepEqual(rows.map((row) => row.portal_id), [portalId]);
+  }
+  const { data } = await success("get_store_rates", { store: "nike", program: "advant" });
+  assert.equal(data.program_match, "none");
+});
+
+test("generic rewards terms give unit guidance without returning a union of programs", async () => {
+  for (const [program, unit] of [
+    ["MILES", "miles_per_dollar"], ["points", "points_per_dollar"], ["cash", "pct_cash"],
+  ]) {
+    const { data, text } = await success("get_store_rates", { store: "nike", program });
+    assert.equal(data.program_match, "ambiguous");
+    assert.deepEqual(data.rates_by_unit, {});
+    assert.ok(data.program_hint.includes(unit));
+    assert.ok(text.includes(data.program_hint));
+  }
+});
+
+test("ambiguous program shorthand offers candidates and exact portal names take priority", async () => {
+  const ambiguous = await success("get_store_rates", { store: "nike", program: "rewards" });
+  assert.equal(ambiguous.data.program_match, "ambiguous");
+  assert.deepEqual(ambiguous.data.rates_by_unit, {});
+  assert.ok(ambiguous.data.program_candidates.length > 1);
+  assert.ok(ambiguous.data.program_candidates.some((row) => row.portal_id === "radisson-rewardsshop"));
+  assert.match(ambiguous.text, /Choose an exact program or portal/);
+
+  const exact = await success("get_store_rates", { store: "nike", program: "Rakuten" });
+  assert.equal(exact.data.program_match, "matched");
+  const rows = Object.values(exact.data.rates_by_unit).flatMap((group) => group.rows);
+  assert.deepEqual(rows.map((row) => row.portal_id), ["rakuten"]);
+});
+
 test("an unknown program returns available programs and no rates", async () => {
   const { data, text } = await success("get_store_rates", { store: "nike", program: "unknown-zzq" });
   assert.equal(data.program_match, "none");
@@ -189,6 +279,7 @@ test("an unknown program returns available programs and no rates", async () => {
   });
   assert.equal(otherUnit.program_match, "matched");
   assert.deepEqual(otherUnit.rates_by_unit, {});
+  assert.equal(otherUnit.summary, undefined);
 });
 
 test("lists portal categories and flags inactive and never-succeeded profiles", async () => {
@@ -233,6 +324,29 @@ test("highs applies filters and caps the total without omitting bonuses from the
   ));
 });
 
+test("highs put unconditional equal-value rows first before limiting, with other feed positions preserved", async (t) => {
+  const feed = await readFixture("highs.json");
+  const [first] = feed.data.highs;
+  feed.data.highs = [
+    ["up-to-first", 8, true],
+    ["different-value", 12, false],
+    ["up-to-second", 8, true],
+    ["unknown", 8, undefined],
+    ["flat-first", 8, false],
+    ["flat-second", 8, false],
+  ].map(([merchant_slug, rate_value, is_up_to]) => ({
+    ...first, merchant_slug, rate_value, is_up_to, rate_display: `${rate_value}%`,
+  }));
+  const synthetic = await connectFixtures(t, { "/api/v1/highs.json": feed });
+  const options = { unit: "pct_cash" };
+  const limited = await success("get_highs", { ...options, limit: 1 }, synthetic);
+  assert.equal(limited.data.highs_by_unit.pct_cash.rows[0].merchant_slug, "flat-first");
+  const full = await success("get_highs", options, synthetic);
+  assert.deepEqual(full.data.highs_by_unit.pct_cash.rows.map((row) => row.merchant_slug), [
+    "flat-first", "different-value", "flat-second", "unknown", "up-to-first", "up-to-second",
+  ]);
+});
+
 test("resolves exact names and domains, and asks about shared domains or lone fuzzy hits", async (t) => {
   const dir = await mkdtemp(join(tmpdir(), "cbys-mcp-resolve-"));
   t.after(() => rm(dir, { recursive: true, force: true }));
@@ -274,6 +388,43 @@ test("resolves exact names and domains, and asks about shared domains or lone fu
   }
 });
 
+test("exact store lookup accepts decomposed input and decomposed candidate identities", async (t) => {
+  const store = await readFixture("merchants/nike.json");
+  const search = await readFixture("search/nike.json");
+  search.data.results = [{ ...search.data.results[0], name: "Café Shop" }];
+  const synthetic = await connectFixtures(t, {
+    "/api/v1/search.json?q=café shop": search,
+    "/api/v1/merchants/nike.json": store,
+  });
+  const exact = await success("search_stores", { query: "CAFÉ SHOP" }, synthetic);
+  assert.equal(exact.data.query, "café shop");
+  assert.equal(exact.data.exact_match.slug, "nike");
+  const rates = await success("get_store_rates", { store: "Café Shop" }, synthetic);
+  assert.equal(rates.data.store.slug, "nike");
+});
+
+test("portal names, category labels and program names use canonical Unicode identity", async (t) => {
+  const portal = await readFixture("portals/rakuten.json");
+  const directory = await readFixture("portals.json");
+  const store = await readFixture("merchants/nike.json");
+  directory.data.portals = directory.data.portals.filter((row) => row.portal_id === "rakuten");
+  Object.assign(directory.data.portals[0], { name: "Café Rewards", category_label: "Café" });
+  portal.data.portal.name = directory.data.portals[0].name;
+  store.data.rates.find((row) => row.portal_id === "rakuten").program = "Café Points";
+  const synthetic = await connectFixtures(t, {
+    "/api/v1/portals.json": directory,
+    "/api/v1/portals/rakuten.json": portal,
+    "/api/v1/merchants/nike.json": store,
+  });
+  const profile = await success("get_portal", { portal: "Café Rewards" }, synthetic);
+  assert.equal(profile.data.portal.portal_id, "rakuten");
+  const filtered = await success("list_portals", { category: "Café" }, synthetic);
+  assert.equal(filtered.data.count, 1);
+  const rates = await success("get_store_rates", { store: "nike", program: "Café Points" }, synthetic);
+  assert.equal(rates.data.program_match, "matched");
+  assert.equal(rates.data.rates_by_unit.pct_cash.rows[0].portal_id, "rakuten");
+});
+
 test("stale rows stay labeled, sort behind fresh rows, and are optional", async (t) => {
   const dir = await mkdtemp(join(tmpdir(), "cbys-mcp-test-"));
   t.after(() => rm(dir, { recursive: true, force: true }));
@@ -300,6 +451,7 @@ test("stale rows stay labeled, sort behind fresh rows, and are optional", async 
   assert.match(text, /99 mi\/\$.+2025-01-01T00:00:00Z \(stale\)/);
   const { data: current } = await success("get_store_rates", { store: "nike", include_stale: false }, synthetic);
   assert.deepEqual(current.rates_by_unit.miles_per_dollar.rows, [fresh]);
+  assert.doesNotMatch(current.summary, /99 mi\/\$/);
 });
 
 test("network failure returns a friendly tool error and uses a read-only JSON request", async (t) => {
@@ -319,3 +471,53 @@ test("invalid tool arguments return tool errors without reading API data", async
   await error("search_stores", { query: "a" }, /Invalid arguments/);
   await error("get_highs", { limit: 0 }, /Invalid arguments/);
 });
+
+test("all tools advertise additionalProperties false", () => {
+  for (const tool of session.tools) {
+    assert.equal(tool.inputSchema.additionalProperties, false, tool.name);
+  }
+});
+
+test("all tools reject unknown arguments with the unexpected property named", async () => {
+  const args = {
+    search_stores: { query: "nike" },
+    get_store_rates: { store: "square" },
+    list_portals: {},
+    get_portal: { portal: "rakuten" },
+    get_highs: {},
+  };
+  for (const [name, input] of Object.entries(args)) {
+    await error(name, { ...input, units: "flat_cash" }, /Invalid arguments.*units/);
+  }
+});
+
+for (const format of ["seconds", "HTTP date"]) {
+  test(`HTTP 429 reports Retry-After (${format}) and delays the next queued call`, async (t) => {
+    const directory = await readFixture("portals.json");
+    let retryAfter;
+    let retryAt;
+    let secondRequestAt;
+    const fetch = t.mock.method(globalThis, "fetch", async () => {
+      if (retryAt === undefined) {
+        retryAfter = format === "seconds" ? "2" : new Date(Date.now() + 3_000).toUTCString();
+        retryAt = format === "seconds" ? Date.now() + 2_000 : Date.parse(retryAfter);
+        return new Response(null, { status: 429, headers: { "Retry-After": retryAfter } });
+      }
+      secondRequestAt = Date.now();
+      return Response.json(directory);
+    });
+    const live = await connect({ CBYS_BASE_URL: "https://example.invalid" });
+    t.after(live.close);
+    const [first, second] = await Promise.all([
+      live.client.callTool({ name: "list_portals", arguments: {} }),
+      live.client.callTool({ name: "list_portals", arguments: {} }),
+    ]);
+    assert.equal(fetch.mock.callCount(), 2);
+    assert.equal(first.isError, true);
+    assert.match(first.content[0].text, /HTTP 429/);
+    assert.ok(first.content[0].text.includes("Retry-After"));
+    assert.ok(first.content[0].text.includes(retryAfter));
+    assert.equal(second.isError, undefined);
+    assert.ok(secondRequestAt >= retryAt - 20, "Queued request started before Retry-After elapsed");
+  });
+}

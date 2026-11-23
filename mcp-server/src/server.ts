@@ -3,8 +3,8 @@ import type { CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { z } from "zod";
 import { CbysClient, CbysError } from "./client.js";
 import {
-  candidate, candidates, directoryPortal, high, kind, portalRate, portalStatus, query,
-  resultMetadata, storeProfile, storeRate, term, unit, unitGroups, verdict,
+  candidate, candidates, directoryPortal, high, kind, normalizeIdentity, portalRate, portalStatus,
+  query, resultMetadata, storeProfile, storeRate, term, unit, unitGroups,
 } from "./schemas.js";
 
 const annotations = { readOnlyHint: true, openWorldHint: true };
@@ -20,8 +20,8 @@ const instructions = [
   "Use search_stores or get_store_rates to identify the store. Ask the user to pick a candidate when needs_disambiguation is true.",
   "Compare only within the same rate_unit and rate_kind. Keep rate_display and the program name. Never convert, sum, or pick an overall winner across units. Label flat payouts as one-time bonuses.",
   "Treat is_up_to as a ceiling and prefer flat rates at equal value. Preserve payout_kind, including gift-card-only rewards.",
-  "Check each row's is_stale and last_confirmed_at. Never quote stale or unknown freshness as current. data_as_of is an endpoint-level timestamp. Store verdicts and summaries describe the whole store.",
-  "When a program is requested, show its matching rows. A missing row means no tracked listing was returned. Do not substitute another program or infer that no offer exists.",
+  "Check each row's is_stale and last_confirmed_at. Never quote stale or unknown freshness as current. data_as_of is an endpoint-level timestamp. The store summary describes the returned rows by unit.",
+  "When a program is requested, show its matching rows. If program_match is ambiguous, follow program_hint and ask the user to choose when candidates are returned. A missing row means no tracked listing was returned.",
   "Credit CheckBeforeYouShop, cite the item's page_url, and include the disclosure when re-serving rates. Show go_url as an affiliate link for the user to choose. Never fetch or activate it.",
 ].join(" ");
 
@@ -39,6 +39,7 @@ const searchOutput = z.object({
   exact_match: candidate.optional().describe("The unique exact slug, name, or domain match."),
   needs_disambiguation: z.literal(true).optional().describe("Ask the user to choose from candidates."),
 });
+const programCandidate = storeRate.pick({ program: true, portal_id: true, portal_name: true });
 const ratesOutput = z.object({
   ...comparisonFields,
   query: z.string(),
@@ -46,11 +47,11 @@ const ratesOutput = z.object({
   needs_disambiguation: z.literal(true).optional().describe("Ask the user to choose from candidates."),
   store: storeProfile.optional().describe("The resolved store. Absent if the user must choose a candidate."),
   rates_by_unit: unitGroups(storeRate).optional().describe("Tracked rows keyed by exact native unit."),
-  verdict: verdict.optional(),
-  summary: z.string().optional(),
-  verdict_scope: z.literal("store_wide").optional(),
-  program_match: z.enum(["matched", "none"]).optional().describe("Match in the full store listing before applying the unit and stale filters."),
+  summary: z.string().optional().describe("One statement per returned unit based on its first row."),
+  program_match: z.enum(["matched", "none", "ambiguous"]).optional().describe("Match in the full store listing before applying the unit and stale filters."),
   available_programs: z.array(z.string()).optional().describe("Programs in the full store listing when program_match is none."),
+  program_candidates: z.array(programCandidate).optional().describe("Matches to choose from when shorthand refers to several programs."),
+  program_hint: z.string().optional().describe("How to refine an ambiguous program filter."),
 });
 const directoryEntry = directoryPortal.extend(portalStatus);
 
@@ -68,7 +69,10 @@ type Candidate = z.infer<typeof candidate>;
 type Candidates = z.infer<typeof candidates>;
 type Metadata = z.infer<z.ZodObject<typeof resultMetadata>>;
 type DirectoryPortal = z.infer<typeof directoryPortal>;
-type Rate = Pick<z.infer<typeof storeRate>, "rate_unit" | "rate_kind" | "unit_group" | "rate_value">;
+type StoreRate = z.infer<typeof storeRate>;
+type High = z.infer<typeof high>;
+type ProgramFields = Pick<z.infer<typeof ratesOutput>, "program_match" | "program_candidates" | "available_programs" | "program_hint">;
+type Rate = Pick<StoreRate, "rate_unit" | "rate_kind" | "unit_group" | "rate_value">;
 type RankableRate = Rate & { is_up_to: boolean; is_stale: boolean; best_category_value?: number | null };
 type Group<Row> = { unit_label: string; rate_kind: Rate["rate_kind"]; rows: Row[] };
 
@@ -83,8 +87,9 @@ function groupRates<Row extends Rate>(rows: Row[], compare?: (a: Row, b: Row) =>
       }
       existing.rows.push(row);
     } else {
+      const fallbackLabel = row.rate_kind === "one_time_bonus" ? `${row.unit_group} one-time bonus` : row.unit_group;
       groups.set(row.rate_unit, {
-        unit_label: Object.hasOwn(unitLabels, row.rate_unit) ? unitLabels[row.rate_unit]! : row.unit_group,
+        unit_label: Object.hasOwn(unitLabels, row.rate_unit) ? unitLabels[row.rate_unit]! : fallbackLabel,
         rate_kind: row.rate_kind,
         rows: [row],
       });
@@ -101,6 +106,22 @@ function compareWithinUnit(a: RankableRate, b: RankableRate) {
     (b.best_category_value ?? b.rate_value) - (a.best_category_value ?? a.rate_value) ||
     Number(a.is_up_to) - Number(b.is_up_to) ||
     b.rate_value - a.rate_value;
+}
+
+function preferUnconditionalHighs(rows: High[]) {
+  const ties = new Map<number, { positions: number[]; flat: High[]; upTo: High[] }>();
+  for (const [index, row] of rows.entries()) {
+    if (row.is_up_to === null) continue;
+    const tie = ties.get(row.rate_value) ?? { positions: [], flat: [], upTo: [] };
+    tie.positions.push(index);
+    (row.is_up_to ? tie.upTo : tie.flat).push(row);
+    ties.set(row.rate_value, tie);
+  }
+  // Move only rows that share a value and have a known up-to status.
+  for (const { positions, flat, upTo } of ties.values()) {
+    const ordered = [...flat, ...upTo];
+    positions.forEach((position, index) => { rows[position] = ordered[index]!; });
+  }
 }
 
 function limitHighs<Row>(groups: Record<string, Group<Row>>, limit: number) {
@@ -125,9 +146,9 @@ function limitHighs<Row>(groups: Record<string, Group<Row>>, limit: number) {
 }
 
 function exactMatch(rows: Candidate[], value: string) {
-  const slugMatches = rows.filter((row) => row.slug.toLowerCase() === value);
+  const slugMatches = rows.filter((row) => normalizeIdentity(row.slug) === value);
   const matches = slugMatches.length ? slugMatches : rows.filter((row) =>
-    row.name.toLowerCase() === value || row.domain?.toLowerCase() === value
+    normalizeIdentity(row.name) === value || (row.domain !== null && normalizeIdentity(row.domain) === value)
   );
   return matches.length === 1 ? matches[0] : undefined;
 }
@@ -155,10 +176,12 @@ async function loadStore(client: CbysClient, value: string) {
       (!client.fixtureMode || await client.hasMerchantFixture(value))) {
     try {
       const response = await client.merchant(value);
-      if (response.data.merchant.slug === value) return { response };
+      if (normalizeIdentity(response.data.merchant.slug) === value) return { response };
     } catch (error) {
       if (!(error instanceof CbysError) || error.status !== 404) throw error;
-      if (client.fixtureMode && !await client.hasSearchFixture(value)) throw notFoundStore(value);
+      if (client.fixtureMode && !await client.hasSearchFixture(value)) {
+        throw new CbysError(`The store slug "${value}" returned HTTP 404. The name search is not in fixtures.`, 404);
+      }
     }
   }
 
@@ -179,6 +202,85 @@ async function loadStore(client: CbysClient, value: string) {
 function portalStatusFor(portal: DirectoryPortal) {
   if (!portal.last_success_at) return "never_succeeded" as const;
   return portal.is_active ? "active" as const : "inactive" as const;
+}
+
+const programAliases = new Map([
+  ["aa", "aa-eshopping"],
+  ["american", "aa-eshopping"],
+  ["aadvantage", "aa-eshopping"],
+  ["delta", "delta-skymiles"],
+  ["united", "united-mileageplus"],
+]);
+
+const programUnitHints = new Map([
+  ["mile", "miles_per_dollar or flat_miles"],
+  ["miles", "miles_per_dollar or flat_miles"],
+  ["point", "points_per_dollar or flat_points"],
+  ["points", "points_per_dollar or flat_points"],
+  ["cash", "pct_cash or flat_cash"],
+  ["cash back", "pct_cash or flat_cash"],
+  ["cashback", "pct_cash or flat_cash"],
+]);
+
+function programTokens(value: string) {
+  return value.match(/[\p{L}\p{M}\p{N}]+/gu)?.join(" ") ?? "";
+}
+
+function filterProgram(rows: StoreRate[], program: string): { rows: StoreRate[]; fields: ProgramFields } {
+  const needle = normalizeIdentity(program);
+  const tokens = programTokens(needle);
+  const units = programUnitHints.get(tokens);
+  if (units) {
+    return {
+      rows: [],
+      fields: {
+        program_match: "ambiguous",
+        program_hint: `Use the unit filter with ${units}.`,
+      },
+    };
+  }
+
+  const identities = rows.map((row) => ({
+    row,
+    names: [row.program, row.portal_id, row.portal_name].map(normalizeIdentity),
+  }));
+  const exact = identities.filter(({ names }) => names.includes(needle)).map(({ row }) => row);
+  if (exact.length) return { rows: exact, fields: { program_match: "matched" } };
+
+  const alias = programAliases.get(needle);
+  const matches = identities.filter(({ row, names }) =>
+    (alias && normalizeIdentity(row.portal_id) === alias) ||
+    (tokens && names.some((name) => ` ${programTokens(name)} `.includes(` ${tokens} `)))
+  ).map(({ row }) => row);
+  const distinctPrograms = new Set(matches.map((row) => normalizeIdentity(row.program)));
+  if (distinctPrograms.size > 1) {
+    const portals = new Map(matches.map(({ program, portal_id, portal_name }) =>
+      [normalizeIdentity(portal_id), { program, portal_id, portal_name }]
+    ));
+    return {
+      rows: [],
+      fields: {
+        program_match: "ambiguous",
+        program_candidates: [...portals.values()],
+        program_hint: "Choose an exact program or portal from the candidates.",
+      },
+    };
+  }
+  if (matches.length) return { rows: matches, fields: { program_match: "matched" } };
+  return {
+    rows: [],
+    fields: {
+      program_match: "none",
+      available_programs: [...new Set(rows.map((row) => row.program))].sort((a, b) => a.localeCompare(b)),
+    },
+  };
+}
+
+function formatStoreRate(row: StoreRate) {
+  const display = `${row.is_up_to ? "Up to " : ""}${row.rate_display}`;
+  const stale = row.is_stale ? " (stale)" : "";
+  const payout = row.payout_kind === "gift_card" ? " (gift card only)" : "";
+  return `${display} via ${row.portal_name} (${row.program})${payout}, last confirmed ${row.last_confirmed_at}${stale}.`;
 }
 
 function groupSummary(groups: Record<string, Group<Rate>>) {
@@ -224,11 +326,11 @@ export function createMcpServer(client = new CbysClient()) {
 
   server.registerTool("search_stores", {
     description: "Find tracked stores and portals by slug, name, or domain. Candidates are separated by type. When needs_disambiguation is true, ask the user to choose a listing and use its slug. Cite page_url.",
-    inputSchema: { query },
+    inputSchema: z.strictObject({ query }),
     outputSchema: searchOutput,
     annotations,
   }, ({ query }) => runTool(async () => {
-    const value = query.toLowerCase();
+    const value = normalizeIdentity(query);
     const search = await findCandidates(client, value);
     const rows = [...search.candidates.stores, ...search.candidates.portals];
     if (rows.length === 0) throw new CbysError(`No tracked stores or portals match "${value}". Try a full store name or domain.`);
@@ -239,17 +341,17 @@ export function createMcpServer(client = new CbysClient()) {
   }));
 
   server.registerTool("get_store_rates", {
-    description: "Compare tracked rates for one exact store. Ask the user when needs_disambiguation is true. Read rates_by_unit within one unit and kind. Treat up to as a ceiling, check each row's freshness, and never infer an offer is absent from a missing row. The verdict is store-wide. Cite store.page_url and include disclosure. Show go_url as an affiliate link without fetching or activating it.",
-    inputSchema: {
+    description: "Compare tracked rates for one exact store. Ask the user when needs_disambiguation is true. Each summary line describes one unit in the filtered rows. If program_match is ambiguous, follow program_hint. Treat up to as a ceiling and check each row's freshness. Cite store.page_url and include disclosure. Show go_url as an affiliate link without fetching or activating it.",
+    inputSchema: z.strictObject({
       store: term.describe("Exact store slug, name, or domain."),
-      program: term.optional().describe("Filter by program, portal ID or name, such as Delta. Case-insensitive."),
+      program: term.optional().describe("Program, portal ID or name. Exact matches come first, then whole words or aliases like Delta. Use unit for cash, points, or miles."),
       unit: unit.optional(),
       include_stale: z.boolean().default(true).describe("Include stale rows labeled as stale."),
-    },
+    }),
     outputSchema: ratesOutput,
     annotations,
   }, ({ store, program, unit, include_stale }) => runTool(async () => {
-    const value = store.toLowerCase();
+    const value = normalizeIdentity(store);
     const lookup = await loadStore(client, value);
     if (lookup.search) {
       return result(
@@ -259,47 +361,34 @@ export function createMcpServer(client = new CbysClient()) {
     }
 
     const { data, ...metadata } = lookup.response;
-    let rows = data.rates;
-    let programFields: Pick<z.infer<typeof ratesOutput>, "program_match" | "available_programs"> = {};
-    if (program) {
-      const needle = program.toLowerCase();
-      const identity = (row: z.infer<typeof storeRate>) =>
-        [row.program, row.portal_id, row.portal_name].map((name) => name.toLowerCase());
-      const exact = rows.filter((row) => identity(row).includes(needle));
-      rows = exact.length ? exact : rows.filter((row) => identity(row).some((name) => name.includes(needle)));
-      programFields = rows.length
-        ? { program_match: "matched" }
-        : {
-            program_match: "none",
-            available_programs: [...new Set(data.rates.map((row) => row.program))].sort((a, b) => a.localeCompare(b)),
-          };
-    }
-    rows = rows.filter((row) => (include_stale || !row.is_stale) && (!unit || row.rate_unit === unit));
+    const match = program ? filterProgram(data.rates, program) : { rows: data.rates, fields: {} };
+    const rows = match.rows.filter((row) => (include_stale || !row.is_stale) && (!unit || row.rate_unit === unit));
     const groups = groupRates(rows, compareWithinUnit);
     const details = [
       `${data.merchant.name} ${data.merchant.page_url}`,
       rows.length ? `Tracked listings by unit - ${groupSummary(groups)}.`
         : "No tracked rate rows match this selection.",
     ];
-    if (programFields.program_match === "none") details.push("See available_programs for programs tracked at this store.");
+    if (match.fields.program_match === "none") details.push("See available_programs for programs tracked at this store.");
+    if (match.fields.program_hint) details.push(match.fields.program_hint);
+    if (match.fields.program_candidates) {
+      details.push(...match.fields.program_candidates.map((row) => `${row.portal_name} (${row.program}, ${row.portal_id})`));
+    }
+    const summaries: string[] = [];
     for (const group of Object.values(groups)) {
-      for (const row of group.rows.slice(0, program ? 3 : 1)) {
-        const display = `${row.is_up_to ? "Up to " : ""}${row.rate_display}`;
-        const bonus = row.rate_kind === "one_time_bonus" ? " one-time bonus" : "";
-        const stale = row.is_stale ? " (stale)" : "";
-        const payout = row.payout_kind === "gift_card" ? " (gift card only)" : "";
-        details.push(`${display}${bonus} via ${row.portal_name} (${row.program})${payout}, last confirmed ${row.last_confirmed_at}${stale}.`);
-      }
+      const entries = group.rows.slice(0, program ? 3 : 1).map((row) =>
+        `${group.unit_label} - ${formatStoreRate(row)}`
+      );
+      summaries.push(entries[0]!);
+      details.push(...entries);
     }
 
     return result({
       ...metadata,
-      ...programFields,
+      ...match.fields,
       query: value,
       store: data.merchant,
-      summary: data.summary,
-      verdict: data.verdict,
-      verdict_scope: "store_wide",
+      ...(summaries.length ? { summary: summaries.join("\n") } : {}),
       rates_by_unit: groups,
       comparison_rules: comparisonRules,
     }, details.join("\n"));
@@ -307,7 +396,7 @@ export function createMcpServer(client = new CbysClient()) {
 
   server.registerTool("list_portals", {
     description: "List tracked shopping portals by category with their program, last_success_at and data_status. Inactive or never-succeeded portals should not count as active coverage. Cite each portal's page_url.",
-    inputSchema: { category: term.optional().describe("Category ID or label, such as airline or Cashback.") },
+    inputSchema: z.strictObject({ category: term.optional().describe("Category ID or label, such as airline or Cashback.") }),
     outputSchema: z.object({
       ...resultMetadata,
       portals: z.array(directoryEntry),
@@ -317,9 +406,9 @@ export function createMcpServer(client = new CbysClient()) {
     annotations,
   }, ({ category }) => runTool(async () => {
     const { data, ...metadata } = await client.portals();
-    const value = category?.toLowerCase();
+    const value = category && normalizeIdentity(category);
     const portals = data.portals
-      .filter((row) => !value || [row.category, row.category_label.toLowerCase()].includes(value))
+      .filter((row) => !value || [row.category, row.category_label].some((label) => normalizeIdentity(label) === value))
       .map((row) => ({ ...row, data_status: portalStatusFor(row) }));
     const count = portals.length;
     const active_count = portals.filter((row) => row.data_status === "active").length;
@@ -329,7 +418,7 @@ export function createMcpServer(client = new CbysClient()) {
 
   server.registerTool("get_portal", {
     description: "Look up a shopping portal by exact ID or name and show its top tracked rows grouped by native unit and kind. last_success_at describes the portal, not individual rows. Check is_stale, keep up to rates as ceilings, and cite page_url with the disclosure.",
-    inputSchema: { portal: term },
+    inputSchema: z.strictObject({ portal: term }),
     outputSchema: z.object({
       ...comparisonFields,
       portal: directoryEntry,
@@ -337,10 +426,10 @@ export function createMcpServer(client = new CbysClient()) {
     }),
     annotations,
   }, ({ portal }) => runTool(async () => {
-    const value = portal.toLowerCase();
+    const value = normalizeIdentity(portal);
     const directory = (await client.portals()).data.portals;
-    const names = directory.filter((row) => row.name.toLowerCase() === value);
-    const entry = directory.find((row) => row.portal_id.toLowerCase() === value) ??
+    const names = directory.filter((row) => normalizeIdentity(row.name) === value);
+    const entry = directory.find((row) => normalizeIdentity(row.portal_id) === value) ??
       (names.length === 1 ? names[0] : undefined);
     if (!entry) {
       if (names.length > 1) throw new CbysError("Several portals share that name. Use a portal ID from list_portals.");
@@ -378,14 +467,14 @@ export function createMcpServer(client = new CbysClient()) {
   }));
 
   server.registerTool("get_highs", {
-    description: "Find listings at or near tracked highs, grouped by native unit. Keep one-time bonuses separate from earn rates. The feed may omit row freshness or up to status. Use get_store_rates to check before quoting a rate as current. Cite each page_url and include disclosure.",
-    inputSchema: {
+    description: "Find listings at or near tracked highs, grouped by native unit. Keep one-time bonuses separate from earn rates. At equal values within a unit, unconditional rows precede up to rows before the limit is applied. The feed may omit row freshness or up to status. Use get_store_rates to check before quoting a rate as current. Cite each page_url and include disclosure.",
+    inputSchema: z.strictObject({
       unit: unit.optional(),
       kind: kind.optional(),
       limit: z.number().int().min(1).max(100).default(20).describe(
         "Maximum total rows, sampled across units without ranking units (default 20).",
       ),
-    },
+    }),
     outputSchema: z.object({
       ...comparisonFields,
       count: z.number().int(),
@@ -403,7 +492,9 @@ export function createMcpServer(client = new CbysClient()) {
       is_stale: row.is_stale ?? null,
       last_confirmed_at: row.last_confirmed_at ?? null,
     }));
-    const groups = limitHighs(groupRates(rows), limit);
+    const grouped = groupRates(rows);
+    for (const group of Object.values(grouped)) preferUnconditionalHighs(group.rows);
+    const groups = limitHighs(grouped, limit);
     const count = Object.values(groups).reduce((total, group) => total + group.rows.length, 0);
     return result({
       ...metadata,
