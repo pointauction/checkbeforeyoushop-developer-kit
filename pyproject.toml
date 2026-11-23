@@ -5,4 +5,12 @@ requires-python = ">=3.10"
 dependencies = []
 
 [project.optional-dependencies]
-check = ["PyYAML>=6.0,<7", "openapi-spec-validator>=0.7,<0.9", "jsonschema>=4.20,<5"]
+check = [
+    "PyYAML>=6.0,<7",
+    "openapi-spec-validator>=0.7,<0.9",
+    "jsonschema>=4.20,<5",
+    "referencing>=0.28.4,<1",
+    "rfc3339-validator>=0.1.4,<1",
+    "rfc3986-validator>=0.1.1,<1",
+    "pytest>=8,<10",
+]

@@ -2,6 +2,9 @@ openapi: 3.1.0
 info:
   title: CheckBeforeYouShop Public API
   version: 1.0.0
+  license:
+    name: MIT
+    identifier: MIT
   description: |
     Read-only public API. Clients should tolerate new response fields.
 
@@ -12,6 +15,8 @@ info:
 
     Credit CheckBeforeYouShop and link to each item's page_url when using
     the data. Preserve source, attribution, and disclosure when re-serving rates.
+    The MIT license covers the developer kit and this specification. API data
+    follows the attribution terms above.
 
     GET and CORS OPTIONS are explicit handlers on every path. Astro also
     serves HEAD through GET and strips the body. For unsupported methods the
@@ -19,10 +24,21 @@ info:
     server errors are likewise handled by the framework or hosting platform.
 servers:
   - url: https://checkbeforeyoushop.com
+security: []
+tags:
+  - name: Search
+    description: Find a merchant slug or portal ID by name or domain.
+  - name: Merchants
+    description: Compare one store's rates by native unit.
+  - name: Portals
+    description: Find comparison portals and check their coverage and freshness.
+  - name: Highs
+    description: Find rates near their recorded highs.
 paths:
   /api/v1/search.json:
     get:
       operationId: search
+      tags: [Search]
       summary: Search for a merchant or portal
       description: |
         Use an exact slug, name, or domain to confirm a result. If several
@@ -56,7 +72,9 @@ paths:
               schema:
                 allOf:
                   - $ref: '#/components/schemas/Envelope'
-                  - properties:
+                  - type: object
+                    required: [data]
+                    properties:
                       data_as_of:
                         type: 'null'
                       data:
@@ -95,6 +113,8 @@ paths:
           $ref: '#/components/responses/ServerError'
     options:
       operationId: searchOptions
+      tags: [Search]
+      summary: CORS preflight for search
       responses:
         '204':
           $ref: '#/components/responses/Preflight'
@@ -110,17 +130,22 @@ paths:
         example: nike
     get:
       operationId: merchant
+      tags: [Merchants]
       summary: Merchant rates and historical verdict
       responses:
         '200':
-          description: Merchant details with the newest confirmation across its rate rows.
+          description: |
+            Merchant details with data_as_of equal to the newest last_confirmed_at
+            across all returned rate rows. Timestamps must represent the same instant.
           headers: *successHeaders
           content:
             application/json:
               schema:
                 allOf:
                   - $ref: '#/components/schemas/Envelope'
-                  - properties:
+                  - type: object
+                    required: [data]
+                    properties:
                       data_as_of:
                         type: string
                       data:
@@ -244,12 +269,15 @@ paths:
           $ref: '#/components/responses/ServerError'
     options:
       operationId: merchantOptions
+      tags: [Merchants]
+      summary: CORS preflight for merchant detail
       responses:
         '204':
           $ref: '#/components/responses/Preflight'
   /api/v1/portals.json:
     get:
       operationId: portals
+      tags: [Portals]
       summary: Comparison portal directory
       responses:
         '200':
@@ -260,7 +288,9 @@ paths:
               schema:
                 allOf:
                   - $ref: '#/components/schemas/Envelope'
-                  - properties:
+                  - type: object
+                    required: [data]
+                    properties:
                       data:
                         $ref: '#/components/schemas/PortalDirectoryData'
               examples:
@@ -304,6 +334,8 @@ paths:
           $ref: '#/components/responses/ServerError'
     options:
       operationId: portalsOptions
+      tags: [Portals]
+      summary: CORS preflight for the portal directory
       responses:
         '204':
           $ref: '#/components/responses/Preflight'
@@ -319,6 +351,7 @@ paths:
         example: rakuten
     get:
       operationId: portal
+      tags: [Portals]
       summary: Portal profile and a sample of its top rates
       responses:
         '200':
@@ -329,7 +362,9 @@ paths:
               schema:
                 allOf:
                   - $ref: '#/components/schemas/Envelope'
-                  - properties:
+                  - type: object
+                    required: [data]
+                    properties:
                       data:
                         $ref: '#/components/schemas/PortalData'
               examples:
@@ -374,12 +409,15 @@ paths:
           $ref: '#/components/responses/ServerError'
     options:
       operationId: portalOptions
+      tags: [Portals]
+      summary: CORS preflight for portal detail
       responses:
         '204':
           $ref: '#/components/responses/Preflight'
   /api/v1/highs.json:
     get:
       operationId: highs
+      tags: [Highs]
       summary: Rates at or near tracked highs
       responses:
         '200':
@@ -390,7 +428,9 @@ paths:
               schema:
                 allOf:
                   - $ref: '#/components/schemas/Envelope'
-                  - properties:
+                  - type: object
+                    required: [data]
+                    properties:
                       data:
                         $ref: '#/components/schemas/HighsData'
               examples:
@@ -426,6 +466,8 @@ paths:
           $ref: '#/components/responses/ServerError'
     options:
       operationId: highsOptions
+      tags: [Highs]
+      summary: CORS preflight for the highs feed
       responses:
         '204':
           $ref: '#/components/responses/Preflight'
@@ -522,10 +564,8 @@ components:
   schemas:
     Envelope:
       type: object
-      required: [data, data_as_of, source, attribution, disclosure]
+      required: [data_as_of, source, attribution, disclosure]
       properties:
-        data:
-          type: object
         data_as_of:
           $ref: '#/components/schemas/NullableTimestamp'
           description: Response-level freshness. The endpoint defines the timestamp's source.
@@ -534,9 +574,12 @@ components:
           const: CheckBeforeYouShop
         attribution:
           type: string
-          description: Credit the source and link each item to its page_url when using the data.
+          minLength: 32
+          pattern: CheckBeforeYouShop
+          description: Credit CheckBeforeYouShop and link each item to its page_url when using the data.
         disclosure:
           type: string
+          minLength: 32
           description: Carry this rate freshness and referral disclosure when re-serving rates.
     Error:
       type: object
@@ -550,7 +593,8 @@ components:
     PageUrl:
       type: string
       format: uri
-      description: Absolute HTTPS URL on checkbeforeyoushop.com for attribution.
+      pattern: '^https://checkbeforeyoushop\.com/[mp]/[^/?#]+$'
+      description: Canonical HTTPS attribution link on checkbeforeyoushop.com for the response item.
     SearchData:
       type: object
       required: [query, count, results, did_you_mean]
@@ -580,6 +624,8 @@ components:
           kind:
             const: portal
       then:
+        # Keep the other result fields open during Redocly example validation.
+        additionalProperties: true
         properties:
           domain:
             type: 'null'
@@ -599,6 +645,7 @@ components:
           description: True for a bounded spelling suggestion the caller should confirm.
         page_url:
           $ref: '#/components/schemas/PageUrl'
+          description: Use /m/{slug} for a merchant or /p/{slug} for a portal.
     MerchantData:
       type: object
       required: [merchant, summary, verdict, best_rates, rates]
@@ -615,9 +662,10 @@ components:
           description: |
             At most one leader per exact rate_unit from rates. The selection
             uses effective category ceilings, favors a rate without an
-            upper-bound qualifier at equal value, and excludes zero rates. Stale
-            candidates can be excluded by a server setting. Look in rates
-            for a specific program even if it has no leader here.
+            upper-bound qualifier at equal value, and excludes zero rates. Every
+            unit with a fresh positive rate has a leader. A server setting can
+            exclude stale candidates and omit units with only stale rates. Look
+            in rates for a specific program even if it has no leader here.
           items:
             $ref: '#/components/schemas/BestRate'
         rates:
@@ -638,6 +686,7 @@ components:
           type: [string, 'null']
         page_url:
           $ref: '#/components/schemas/PageUrl'
+          description: The canonical /m/{slug} URL for this merchant.
         portals_tracked:
           type: integer
           minimum: 1
@@ -655,7 +704,8 @@ components:
           type: string
         tone:
           type: string
-          enum: [ath, high, good, typical, low, young]
+          x-extensible-enum: [ath, high, good, typical, low, young]
+          description: Display tier. Known values are ath, high, good, typical, low, and young.
         caveats:
           type: array
           items:
@@ -675,17 +725,24 @@ components:
           description: |
             An earn_rate pays according to spend or volume. Every flat_* unit
             is a one_time_bonus for a qualifying purchase or action. Keep
-            one-time bonuses separate from earn rates.
+            one-time bonuses separate from earn rates. This is a closed enum
+            in this version. Clients must handle unknown values gracefully
+            and leave those rows out of kind-based comparisons.
         rate_display:
           type: string
           description: Ready-to-display value and native unit. Check is_up_to where available.
         unit_group:
           type: string
-          enum: [Cashback, Airline miles, Points, Other]
-          description: Display group. Use the exact rate_unit for comparisons.
+          x-extensible-enum: [Cashback, Airline miles, Points, Other]
+          description: |
+            Known display groups are Cashback, Airline miles, Points, and Other.
+            Use the exact rate_unit for comparisons.
     RateUnit:
       type: string
       enum: [pct_cash, miles_per_dollar, points_per_dollar, cents_per_gallon, flat_cash, flat_miles, flat_points]
+      description: |
+        Native rate unit. This is a closed enum in this version. Clients must
+        handle unknown values gracefully and leave those rows out of comparisons.
     QualifiedRate:
       allOf:
         - $ref: '#/components/schemas/Rate'
@@ -715,8 +772,10 @@ components:
           $ref: '#/components/schemas/PayoutKind'
     PayoutKind:
       type: [string, 'null']
-      enum: [gift_card, null]
-      description: gift_card means rewards redeem as gift cards only. Null means no payout caveat was supplied.
+      x-extensible-enum: [gift_card]
+      description: |
+        The known value gift_card means rewards redeem as gift cards only.
+        Null means no payout caveat was supplied.
     BestRate:
       allOf:
         - $ref: '#/components/schemas/QualifiedRate'
@@ -761,7 +820,7 @@ components:
         active_count:
           type: integer
           minimum: 0
-          description: Number of active comparison portals.
+          description: Number of returned portals with is_active set to true.
         portals:
           type: array
           description: Alphabetical by name. The comparison directory excludes gift-card marketplaces.
@@ -773,12 +832,6 @@ components:
         - type: object
           required: [payout_kind, is_active]
           properties:
-            category:
-              type: string
-              enum: [cashback, airline, card, points]
-            category_label:
-              type: string
-              enum: [Cashback, Airline miles, Credit-card points, Other points]
             payout_kind:
               $ref: '#/components/schemas/PayoutKind'
             is_active:
@@ -812,10 +865,14 @@ components:
           type: string
         category:
           type: string
-          enum: [cashback, airline, card, points, giftcard]
+          x-extensible-enum: [cashback, airline, card, points, giftcard]
+          description: Known categories are cashback, airline, card, points, and giftcard.
         category_label:
           type: string
-          enum: [Cashback, Airline miles, Credit-card points, Other points, Gift cards]
+          x-extensible-enum: [Cashback, Airline miles, Credit-card points, Other points, Gift cards]
+          description: |
+            Known display labels are Cashback, Airline miles, Credit-card points,
+            Other points, and Gift cards.
         merchants_tracked:
           type: integer
           minimum: 0
@@ -827,6 +884,7 @@ components:
           description: Last successful portal check, or null if none is recorded.
         page_url:
           $ref: '#/components/schemas/PageUrl'
+          description: The canonical /p/{portal_id} URL for this portal.
     MerchantLink:
       type: object
       required: [merchant_slug, merchant_name, page_url]
@@ -837,6 +895,7 @@ components:
           type: string
         page_url:
           $ref: '#/components/schemas/PageUrl'
+          description: The canonical /m/{merchant_slug} URL for this merchant.
     PortalRate:
       allOf:
         - $ref: '#/components/schemas/QualifiedRate'
@@ -854,11 +913,12 @@ components:
           type: array
           maxItems: 800
           description: |
-            Earn rates appear first, followed by one-time bonuses. The live
-            candidate window is capped at 400 per kind before filtering and
-            deduplication. Candidates need at least 7 observed days and must
-            still be at or above 95% of the recorded 365-day high. Consult
-            merchant detail for the row's freshness and up-to qualifier.
+            Earn rates appear first, followed by one-time bonuses. Units can
+            interleave within each kind. The live candidate window is capped
+            at 400 per kind before filtering and deduplication. Candidates need
+            at least 7 observed days and must still be at or above 95% of the
+            recorded 365-day high. Consult merchant detail for the row's freshness
+            and up-to qualifier.
           items:
             $ref: '#/components/schemas/High'
     High:
@@ -871,7 +931,9 @@ components:
           properties:
             is_all_time_high:
               type: boolean
-              description: True when recorded stats mark an all-time high and cover at least 30 observed days.
+              description: |
+                True when the recorded stats mark an all-time high and cover at
+                least 30 observed days. The flag can outlive a subsequent rate change.
             typical_range:
               type: [string, 'null']
               description: Display text for the historical middle 50% in the native unit, or null when unavailable.

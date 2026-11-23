@@ -104,12 +104,19 @@ def test_invalid_rate_row(contract, updates, expected):
     assert any(expected in error for error in errors)
 
 
-def test_valid_flat_and_gallon_units(contract):
+@pytest.mark.parametrize(
+    ("unit", "kind", "group"),
+    [
+        ("flat_points", "one_time_bonus", "Points"),
+        ("cents_per_gallon", "earn_rate", "Other"),
+    ],
+)
+def test_valid_flat_and_gallon_units(contract, unit, kind, group):
     payload = fixture_payload(MERCHANT)
-    row = payload["data"]["rates"][-1]
-    row.update(rate_unit="flat_points", rate_kind="one_time_bonus", unit_group="Points")
-    assert contract.validate_response(MERCHANT, 200, payload) == ([], [])
-    row.update(rate_unit="cents_per_gallon", rate_kind="earn_rate", unit_group="Other")
+    data = payload["data"]
+    row = dict(data["rates"][-1], rate_unit=unit, rate_kind=kind, unit_group=group)
+    data["rates"].append(row)
+    data["best_rates"].append({name: value for name, value in row.items() if name != "listing_label"})
     assert contract.validate_response(MERCHANT, 200, payload) == ([], [])
 
 
@@ -270,3 +277,141 @@ def test_live_fetch_refuses_a_redirect_without_a_second_request():
     status, _, _ = checker.fetch(opener, MERCHANT)
     assert status == 302
     assert transport.urls == [checker.BASE + MERCHANT]
+
+
+@pytest.mark.parametrize(
+    ("path", "field", "value", "location"),
+    [
+        (MERCHANT, "merchant", "https://checkbeforeyoushop.com/go/rakuten?plc=api", ".merchant"),
+        (MERCHANT, "merchant", "https://checkbeforeyoushop.com/m/apple", ".merchant"),
+        (MERCHANT, "merchant", "https://checkbeforeyoushop.com/m/nike?plc=api", ".merchant"),
+        (DIRECTORY, "portals", "https://checkbeforeyoushop.com/p/wrong-id", ".portals[0]"),
+        (PORTAL, "portal", "https://checkbeforeyoushop.com/m/delta-skymiles", ".portal"),
+        (PORTAL, "top_rates", "https://checkbeforeyoushop.com/m/wrong-slug", ".top_rates[0]"),
+        (HIGHS, "highs", "https://checkbeforeyoushop.com/p/buckle", ".highs[0]"),
+        (SEARCH, "results", "https://checkbeforeyoushop.com/m/delta-skymiles", ".results[0]"),
+        (SEARCH, "results", "https://checkbeforeyoushop.com/p/wrong-id", ".results[0]"),
+    ],
+)
+def test_page_url_must_match_row_kind_and_identity(contract, path, field, value, location):
+    payload = fixture_payload(path)
+    row = payload["data"][field]
+    if isinstance(row, list):
+        row = row[0]
+    row["page_url"] = value
+    errors, _ = contract.validate_response(path, 200, payload)
+    assert any(f"{location}.page_url" in error for error in errors)
+
+
+@pytest.mark.parametrize("timestamp", ["2020-01-01T00:00:00Z", "2030-01-01T00:00:00Z"])
+def test_merchant_data_as_of_requires_newest_confirmation(contract, timestamp):
+    payload = fixture_payload(MERCHANT)
+    payload["data_as_of"] = timestamp
+    errors, _ = contract.validate_response(MERCHANT, 200, payload)
+    assert any("$.data_as_of" in error for error in errors)
+
+
+def test_merchant_freshness_compares_instants_with_full_precision(contract):
+    payload = fixture_payload(MERCHANT)
+    row = payload["data"]["rates"][0]
+    row.update(is_stale=True, last_confirmed_at="2026-11-23T03:00:00.0000001+01:00")
+    payload["data_as_of"] = "2026-11-23T02:00:00.00000010Z"
+    assert contract.validate_response(MERCHANT, 200, payload) == ([], [])
+    payload["data_as_of"] = "2026-11-23T02:00:00Z"
+    errors, _ = contract.validate_response(MERCHANT, 200, payload)
+    assert any("$.data_as_of" in error for error in errors)
+
+
+def test_search_portal_domain_is_still_null(contract):
+    payload = fixture_payload(SEARCH)
+    payload["data"]["results"][0]["domain"] = "example.com"
+    errors, _ = contract.validate_response(SEARCH, 200, payload)
+    assert any("$.data.results[0].domain" in error for error in errors)
+
+
+@pytest.mark.parametrize(
+    ("field", "value"),
+    [
+        ("attribution", ""),
+        ("attribution", "CheckBeforeYouShop"),
+        ("attribution", "Credit the site and link to the store page when using this data."),
+        ("disclosure", " " * 80),
+        ("disclosure", "Rates may vary."),
+    ],
+)
+def test_success_envelope_requires_substantive_credit_and_disclosure(contract, field, value):
+    payload = fixture_payload(SEARCH)
+    payload[field] = value
+    errors, _ = contract.validate_response(SEARCH, 200, payload)
+    assert any(f"$.{field}" in error for error in errors)
+
+
+def test_fresh_positive_unit_requires_a_leader(contract):
+    payload = fixture_payload(MERCHANT)
+    removed = payload["data"]["best_rates"].pop()
+    errors, _ = contract.validate_response(MERCHANT, 200, payload)
+    assert any(
+        "$.data.best_rates" in error and removed["rate_unit"] in error
+        for error in errors
+    )
+
+
+@pytest.mark.parametrize(
+    ("path", "section", "updates", "locations"),
+    [
+        (MERCHANT, "rates", {"unit_group": "Fuel credits"}, ["$.data.rates[0].unit_group"]),
+        (MERCHANT, "verdict", {"tone": "new-tier"}, ["$.data.verdict.tone"]),
+        (MERCHANT, "rates", {"payout_kind": "store_credit"}, ["$.data.rates[0].payout_kind"]),
+        (DIRECTORY, "portals", {"category": "fuel"}, ["$.data.portals[0].category"]),
+        (PORTAL, "portal", {"category_label": "Fuel rewards"}, ["$.data.portal.category_label"]),
+    ],
+)
+def test_unknown_display_values_only_warn_in_strict_mode(contract, path, section, updates, locations):
+    payload = fixture_payload(path)
+    row = payload["data"][section]
+    if isinstance(row, list):
+        row = row[0]
+    row.update(updates)
+    assert contract.validate_response(path, 200, payload) == ([], [])
+    errors, warnings = contract.validate_response(path, 200, payload, strict=True)
+    assert errors == []
+    assert [warning.split(":")[0] for warning in warnings] == locations
+
+
+@pytest.mark.parametrize(
+    ("path", "field"),
+    [(DIRECTORY, "count"), (DIRECTORY, "active_count"), (HIGHS, "count")],
+)
+def test_feed_counts_match_rows(contract, path, field):
+    payload = fixture_payload(path)
+    payload["data"][field] -= 1
+    errors, _ = contract.validate_response(path, 200, payload)
+    assert any(f"$.data.{field}" in error for error in errors)
+
+
+def test_highs_require_earn_rates_before_bonuses(contract):
+    payload = fixture_payload(HIGHS)
+    highs = payload["data"]["highs"]
+    bonus = next(i for i, row in enumerate(highs) if row["rate_kind"] == "one_time_bonus")
+    highs.insert(0, highs.pop(bonus))
+    errors, _ = contract.validate_response(HIGHS, 200, payload)
+    assert any("earn rates must precede one-time bonuses" in error for error in errors)
+
+
+def test_contract_workflow_caches_python_requirements_and_runs_typegen():
+    workflow = yaml.safe_load(
+        (checker.ROOT / ".github/workflows/contract.yml").read_text(encoding="utf-8")
+    )
+    for job in ("offline", "live"):
+        steps = workflow["jobs"][job]["steps"]
+        python = next(
+            step["with"] for step in steps if step.get("uses", "").startswith("actions/setup-python@")
+        )
+        assert python["cache"] == "pip"
+        assert python["cache-dependency-path"] == "requirements-check.txt"
+
+    offline_steps = workflow["jobs"]["offline"]["steps"]
+    assert any(
+        step.get("run") == "python -m pytest tests/contract/test_typegen.py"
+        for step in offline_steps
+    )

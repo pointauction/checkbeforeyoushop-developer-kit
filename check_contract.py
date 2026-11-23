@@ -7,10 +7,11 @@ import os
 import re
 import time
 from collections import defaultdict
+from datetime import datetime
 from http.client import HTTPException
 from pathlib import Path
 from urllib.error import HTTPError, URLError
-from urllib.parse import parse_qs, unquote, urlsplit
+from urllib.parse import parse_qs, urlsplit
 from urllib.request import HTTPRedirectHandler, Request, build_opener
 
 import yaml
@@ -42,6 +43,13 @@ RATE_COLLECTIONS = {
     "merchant": ("best_rates", "rates"),
     "portal": ("top_rates",),
     "highs": ("highs",),
+}
+PAGE_LINKS = {
+    "search": {"results": (None, "slug")},
+    "merchant": {"merchant": ("m", "slug")},
+    "portals": {"portals": ("p", "portal_id")},
+    "portal": {"portal": ("p", "portal_id"), "top_rates": ("m", "merchant_slug")},
+    "highs": {"highs": ("m", "merchant_slug")},
 }
 
 
@@ -110,8 +118,8 @@ class Contract:
                     if strict and properties:
                         warnings.append(f"{field}: undocumented field")
                     continue
-                if name in {"page_url", "go_url"} and isinstance(child, str):
-                    issue = url_issue(name, child)
+                if name == "go_url" and isinstance(child, str):
+                    issue = go_url_issue(child)
                     if issue:
                         errors.append(f"{field}: {issue}")
                 self.inspect_fields(child, properties[name], field, errors, warnings, strict)
@@ -124,6 +132,13 @@ class Contract:
             ]
             for i, child in enumerate(value):
                 self.inspect_fields(child, items, f"{location}[{i}]", errors, warnings, strict)
+        elif strict and isinstance(value, str):
+            for schema in schemas:
+                for part in self.schema_parts(schema):
+                    known = part.get("x-extensible-enum")
+                    if known is not None and value not in known:
+                        warnings.append(f"{location}: unknown display value {value!r}")
+                        return
 
     def validate_response(self, request_path, status, payload, *, strict=False):
         operation, response, pointer = self.response(request_path, status)
@@ -141,11 +156,29 @@ class Contract:
         ]
         warnings = []
         if not errors and status == 200:
-            errors.extend(self.data_issues(operation, payload["data"]))
+            errors.extend(self.data_issues(operation, payload))
         self.inspect_fields(payload, [content["schema"]], "$", errors, warnings, strict)
         return errors, warnings
 
-    def data_issues(self, operation, data):
+    def data_issues(self, operation, payload):
+        data = payload["data"]
+        envelope_fields = self.spec["components"]["schemas"]["Envelope"]["properties"]
+        for name in ("attribution", "disclosure"):
+            minimum = envelope_fields[name]["minLength"]
+            if len(payload[name].strip()) < minimum:
+                yield f"$.{name}: expected at least {minimum} characters after trimming"
+
+        for field, (prefix, identity) in PAGE_LINKS[operation].items():
+            value = data[field]
+            is_collection = isinstance(value, list)
+            rows = value if is_collection else [value]
+            for index, row in enumerate(rows):
+                route = prefix or ("p" if row["kind"] == "portal" else "m")
+                expected = f"{BASE}/{route}/{row[identity]}"
+                if row["page_url"] != expected:
+                    location = f"$.data.{field}" + (f"[{index}]" if is_collection else "")
+                    yield f"{location}.page_url: expected {expected}"
+
         for collection in RATE_COLLECTIONS.get(operation, ()):
             for index, row in enumerate(data[collection]):
                 expected_kind = (
@@ -155,6 +188,10 @@ class Contract:
                     yield f"$.data.{collection}[{index}].rate_kind: expected {expected_kind}"
 
         if operation == "merchant":
+            newest = max(timestamp_key(row["last_confirmed_at"]) for row in data["rates"])
+            if timestamp_key(payload["data_as_of"]) != newest:
+                yield "$.data_as_of: must equal the newest rates[].last_confirmed_at"
+
             fields = self.properties([self.spec["components"]["schemas"]["BestRate"]])
             # Compare all shared, documented fields across the two projections.
             full_rows = {tuple(row[name] for name in fields) for row in data["rates"]}
@@ -167,6 +204,13 @@ class Contract:
                 seen.add(unit)
                 if tuple(row[name] for name in fields) not in full_rows:
                     yield f"{location}: no matching entry in rates"
+            required_units = {
+                row["rate_unit"]
+                for row in data["rates"]
+                if not row["is_stale"] and row["rate_value"] > 0
+            }
+            for unit in sorted(required_units - seen):
+                yield f"$.data.best_rates: missing leader for fresh positive unit {unit}"
 
         if operation == "search":
             results = data["results"]
@@ -175,12 +219,40 @@ class Contract:
             if data["did_you_mean"] != any(row["did_you_mean"] for row in results):
                 yield "$.data.did_you_mean: must indicate whether a returned result is a suggestion"
 
+        if operation == "portals":
+            portals = data["portals"]
+            if data["count"] != len(portals):
+                yield "$.data.count: must equal the number of portals"
+            if data["active_count"] != sum(row["is_active"] for row in portals):
+                yield "$.data.active_count: must equal the number of active portals"
 
-def url_issue(name, value):
+        if operation == "highs":
+            highs = data["highs"]
+            if data["count"] != len(highs):
+                yield "$.data.count: must equal the number of highs"
+            seen_bonus = False
+            for index, row in enumerate(highs):
+                if row["rate_kind"] == "one_time_bonus":
+                    seen_bonus = True
+                elif seen_bonus:
+                    yield f"$.data.highs[{index}].rate_kind: earn rates must precede one-time bonuses"
+                    break
+
+
+def timestamp_key(value):
+    # The schema has already validated RFC 3339. Keep the fractional digits
+    # separate so comparison works with offsets and precision beyond microseconds.
+    value = value.upper().replace("Z", "+00:00")
+    whole, offset = value[:-6], value[-6:]
+    seconds, _, fraction = whole.partition(".")
+    return datetime.fromisoformat(seconds + offset), fraction.rstrip("0")
+
+
+def go_url_issue(value):
     parsed = urlsplit(value)
     if parsed.scheme != "https" or parsed.netloc.lower() != HOST:
         return "expected an absolute HTTPS URL on checkbeforeyoushop.com"
-    if name == "go_url" and (
+    if (
         not re.fullmatch(r"/go/[^/]+", parsed.path)
         or parse_qs(parsed.query, keep_blank_values=True).get("plc") != ["api"]
     ):
@@ -311,7 +383,9 @@ def check_live(contract, strict):
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--offline", action="store_true", help="validate every manifest fixture locally")
-    parser.add_argument("--strict", action="store_true", help="warn about undocumented fields")
+    parser.add_argument(
+        "--strict", action="store_true", help="warn about undocumented fields and display values"
+    )
     args = parser.parse_args(argv)
 
     try:
