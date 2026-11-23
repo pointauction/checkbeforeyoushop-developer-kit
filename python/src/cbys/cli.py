@@ -7,7 +7,7 @@ from collections.abc import Callable, Iterable, Sequence
 from itertools import islice, zip_longest
 import json
 import sys
-from typing import TextIO, TypeVar
+from typing import Any, NoReturn, TextIO, TypeVar
 from urllib.parse import urlencode
 
 from .client import BASE_URL, Client
@@ -43,6 +43,17 @@ _HEADINGS = {
 _FLAT_UNITS = {"flat_cash", "flat_miles", "flat_points"}
 
 
+class _ArgumentParser(argparse.ArgumentParser):
+    def __init__(self, **kwargs: Any) -> None:
+        super().__init__(allow_abbrev=False, **kwargs)
+
+    def error(self, message: str) -> NoReturn:
+        try:
+            super().error(message)
+        finally:
+            _footer(None, BASE_URL, file=sys.stderr)
+
+
 def _nonnegative(value: str) -> int:
     number = int(value)
     if number < 0:
@@ -51,12 +62,12 @@ def _nonnegative(value: str) -> int:
 
 
 def _parser() -> argparse.ArgumentParser:
-    shared = argparse.ArgumentParser(add_help=False)
+    shared = _ArgumentParser(add_help=False)
     shared.add_argument("--fixtures", metavar="DIR", default=argparse.SUPPRESS,
                         help="read responses from a local fixture directory")
     shared.add_argument("--json", action="store_true", default=argparse.SUPPRESS,
                         help="print the raw API envelope")
-    parser = argparse.ArgumentParser(
+    parser = _ArgumentParser(
         prog="cbys", description="CheckBeforeYouShop shopping portal rates", parents=[shared],
     )
     commands = parser.add_subparsers(dest="command", required=True)
@@ -67,7 +78,7 @@ def _parser() -> argparse.ArgumentParser:
     store = commands.add_parser("store", parents=[shared], help="show a store's tracked rates")
     store.add_argument("query", metavar="NAME_OR_SLUG")
     store.add_argument("--program", metavar="P")
-    store.add_argument("--unit", metavar="U")
+    store.add_argument("--unit", choices=tuple(_HEADINGS))
     stale = store.add_mutually_exclusive_group()
     stale.add_argument("--include-stale", dest="include_stale", action="store_true")
     stale.add_argument("--hide-stale", dest="include_stale", action="store_false")
@@ -78,7 +89,7 @@ def _parser() -> argparse.ArgumentParser:
     portal.add_argument("portal_id", metavar="ID")
 
     highs = commands.add_parser("highs", parents=[shared], help="show rates near observed highs")
-    highs.add_argument("--unit", metavar="U")
+    highs.add_argument("--unit", choices=tuple(_HEADINGS))
     highs.add_argument("--kind", choices=["earn_rate", "one_time_bonus"])
     highs.add_argument("--limit", type=_nonnegative, metavar="N",
                        help="cap human output at N rows, taking turns among groups")
@@ -138,7 +149,8 @@ def _print_rates(
             for index, row in enumerate(batch)
             if row is not None
         )
-        for index in islice(slots, limit):
+        available = sum(len(rows) for _, rows in groups)
+        for index in islice(slots, min(limit, available)):
             counts[index] += 1
         groups = [(label, rows[:count]) for (label, rows), count in zip(groups, counts) if count]
     if not groups:
@@ -158,12 +170,16 @@ def _rate_and_freshness(row: Rate) -> str:
     return f"{format_rate(row)} | {confirmation}{stale}"
 
 
+def _program_label(program: str, payout_kind: str | None) -> str:
+    return f"{program} (gift card payout)" if payout_kind == "gift_card" else program
+
+
 def _merchant_rate(row: MerchantRate) -> str:
     label = f" ({row.listing_label})" if row.listing_label else ""
-    payout = " (gift card payout)" if row.payout_kind == "gift_card" else ""
+    program = _program_label(row.program, row.payout_kind)
     outbound = f" | {row.go_url}" if row.go_url else ""
     return (
-        f"- {row.portal_name}{label} / {row.program}{payout} | "
+        f"- {row.portal_name}{label} / {program} | "
         f"{_rate_and_freshness(row)}{outbound}"
     )
 
@@ -173,9 +189,9 @@ def _portal_rate(row: PortalRate) -> str:
 
 
 def _high(row: High) -> str:
-    payout = " (gift card payout)" if row.payout_kind == "gift_card" else ""
+    program = _program_label(row.program, row.payout_kind)
     return (
-        f"- {row.merchant_name} / {row.portal_name} / {row.program}{payout} | "
+        f"- {row.merchant_name} / {row.portal_name} / {program} | "
         f"{_rate_and_freshness(row)} | {row.page_url}"
     )
 
@@ -185,7 +201,15 @@ def _run(args: argparse.Namespace, client: Client) -> int:
     response: _Response
     if command == "store":
         match, loaded_store = client._resolve_store(args.query)
-        response = loaded_store if loaded_store is not None else client.get_store(match.slug)
+        try:
+            response = loaded_store if loaded_store is not None else client.get_store(match.slug)
+        except NotFound:
+            print(
+                f"Search matched {match.name}, but its tracked listings are unavailable.",
+                file=sys.stderr,
+            )
+            _footer(None, match.page_url, file=sys.stderr)
+            return 5
     elif command == "search":
         response = client.search(args.query)
     elif command == "portals":
@@ -205,6 +229,10 @@ def _run(args: argparse.Namespace, client: Client) -> int:
 
     if isinstance(data, StoreData):
         print(data.merchant.name)
+        if data.verdict is not None:
+            print(f"Store verdict · {data.verdict.headline.replace('—', ' - ')}")
+            for caveat in data.verdict.caveats:
+                print(caveat.replace("—", " - "))
         rows: Sequence[MerchantRate] = data.rates
         if args.program is not None:
             rows = filter_program(rows, args.program)
@@ -222,12 +250,18 @@ def _run(args: argparse.Namespace, client: Client) -> int:
         print(f"{data.active_count} active portals")
         for portal in data.portals:
             status = "" if portal.is_active else " (inactive)"
-            print(f"- {portal.name}{status} ({portal.portal_id}) / {portal.program} | {portal.page_url}")
+            program = _program_label(portal.program, portal.payout_kind)
+            print(f"- {portal.name}{status} ({portal.portal_id}) / {program} | {portal.page_url}")
         page_url = f"{BASE_URL}/portals"
     elif isinstance(data, PortalData):
-        print(f"{data.portal.name} / {data.portal.program}")
+        profile = data.portal
+        payout_kind = profile.payout_kind
+        # The portal detail endpoint may omit Capital One Shopping's payout kind.
+        if payout_kind is None and profile.portal_id == "capitalone-shopping":
+            payout_kind = "gift_card"
+        print(f"{profile.name} / {_program_label(profile.program, payout_kind)}")
         _print_rates(data.top_rates, _portal_rate)
-        page_url = data.portal.page_url
+        page_url = profile.page_url
     elif isinstance(data, HighsData):
         rates = [row for row in data.highs if (args.unit is None or row.rate_unit == args.unit)
                  and (args.kind is None or row.rate_kind == args.kind)]
@@ -251,7 +285,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                 _search_row(row, file=sys.stderr)
             _footer(exc.response, _search_page(args.query), file=sys.stderr)
             return 3
-        if isinstance(exc, NotFound):
+        if isinstance(exc, NotFound) and (exc.response is not None or args.command == "portal"):
             for row in exc.suggestions:
                 _search_row(row, file=sys.stderr)
             page_url = _search_page(args.query) if exc.response is not None else BASE_URL

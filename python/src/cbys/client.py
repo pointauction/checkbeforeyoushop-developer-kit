@@ -12,6 +12,7 @@ from pathlib import Path
 import re
 import time
 from typing import IO, Callable, TypeVar
+from unicodedata import normalize
 from urllib.error import HTTPError as UrllibHTTPError, URLError
 from urllib.parse import quote, urlencode, urlsplit
 from urllib.request import HTTPRedirectHandler, Request, build_opener
@@ -25,6 +26,8 @@ from .models import (
 BASE_URL = "https://checkbeforeyoushop.com"
 USER_AGENT = "cbys-developer-kit-python/0.1"
 _DataT = TypeVar("_DataT", bound=_Model)
+_SEARCH_PATH = "/api/v1/search.json"
+_SEARCH_FIXTURE_PREFIX = f"{_SEARCH_PATH}?q="
 _SLUG = re.compile(r"[a-z0-9]+(?:-[a-z0-9]+)*")
 
 
@@ -72,12 +75,11 @@ class Client:
         self._fixtures: JsonObject | None = None
 
     def search(self, query: str) -> Envelope[SearchData]:
-        path = "/api/v1/search.json"
-        normalized = query.strip()
+        normalized = normalize("NFC", query.strip())
         return self._get(
-            path + "?" + urlencode({"q": normalized}),
+            _SEARCH_PATH + "?" + urlencode({"q": normalized}),
             SearchData._decode,
-            fixture_key=f"{path}?q={normalized.lower()}",
+            fixture_key=_SEARCH_FIXTURE_PREFIX + _fold(normalized),
         )
 
     def get_store(self, slug: str) -> Envelope[StoreData]:
@@ -98,7 +100,7 @@ class Client:
         return match
 
     def _resolve_store(self, query: str) -> tuple[SearchResult, Envelope[StoreData] | None]:
-        identity = query.strip()
+        identity = normalize("NFC", query.strip())
         slug = identity.lower()
         # The search endpoint need not return an exact slug. In fixture mode it
         # may also have no search capture for a slug whose detail was recorded.
@@ -120,7 +122,7 @@ class Client:
         folded = identity.casefold()
         for attr in ("slug", "name", "domain"):
             exact = tuple(
-                row for row in merchants if (getattr(row, attr) or "").casefold() == folded
+                row for row in merchants if _fold(getattr(row, attr) or "") == folded
             )
             if len(exact) == 1:
                 return exact[0], None
@@ -143,13 +145,14 @@ class Client:
         *,
         fixture_key: str | None = None,
     ) -> Envelope[_DataT]:
+        retry_after = None
         if self.fixtures_dir is None:
-            status, content = self._request(path)
+            status, content, retry_after = self._request(path)
         else:
             status, content = self._fixture(self.fixtures_dir, fixture_key or path)
         payload = _json_object(content)
         if not 200 <= status < 300:
-            raise _http_error(status, payload)
+            raise _http_error(status, payload, retry_after)
         if payload is None:
             raise HTTPError(status, "API returned an invalid JSON object")
         try:
@@ -167,7 +170,11 @@ class Client:
                     raise TypeError("requests must be an object")
             except (OSError, ValueError, TypeError, KeyError) as exc:
                 raise FixtureMissing(f"Cannot read manifest.json in fixtures {self.fixtures_dir}") from exc
-            self._fixtures = requests
+            self._fixtures = {}
+            for key, entry in requests.items():
+                if key.startswith(_SEARCH_FIXTURE_PREFIX):
+                    key = _SEARCH_FIXTURE_PREFIX + _fold(key.removeprefix(_SEARCH_FIXTURE_PREFIX))
+                self._fixtures[key] = entry
         return self._fixtures
 
     def _fixture(self, directory: Path, key: str) -> tuple[int, bytes]:
@@ -183,7 +190,7 @@ class Client:
         except (OSError, ValueError, TypeError, KeyError) as exc:
             raise FixtureMissing(f"Cannot read fixture for {key} in {directory}") from exc
 
-    def _request(self, path: str) -> tuple[int, bytes]:
+    def _request(self, path: str) -> tuple[int, bytes, str | None]:
         request = Request(
             self.base_url + path, method="GET",
             headers={"Accept": "application/json", "User-Agent": self.user_agent},
@@ -200,10 +207,14 @@ class Client:
                 retry_after = None
             else:
                 if attempt == self.retries or not (status == 429 or 500 <= status < 600):
-                    return status, content
+                    return status, content, retry_after
             delay = _retry_after_seconds(retry_after)
             time.sleep(delay if delay is not None else 1.5 * 2 ** attempt)
         raise AssertionError("HTTP retry loop exhausted")
+
+
+def _fold(value: str) -> str:
+    return normalize("NFC", value).casefold()
 
 
 def _store_path(slug: str) -> str:
@@ -244,11 +255,14 @@ def _json_object(content: bytes) -> JsonObject | None:
     return payload if isinstance(payload, dict) else None
 
 
-def _http_error(status: int, payload: JsonObject | None) -> HTTPError:
+def _http_error(status: int, payload: JsonObject | None, retry_after: str | None) -> HTTPError:
     detail = payload.get("error") if payload is not None else None
     message = detail if isinstance(detail, str) else f"HTTP {status} from CheckBeforeYouShop"
     if status == 404:
         return NotFound(message, body=payload)
     if status == 400:
         return BadRequest(status, message, payload)
-    return HTTPError(status, message, payload)
+    return HTTPError(
+        status, message, payload,
+        retry_after_seconds=_retry_after_seconds(retry_after) if status == 429 else None,
+    )

@@ -132,6 +132,12 @@ class StoreData(_Model):
     best_rates: tuple[MerchantRate, ...]
     rates: tuple[MerchantRate, ...]
 
+    @property
+    def summary_is_single_unit(self) -> bool:
+        """Whether all store rates belong to one native unit and rate kind."""
+        groups = {(row.rate_unit, row.rate_kind) for row in (*self.rates, *self.best_rates)}
+        return bool(self.rates) and len(groups) == 1
+
     @classmethod
     def _decode(cls, payload: JsonObject) -> StoreData:
         verdict = payload["verdict"]

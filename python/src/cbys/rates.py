@@ -6,6 +6,7 @@ from collections.abc import Iterable
 from dataclasses import dataclass
 import re
 from typing import TypeVar
+from unicodedata import normalize
 
 from .errors import MixedUnitError
 from .models import High, MerchantRate, Rate
@@ -74,13 +75,29 @@ def best_per_unit(rates: Iterable[_RateT]) -> dict[str, _RateT]:
 
 def filter_program(rates: Iterable[_ProgramRateT], program: str) -> list[_ProgramRateT]:
     """Match an exact program name, case-insensitively, or a known alias."""
-    requested = program.strip().casefold()
+    requested = normalize("NFC", program.strip()).casefold()
     requested = _PROGRAM_ALIASES.get(requested, requested)
-    return [rate for rate in rates if rate.program.casefold() == requested]
+    return [rate for rate in rates if normalize("NFC", rate.program).casefold() == requested]
+
+
+def _format_rate_value(value: int | float, unit: str) -> str:
+    number = str(value).removesuffix(".0")
+    point = "pt" if value == 1 else "pts"
+    mile = "mile" if value == 1 else "miles"
+    displays = {
+        "pct_cash": f"{number}%",
+        "miles_per_dollar": f"{number} mi/$",
+        "points_per_dollar": f"{number} {point}/$",
+        "cents_per_gallon": f"{number}¢/gal",
+        "flat_cash": f"${number}",
+        "flat_miles": f"{number} {mile}",
+        "flat_points": f"{number} {point}",
+    }
+    return displays.get(unit, f"{number} {unit}")
 
 
 def format_rate(rate: Rate) -> str:
-    """Format the native-unit display with its bonus, ceiling, and stale qualifiers."""
+    """Format a rate with its native unit, qualifiers, and confirmed category when supplied."""
     display = rate.rate_display
     marker = _UNIT_MARKERS.get(rate.rate_unit)
     if marker is None or not marker.search(display):
@@ -89,6 +106,9 @@ def format_rate(rate: Rate) -> str:
         display = f"up to {display}"
     if rate.is_up_to is None and not display.casefold().startswith("up to "):
         display += " (up-to status unavailable)"
+    if isinstance(rate, MerchantRate) and rate.is_up_to and rate.best_category_value is not None:
+        label = (rate.best_category_label or "Confirmed category").replace("—", " - ")
+        display += f" · {label}: {_format_rate_value(rate.best_category_value, rate.rate_unit)}"
     if rate.rate_kind == "one_time_bonus":
         display += " (one-time bonus)"
     if rate.is_stale:

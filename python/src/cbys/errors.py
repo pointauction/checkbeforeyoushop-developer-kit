@@ -10,10 +10,18 @@ class CBYSError(Exception):
 
 
 class HTTPError(CBYSError):
-    def __init__(self, status: int, message: str, body: JsonObject | None = None):
+    def __init__(
+        self,
+        status: int,
+        message: str,
+        body: JsonObject | None = None,
+        *,
+        retry_after_seconds: float | None = None,
+    ) -> None:
         super().__init__(message)
         self.status = status
         self.body = body
+        self.retry_after_seconds = retry_after_seconds
 
 
 class BadRequest(HTTPError):

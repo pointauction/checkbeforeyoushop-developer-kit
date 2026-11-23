@@ -35,6 +35,8 @@ frozen dataclasses inside an `Envelope`. Read additional API fields from each
 model's `extra` dict and the original JSON object from `Envelope.raw`. Timestamps
 remain ISO strings as supplied by the API. The client retries network failures,
 HTTP 429 and HTTP 5xx responses and honors `Retry-After` when present.
+If the final response is a 429, `HTTPError.retry_after_seconds` contains the
+remaining delay in seconds or `None` if the header is missing or invalid.
 
 ## CLI
 
@@ -50,11 +52,21 @@ python -m cbys store Nike --json
 ```
 
 `--json` emits the full API envelope. Filters and limits apply to the human
-display. Without `--unit`, `highs --limit N` takes turns drawing from the
-independently ranked unit and kind groups, up to N rows total. Store output
-includes and marks stale rows by default. Exit codes are 0 for success, 2 for
-network errors or invalid CLI arguments, 3 for ambiguous stores, 4 for missing
-stores or portals, and 1 for other SDK errors.
+display. Run `cbys store --help` or `cbys highs --help` for the supported units.
+Without `--unit`, `highs --limit N` takes turns drawing from the independently
+ranked unit and kind groups, up to N rows total. N must be nonnegative.
+Store output shows the store-wide verdict and its caveats when available.
+It includes and marks stale rows by default. Gift card payouts are labeled
+even when the API calls the program `cash`.
+
+Exit codes
+
+- 0 for success
+- 1 for other SDK errors
+- 2 for network errors or invalid CLI arguments
+- 3 for ambiguous stores
+- 4 when no exact store or portal can be resolved
+- 5 when search matched a store but its detail endpoint returned no listings (HTTP 404)
 
 From a checkout, use the captured responses with `--fixtures` or
 `CBYS_FIXTURES_DIR`. Missing request keys raise `FixtureMissing`.
@@ -77,10 +89,18 @@ Within a group, fresher rows come before stale rows, higher values come first
 at the same freshness status, and a fixed rate comes before an equally
 valued “up to” rate. If a group's only rows are stale, its leader is
 stale too. `format_rate` includes the unit and marks “up to”, one-time bonus,
-and stale rows. Check `freshness(row)` for the row's own `last_confirmed_at`
-and `is_stale`. An omitted row field is unknown. The envelope's `data_as_of`
-is the newest confirmation supplied for the response. If your program is
-missing from the full rate table, the API returned no tracked listing for it.
+and stale rows. When the API supplies a confirmed category rate for an “up to”
+store row, `format_rate` shows the category alongside the advertised ceiling.
+Check `freshness(row)` for the row's own `last_confirmed_at` and `is_stale`.
+An omitted row field is unknown. The envelope's `data_as_of` is the newest
+confirmation supplied for the response. If your program is missing from the
+full rate table, the API returned no tracked listing for it.
+
+The upstream `StoreData.summary` can name a leader in a different unit than the
+rates you display. Avoid showing it verbatim. Use the structured verdict and
+grouped rates as the CLI does. `StoreData.summary_is_single_unit` tells you
+whether the unfiltered response has rates in exactly one native unit and kind.
+Check your display filters separately.
 
 ## Attribution
 

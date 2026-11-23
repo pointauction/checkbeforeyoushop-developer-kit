@@ -6,14 +6,12 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent / "python" / "src"))
 
-from cbys.cli import main
+from cbys.cli import _ArgumentParser, main
 
 
 if __name__ == "__main__":
     # Keep the example's optional positional store without duplicating the CLI.
-    import argparse
-
-    parser = argparse.ArgumentParser(description=__doc__)
+    parser = _ArgumentParser(description=__doc__)
     parser.add_argument("store", nargs="?", default="nike")
     parser.add_argument("--program")
     parser.add_argument("--fixtures", metavar="DIR")
