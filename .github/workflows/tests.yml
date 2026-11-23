@@ -1,0 +1,65 @@
+name: SDK, MCP server and eval tests
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+# Every job below runs offline against the committed fixtures. No secrets and
+# no requests to checkbeforeyoushop.com. The Playwright extension tests are not
+# run here.
+jobs:
+  python-sdk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Python SDK unit tests
+        run: python -m unittest discover -s python/tests -v
+
+  typescript-sdk:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: sdk/typescript
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: sdk/typescript/package-lock.json
+      - run: npm ci
+      - run: npm run build
+      - run: npm test
+      - run: npm run typecheck
+
+  mcp-server-and-evals:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # mcp-server/package.json declares engines.node >=22, so it is tested on
+      # its own supported floor rather than Node 20.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: mcp-server/package-lock.json
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install MCP server dependencies
+        working-directory: mcp-server
+        run: npm ci
+      - name: Build MCP server
+        working-directory: mcp-server
+        run: npm run build
+      - name: MCP server tests
+        working-directory: mcp-server
+        run: npm test
+      - name: Eval tests through the built MCP harness
+        env:
+          CBYS_EVAL_HARNESS: ${{ github.workspace }}/mcp-server/scripts/call-tool.mjs
+        run: python -m unittest discover -s evals/tests -v

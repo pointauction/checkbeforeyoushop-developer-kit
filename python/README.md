@@ -85,10 +85,12 @@ per unit within the same kind. For example, 2% cashback and 1 Delta SkyMile
 per dollar belong to separate groups. A flat signup bonus belongs in its own
 group. `compare_rates` raises `MixedUnitError` if the units or kinds differ.
 
-Within a group, fresher rows come before stale rows, higher values come first
-at the same freshness status, and a fixed rate comes before an equally
-valued “up to” rate. If a group's only rows are stale, its leader is
-stale too. `format_rate` includes the unit and marks “up to”, one-time bonus,
+Within a group, stale rows come last. Higher values come first at the same
+freshness status, using a store row's confirmed `best_category_value` when the
+API supplies one and its `rate_value` otherwise. At equal values, a fixed rate
+comes before an “up to” rate, then the higher advertised ceiling comes first.
+This matches the TypeScript SDK and the MCP server. `best_per_unit` leaves out
+a unit whose rows are all stale. `format_rate` includes the unit and marks “up to”, one-time bonus,
 and stale rows. When the API supplies a confirmed category rate for an “up to”
 store row, `format_rate` shows the category alongside the advertised ceiling.
 Check `freshness(row)` for the row's own `last_confirmed_at` and `is_stale`.

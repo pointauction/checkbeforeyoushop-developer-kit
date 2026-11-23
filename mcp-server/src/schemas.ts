@@ -69,7 +69,7 @@ export const storeRate = rate.extend({
   is_up_to: z.boolean(),
   is_stale: z.boolean(),
   last_confirmed_at: z.string(),
-  go_url: pageUrl.nullable().describe("Affiliate link to show the user. Never fetch or activate it."),
+  go_url: pageUrl.nullable().describe("Outbound portal link to show the user. Never fetch or activate it."),
   best_category_value: z.number().nullable(),
   best_category_label: z.string().nullable(),
   is_elevated: z.boolean(),

@@ -186,6 +186,31 @@ class FixtureTests(unittest.TestCase):
         with self.assertRaises(MixedUnitError):
             best_per_unit([cash, wrong_kind])
 
+    def test_ranking_uses_confirmed_category_value_like_typescript(self):
+        rates = self.client.get_store("nike").data.rates
+        cash = replace(filter_program(rates, "cash")[0], is_stale=False)
+        up_to = replace(cash, rate_value=10, is_up_to=True, best_category_value=4)
+        flat = replace(cash, rate_value=6, is_up_to=False, best_category_value=None)
+        self.assertLess(compare_rates(flat, up_to), 0)
+        self.assertEqual(best_per_unit([up_to, flat]), {cash.rate_unit: flat})
+        # Equal effective value: fixed first, then the higher advertised ceiling.
+        tied_ceiling = replace(up_to, best_category_value=6)
+        higher_ceiling = replace(tied_ceiling, rate_value=12)
+        self.assertLess(compare_rates(flat, tied_ceiling), 0)
+        self.assertLess(compare_rates(higher_ceiling, tied_ceiling), 0)
+        self.assertEqual(compare_rates(tied_ceiling, replace(tied_ceiling)), 0)
+        self.assertEqual(best_per_unit([tied_ceiling, higher_ceiling, flat]), {cash.rate_unit: flat})
+
+    def test_best_per_unit_omits_a_unit_whose_rows_are_all_stale(self):
+        rates = self.client.get_store("nike").data.rates
+        delta, = filter_program(rates, "delta")
+        cash = filter_program(rates, "cash")[0]
+        old = replace(cash, is_stale=True)
+        older = replace(cash, rate_value=cash.rate_value + 1, is_stale=True)
+        fresh_delta = replace(delta, is_stale=False)
+        self.assertEqual(best_per_unit([old, older, fresh_delta]), {delta.rate_unit: fresh_delta})
+        self.assertEqual(best_per_unit([old, older]), {})
+
 
 class FakeResponse(BytesIO):
     def __init__(self, payload, status=200):

@@ -114,6 +114,21 @@ test("lists all five annotated tools with valid input and output schemas", () =>
   assert.match(session.client.getInstructions(), /historical snapshots/);
 });
 
+test("go_url is described as the outbound portal link, never with new compliance wording", async () => {
+  const surfaces = [
+    ["instructions", session.client.getInstructions()],
+    ...session.tools.map((tool) => [tool.name, JSON.stringify({ description: tool.description, outputSchema: tool.outputSchema })]),
+    ["README", await readFile(new URL("../README.md", import.meta.url), "utf8")],
+  ];
+  for (const [name, text] of surfaces) assert.doesNotMatch(text, /affiliate/i, `${name} says affiliate`);
+  assert.match(session.client.getInstructions(), /Show go_url as the outbound portal link/);
+  const storeRates = session.tools.find((tool) => tool.name === "get_store_rates");
+  assert.match(storeRates.description, /outbound portal link/);
+  assert.match(JSON.stringify(storeRates.outputSchema), /Outbound portal link to show the user/);
+  const readme = surfaces.at(-1)[1];
+  assert.ok(readme.includes("Some portal links may earn us a referral bonus; that never changes the rates or their order."));
+});
+
 test("search returns an exact match and separates store and portal candidates", async () => {
   const { data } = await success("search_stores", { query: " Nike " });
   assert.equal(data.query, "nike");

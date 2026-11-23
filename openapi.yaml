@@ -797,8 +797,8 @@ components:
               type: [string, 'null']
               format: uri
               description: |
-                Outbound affiliate redirect on checkbeforeyoushop.com under
-                /go/ with plc=api. Open only on user click. Clients must never
+                Outbound portal link on checkbeforeyoushop.com under /go/
+                with plc=api. Open only on user click. Clients must never
                 prefetch it. Null when there is no configured outbound link.
     MerchantRate:
       allOf:

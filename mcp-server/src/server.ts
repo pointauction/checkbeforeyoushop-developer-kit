@@ -22,7 +22,7 @@ const instructions = [
   "Treat is_up_to as a ceiling and prefer flat rates at equal value. Preserve payout_kind, including gift-card-only rewards.",
   "Check each row's is_stale and last_confirmed_at. Never quote stale or unknown freshness as current. data_as_of is an endpoint-level timestamp. The store summary describes the returned rows by unit.",
   "When a program is requested, show its matching rows. If program_match is ambiguous, follow program_hint and ask the user to choose when candidates are returned. A missing row means no tracked listing was returned.",
-  "Credit CheckBeforeYouShop, cite the item's page_url, and include the disclosure when re-serving rates. Show go_url as an affiliate link for the user to choose. Never fetch or activate it.",
+  "Credit CheckBeforeYouShop, cite the item's page_url, and include the disclosure when re-serving rates. Show go_url as the outbound portal link for the user to choose. Never fetch or activate it.",
 ].join(" ");
 
 const searchFields = {
@@ -341,7 +341,7 @@ export function createMcpServer(client = new CbysClient()) {
   }));
 
   server.registerTool("get_store_rates", {
-    description: "Compare tracked rates for one exact store. Ask the user when needs_disambiguation is true. Each summary line describes one unit in the filtered rows. If program_match is ambiguous, follow program_hint. Treat up to as a ceiling and check each row's freshness. Cite store.page_url and include disclosure. Show go_url as an affiliate link without fetching or activating it.",
+    description: "Compare tracked rates for one exact store. Ask the user when needs_disambiguation is true. Each summary line describes one unit in the filtered rows. If program_match is ambiguous, follow program_hint. Treat up to as a ceiling and check each row's freshness. Cite store.page_url and include disclosure. Show go_url as the outbound portal link without fetching or activating it.",
     inputSchema: z.strictObject({
       store: term.describe("Exact store slug, name, or domain."),
       program: term.optional().describe("Program, portal ID or name. Exact matches come first, then whole words or aliases like Delta. Use unit for cash, points, or miles."),

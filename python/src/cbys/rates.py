@@ -45,12 +45,19 @@ def group_by_unit(rates: Iterable[_RateT]) -> dict[str, list[_RateT]]:
     return groups
 
 
-def _rank_key(rate: Rate) -> tuple[int, int | float, int]:
-    # Fresh, then unspecified, then stale. At equal values, prefer an
-    # explicitly fixed rate to an unknown qualifier or an up-to rate.
-    stale = {False: 0, None: 1, True: 2}[rate.is_stale]
-    ceiling = {False: 0, None: 1, True: 2}[rate.is_up_to]
-    return stale, -rate.rate_value, ceiling
+def _effective_value(rate: Rate) -> int | float:
+    category = getattr(rate, "best_category_value", None)
+    return rate.rate_value if category is None else category
+
+
+def _rank_key(rate: Rate) -> tuple[int, int | float, int, int | float]:
+    # Mirrors compareRates in the TypeScript SDK and the MCP server: stale rows
+    # last, then the higher confirmed category value (or the reported value
+    # when absent), then a fixed rate before an "up to" rate, then the higher
+    # advertised ceiling. Full ties keep their input order (stable sort).
+    stale = 1 if rate.is_stale is True else 0
+    ceiling = 1 if rate.is_up_to is True else 0
+    return stale, -_effective_value(rate), ceiling, -rate.rate_value
 
 
 def _ranked(rates: Iterable[_RateT]) -> list[_RateT]:
@@ -69,8 +76,16 @@ def compare_rates(left: Rate, right: Rate) -> int:
 
 
 def best_per_unit(rates: Iterable[_RateT]) -> dict[str, _RateT]:
-    """Return each unit's leader. Pass a single kind per unit."""
-    return {unit: _ranked(group)[0] for unit, group in group_by_unit(rates).items()}
+    """Return each unit's leader, leaving out units whose rows are all stale.
+
+    Pass a single kind per unit.
+    """
+    best: dict[str, _RateT] = {}
+    for unit, group in group_by_unit(rates).items():
+        leader = _ranked(group)[0]
+        if leader.is_stale is not True:
+            best[unit] = leader
+    return best
 
 
 def filter_program(rates: Iterable[_ProgramRateT], program: str) -> list[_ProgramRateT]:

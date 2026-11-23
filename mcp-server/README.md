@@ -81,7 +81,7 @@ Compare only within the same `rate_unit` and `rate_kind`. Keep the program and `
 
 Check each row's `is_stale` and `last_confirmed_at` before quoting it as current. For store rates, `data_as_of` is the newest confirmation in the full store response. The local tool generates `summary` after applying all filters. Responses with rate rows include a separate summary line for each returned unit. Missing rows mean no tracked listing was returned for the selection.
 
-Credit CheckBeforeYouShop, link to the returned item's `page_url`, and carry the `disclosure` when re-serving rates. Show `go_url` only as an affiliate link the user can choose. Fetching it can trigger an outbound click.
+Credit CheckBeforeYouShop, link to the returned item's `page_url`, and carry the `disclosure` when re-serving rates. Show `go_url` only as the outbound portal link the user can choose. Fetching it can trigger an outbound click. The `disclosure` includes the site's wording: "Some portal links may earn us a referral bonus; that never changes the rates or their order."
 
 ## Offline mode and evaluation
 

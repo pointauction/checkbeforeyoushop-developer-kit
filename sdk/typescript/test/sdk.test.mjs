@@ -623,8 +623,18 @@ test('SDK includes a copy of the root MIT license in the package manifest', asyn
   assert.ok(JSON.parse(manifest).files.includes('LICENSE'));
 });
 
-test('README clone instructions cover the buildout branch and the default branch after merge', async () => {
+test('README clone instructions use main and no README references a feat/ branch', async () => {
   const readme = await readFile(new URL('../README.md', import.meta.url), 'utf8');
-  assert.match(readme, /^git clone --branch feat\/ecosystem-buildout /m);
-  assert.match(readme, /merged[\s\S]*?default branch/i);
+  assert.match(readme, /^git clone https:\/\/github\.com\/pointauction\/checkbeforeyoushop-developer-kit\.git$/m);
+  assert.match(readme, /^cd checkbeforeyoushop-developer-kit\/sdk\/typescript$/m);
+  const root = fileURLToPath(new URL('../../../', import.meta.url));
+  const tracked = execFileSync('git', ['ls-files', '-z', '--', '*README*.md', '*RUNBOOK*.md'], { cwd: root, encoding: 'utf8' })
+    .split('\0')
+    .filter(Boolean);
+  assert.ok(tracked.includes('README.md'));
+  assert.ok(tracked.includes('sdk/typescript/README.md'));
+  for (const path of tracked) {
+    const text = await readFile(join(root, path), 'utf8');
+    assert.doesNotMatch(text, /\bfeat\//, `${path} references a feat/ branch`);
+  }
 });

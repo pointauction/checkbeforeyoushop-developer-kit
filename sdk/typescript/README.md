@@ -6,12 +6,10 @@ The fixture reader uses Node's filesystem.
 
 ## Install from Git
 
-Until the SDK is merged, clone the `feat/ecosystem-buildout` branch of the
-developer kit. After it's merged, clone the default branch by omitting the
-`--branch` option.
+Clone the developer kit's `main` branch, then build the SDK from its folder.
 
 ```sh
-git clone --branch feat/ecosystem-buildout https://github.com/pointauction/checkbeforeyoushop-developer-kit.git
+git clone https://github.com/pointauction/checkbeforeyoushop-developer-kit.git
 cd checkbeforeyoushop-developer-kit/sdk/typescript
 npm ci
 npm run build
