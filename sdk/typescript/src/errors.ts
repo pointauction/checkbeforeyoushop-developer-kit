@@ -6,13 +6,17 @@ export class CbysError extends Error {
 }
 
 export class CbysHttpError extends CbysError {
+  /** Seconds until a terminal HTTP 429 can be retried, when the server supplies Retry-After. */
+  readonly retryAfterSeconds: number | undefined;
+
   constructor(
     public readonly status: number,
     message: string,
     public readonly url: string,
-    options?: ErrorOptions,
+    options?: ErrorOptions & { retryAfterSeconds?: number },
   ) {
     super(message, options);
+    this.retryAfterSeconds = options?.retryAfterSeconds;
   }
 }
 
@@ -37,6 +41,12 @@ export class CbysNetworkError extends CbysError {
 export class CbysTimeoutError extends CbysError {
   constructor(public readonly url: string, public readonly timeoutMs: number) {
     super(`Request timed out after ${timeoutMs} ms for ${url}`);
+  }
+}
+
+export class CbysAmbiguousProgramError extends CbysError {
+  constructor(public readonly query: string) {
+    super(`“${query}” names a currency. Filter by rate_unit or use a program or portal name.`);
   }
 }
 

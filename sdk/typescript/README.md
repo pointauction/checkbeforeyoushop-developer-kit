@@ -6,11 +6,12 @@ The fixture reader uses Node's filesystem.
 
 ## Install from Git
 
-Clone a revision of the developer kit that contains `sdk/typescript`, then
-build the package inside the checkout.
+Until the SDK is merged, clone the `feat/ecosystem-buildout` branch of the
+developer kit. After it's merged, clone the default branch by omitting the
+`--branch` option.
 
 ```sh
-git clone https://github.com/pointauction/checkbeforeyoushop-developer-kit.git
+git clone --branch feat/ecosystem-buildout https://github.com/pointauction/checkbeforeyoushop-developer-kit.git
 cd checkbeforeyoushop-developer-kit/sdk/typescript
 npm ci
 npm run build
@@ -26,8 +27,8 @@ Use `npm ci --install-links` when reinstalling the application from its lockfile
 
 ## Quick start
 
-Use an ESM project. In TypeScript, use a module resolution mode that supports
-package exports, such as `NodeNext` or `Bundler`.
+Use an ESM project. If you use TypeScript, use version 5.4 or later and a module
+resolution mode that supports package exports, such as `NodeNext` or `Bundler`.
 
 ```ts
 import {
@@ -59,8 +60,9 @@ Rows preserve their original `rate_display` and any supplied `go_url` for
 callers to display. The client only requests the JSON endpoints.
 
 Use `resolveStore(query)` when you have a name or domain. It checks for an
-exact slug first, followed by an exact name and an exact domain, ignoring
-case. When search omits a possible exact slug, it checks the merchant endpoint.
+exact slug first, followed by an exact name and an exact domain. It ignores
+case and normalizes both sides to Unicode NFC. When search omits a possible
+exact slug, it checks the merchant endpoint.
 A `found` result includes `store` and `matchedBy`. An `ambiguous` result
 includes `candidates`, even when there's only one fuzzy candidate.
 A `not_found` result includes any spelling `suggestions`. Each result has a
@@ -70,8 +72,9 @@ Configure the client with `baseUrl`, `fetch`, `timeoutMs`, `userAgent`, or
 `retries`. The default timeout is 10 seconds per attempt, including the body.
 Network failures, HTTP 429, and HTTP 5xx can trigger up to two retries by
 default. Retries use backoff with jitter and honor `Retry-After` when the
-header is available. Set `retries: 0` for a single attempt. Browsers can
-manage the User-Agent header.
+header is available. Set `retries: 0` for a single attempt. If HTTP 429 is
+the final response, `CbysHttpError.retryAfterSeconds` carries the delay when
+the server supplies a valid header. Browsers can manage the User-Agent header.
 
 Use `CbysBadRequestError` for invalid input and HTTP 400, `CbysNotFoundError`
 for HTTP 404, and `CbysHttpError` for other HTTP responses and malformed
@@ -80,29 +83,39 @@ transport failures from deadline expiry.
 
 ## How rates are compared
 
+The store's `summary` and `verdict` are upstream prose. Either can single out
+one program across units. For comparisons, use the per-unit rows in
+`best_rates` or group the full `rates` list. If you display the verdict,
+preserve all `verdict.caveats`.
+
 - Cashback percentages, miles per dollar, points per dollar, and flat payouts
   measure different things. `groupRatesByUnit(rates)` returns a map keyed by
-  `rate_unit` in the order the units first appear. `compareRates` throws
-  `CbysMixedUnitError` if the units differ. Earn rates and one-time bonuses
-  also must match in kind before comparison.
-- Within each unit, higher values come first. At the same value, a fixed rate
-  comes before an advertised “up to” rate. Stale rows retain their flag and sort
-  after other rows.
-- `bestPerUnit(rates)` returns the first row per unit after applying these rules
-  and skips units with only stale rows. It ranks the values reported in the
-  supplied rows. The API's `best_rates` can account for supported category
-  ceilings and other site rules.
-- `formatRate(row)` includes the native unit and labels “up to”, one-time bonus,
-  and stale rows when those fields apply. Check `payout_kind` to distinguish
-  gift card payouts when displaying a rate.
+  `rate_unit` in the order the units first appear. `compareRates` requires
+  matching units and kinds. TypeScript catches mismatched literals. At runtime
+  the comparator throws `CbysMixedUnitError` or `CbysMixedKindError` for
+  mismatched rows.
+- Stale rows sort last. Within a unit and kind, rows sort by confirmed category
+  value when supplied, or by the reported value otherwise. At equal values,
+  fixed rates come first, then higher advertised ceilings break remaining ties.
+  An “up to” value is an advertised maximum.
+- `bestPerUnit(rates)` takes the first row in each group and skips units with
+  only stale rows. The API's `best_rates` also reflects site ranking rules.
+- `formatRate(row)` includes the native unit and labels “up to”, one-time
+  bonus, gift card payout, and stale rows when those fields apply. When an
+  “up to” row has a confirmed category, the formatter shows both values
+  (for example, `up to 3.5 mi/$ · All Other Categories: 2.5 mi/$`).
 - `freshness(row, now?)` reports the row's stale flag, confirmation timestamp,
   and age in hours when available. The flag comes from the API. `data_as_of`
   describes the response as a whole. A missing per-row flag or timestamp
   yields `null` in the helper. The highs feed omits per-row freshness and
   “up to” flags.
-- `filterByProgram(rates, 'delta')` searches program, portal ID, and portal
-  name, ignoring case. Use the full `rates` list for a program check. An empty
-  result means the response contained no tracked listing for that program.
+- `filterByProgram(rates, 'delta')` checks exact program, portal ID, and
+  portal name in that order, ignoring case and normalizing to Unicode NFC.
+  It then tries known aliases (such as `aa` or `united`) and whole words.
+  Generic currency queries such as `miles`, `points`, and `cash` throw
+  `CbysAmbiguousProgramError`. For those, filter the rows by `rate_unit`.
+  Use the full `rates` list for a program check. An empty result means the
+  response contained no tracked listing for that program.
 
 ## Offline mode and examples
 

@@ -1,5 +1,5 @@
 import { fileURLToPath } from 'node:url';
-import { CbysClient, attributionFor, formatRate, groupRatesByUnit } from '@checkbeforeyoushop/sdk';
+import { CbysClient, CbysNotFoundError, attributionFor, formatRate, groupRatesByUnit } from '@checkbeforeyoushop/sdk';
 import { createFixtureFetch } from '@checkbeforeyoushop/sdk/node';
 
 const args = process.argv.slice(2);
@@ -24,9 +24,18 @@ const client = new CbysClient({
 });
 if (!live) console.log('Recorded snapshot from fixtures.');
 
-const match = await client.resolveStore(query);
-if (match.status === 'found') {
-  const envelope = await client.getStore(match.store.slug);
+async function showStore(store) {
+  let envelope;
+  try {
+    envelope = await client.getStore(store.slug);
+  } catch (error) {
+    if (!(error instanceof CbysNotFoundError)) throw error;
+    console.log(`Search found ${store.name} but its listings are unavailable.`);
+    console.log(`${store.slug} | ${store.page_url}`);
+    console.log('Search data from CheckBeforeYouShop.com.');
+    return;
+  }
+
   const { merchant, rates } = envelope.data;
   const credit = attributionFor(envelope, merchant);
   console.log(`\n${merchant.name} | ${credit.page_url}`);
@@ -34,12 +43,16 @@ if (match.status === 'found') {
   for (const [unit, rows] of groupRatesByUnit(rates)) {
     console.log(`\n${unit}`);
     for (const row of rows) {
-      const payout = row.payout_kind === 'gift_card' ? ' (gift card payout)' : '';
       const listing = row.listing_label ? ` / ${row.listing_label}` : '';
-      console.log(`${row.portal_name}${listing} | ${row.program} | ${formatRate(row)}${payout} | confirmed ${row.last_confirmed_at}`);
+      console.log(`${row.portal_name}${listing} | ${row.program} | ${formatRate(row)} | confirmed ${row.last_confirmed_at}`);
     }
   }
   console.log(`\n${credit.attribution}\n${credit.disclosure}`);
+}
+
+const match = await client.resolveStore(query);
+if (match.status === 'found') {
+  await showStore(match.store);
 } else {
   console.log(match.status === 'ambiguous'
     ? 'Choose a store slug from these matches.'

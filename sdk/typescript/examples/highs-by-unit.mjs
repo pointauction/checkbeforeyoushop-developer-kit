@@ -20,8 +20,7 @@ for (const [unit, rows] of groupRatesByUnit(envelope.data.highs)) {
   console.log(`\n${unit} | showing up to three reported values`);
   for (const row of rows.slice(0, 3)) {
     const { page_url } = attributionFor(envelope, row);
-    const payout = row.payout_kind === 'gift_card' ? ' (gift card payout)' : '';
-    console.log(`${row.merchant_name} | ${row.portal_name} / ${row.program} | ${formatRate(row)}${payout} | ${page_url}`);
+    console.log(`${row.merchant_name} | ${row.portal_name} / ${row.program} | ${formatRate(row)} | ${page_url}`);
   }
 }
 console.log(`\n${envelope.attribution}\n${envelope.disclosure}`);

@@ -1,4 +1,8 @@
 import assert from 'node:assert/strict';
+import { execFileSync } from 'node:child_process';
+import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { test } from 'node:test';
 import { fileURLToPath } from 'node:url';
 import {
@@ -397,7 +401,8 @@ for (const [slug, expectedUnits] of Object.entries(unitSets)) {
     for (const [unit, rows] of grouped) {
       assert.ok(rows.every((row) => row.rate_unit === unit));
       assert.equal(best.get(unit), rows[0]);
-      for (let i = 1; i < rows.length; i++) assert.ok(rows[i - 1].rate_value >= rows[i].rate_value);
+      const values = rows.map((row) => row.best_category_value ?? row.rate_value);
+      assert.deepEqual(values, [...values].sort((a, b) => b - a));
     }
     assert.deepEqual(rates, before);
     if (slug === 'square') {
@@ -450,4 +455,176 @@ test('program filtering finds Delta by program, portal name or id', async () => 
     assert.deepEqual(filterByProgram(rates, q), expected);
   }
   assert.deepEqual(filterByProgram(rates, 'unknown-zzq'), []);
+});
+
+test('program aliases match the intended portal and never match inside a token', async () => {
+  const { data: { rates } } = await client.getStore('nike');
+  for (const [query, id] of [
+    ['aa', 'aa-eshopping'],
+    ['american', 'aa-eshopping'],
+    ['aadvantage', 'aa-eshopping'],
+    ['delta', 'delta-skymiles'],
+    ['united', 'united-mileageplus'],
+    ['mileageplus', 'united-mileageplus'],
+    ['flying blue', 'flyingblue-shopping'],
+  ]) {
+    const expected = rates.filter((row) => row.portal_id === id);
+    assert.ok(expected.length);
+    assert.deepEqual(filterByProgram(rates, query), expected);
+  }
+  assert.ok(rates.some((row) => row.portal_id === 'usaa-membershop'));
+  assert.deepEqual(filterByProgram(rates, 'member'), []);
+});
+
+test('generic currency queries tell callers to filter by rate_unit', async () => {
+  const { data: { rates } } = await client.getStore('nike');
+  for (const query of [' miles ', 'POINTS', 'cash', 'Cashback']) {
+    assert.throws(() => filterByProgram(rates, query), {
+      name: 'CbysAmbiguousProgramError',
+      message: /filter by rate_unit/i,
+    });
+  }
+});
+
+test('exact program, ID, and name matches take precedence over whole-token matches', () => {
+  const token = { program: 'Loyalty Gold Rewards', portal_id: 'gold-rewards', portal_name: 'Gold Shopping' };
+  const name = { program: 'Other Rewards', portal_id: 'other', portal_name: 'Gold' };
+  const id = { program: 'Store Rewards', portal_id: 'gold', portal_name: 'Store' };
+  const program = { program: 'Gold', portal_id: 'shop', portal_name: 'Shop' };
+
+  assert.deepEqual(filterByProgram([token, name, id, program], 'gold'), [program]);
+  assert.deepEqual(filterByProgram([token, name, id], 'gold'), [id]);
+  assert.deepEqual(filterByProgram([token, name], 'gold'), [name]);
+  assert.deepEqual(filterByProgram([token], 'gold rewards'), [token]);
+});
+
+test('Macys.com shows Delta’s confirmed category and ranks United ahead of it', async () => {
+  const { data: { rates } } = await client.getStore('macys-com');
+  const [delta] = filterByProgram(rates, 'delta');
+  const [united] = filterByProgram(rates, 'united');
+  assert.equal(formatRate(delta), 'up to 3.5 mi/$ · All Other Categories: 2.5 mi/$');
+  assert.deepEqual(groupRatesByUnit([delta, united]).get('miles_per_dollar'), [united, delta]);
+  assert.equal(bestPerUnit([delta, united]).get('miles_per_dollar'), united);
+
+  const plain = { ...united, rate_value: 2.5, is_up_to: false };
+  const higherCeiling = { ...delta, rate_value: 4 };
+  assert.deepEqual(
+    groupRatesByUnit([delta, higherCeiling, plain]).get('miles_per_dollar'),
+    [plain, higherCeiling, delta],
+  );
+  assert.equal(formatRate({ ...delta, best_category_label: null, best_category_value: 0 }),
+    'up to 3.5 mi/$ · Confirmed category: 0 mi/$');
+});
+
+for (const retries of [0, 1]) {
+  test(`terminal 429 exposes the final Retry-After with retries set to ${retries}`, async () => {
+    let calls = 0;
+    const mocked = new CbysClient({
+      retries,
+      fetch: async () => jsonResponse({ error: 'slow down' }, {
+        status: 429,
+        headers: { 'Retry-After': calls++ < retries ? '0' : '12' },
+      }),
+    });
+    await assert.rejects(mocked.getHighs(), (error) =>
+      error instanceof CbysHttpError && error.status === 429 &&
+      error.message === 'slow down' && error.retryAfterSeconds === 12);
+    assert.equal(calls, retries + 1);
+  });
+}
+
+test('resolveStore uses NFC for both inputs and exact slug, name, and domain matches', async () => {
+  const hit = merchantHit('cafe\u0301-shop', 'Cafe\u0301 Shop', 'cafe\u0301.example');
+  const mocked = new CbysClient({ fetch: async (url) => {
+    const q = new URL(url).searchParams.get('q');
+    assert.equal(q, q.normalize('NFC'));
+    return searchFixture(hit);
+  } });
+  for (const [query, matchedBy] of [
+    [' CAFE\u0301-SHOP ', 'slug'],
+    [' CAFÉ SHOP ', 'name'],
+    [' cafe\u0301.example ', 'domain'],
+  ]) {
+    assert.deepEqual(await mocked.resolveStore(query), { status: 'found', store: hit, matchedBy, portalHits: [] });
+  }
+});
+
+test('resource lookups normalize slug and portal ID before encoding', async () => {
+  const paths = [];
+  const mocked = new CbysClient({ fetch: async (url) => {
+    paths.push(new URL(url).pathname);
+    return jsonResponse(envelope({}));
+  } });
+  await mocked.getStore(' cafe\u0301-shop ');
+  await mocked.getPortal(' re\u0301wards ');
+  assert.deepEqual(paths, ['/api/v1/merchants/caf%C3%A9-shop.json', '/api/v1/portals/r%C3%A9wards.json']);
+});
+
+test('program matching uses NFC on both sides', () => {
+  const row = { program: 'Cafe\u0301 Awards', portal_id: 'orbit', portal_name: 'Orbit Shopping' };
+  assert.deepEqual(filterByProgram([row], ' CAFÉ AWARDS '), [row]);
+  assert.deepEqual(filterByProgram([{ ...row, program: 'Café Awards' }], 'CAFE\u0301 AWARDS'),
+    [{ ...row, program: 'Café Awards' }]);
+});
+
+test('store lookup reports a search hit whose listings return 404', async (t) => {
+  const dir = await mkdtemp(join(tmpdir(), 'cbys-sdk-test-'));
+  t.after(() => rm(dir, { recursive: true, force: true }));
+  const requests = {
+    '/api/v1/search.json?q=apple': { file: 'search.json', status: 200 },
+    '/api/v1/merchants/apple.json': {
+      file: 'missing.json', status: 404, _synthetic_note: 'Force a 404 after an exact Apple search hit',
+    },
+  };
+  await Promise.all([
+    writeFile(join(dir, 'manifest.json'), JSON.stringify({ requests })),
+    writeFile(join(dir, 'search.json'), await readFile(join(fixtureDir, 'search/apple.json'))),
+    writeFile(join(dir, 'missing.json'), await readFile(join(fixtureDir, 'merchants/does-not-exist-zzq.json'))),
+  ]);
+  const output = execFileSync(process.execPath, [
+    fileURLToPath(new URL('../examples/store-lookup.mjs', import.meta.url)), 'Apple',
+  ], { env: { ...process.env, CBYS_FIXTURES_DIR: dir }, encoding: 'utf8' });
+  assert.match(output, /Search found Apple but its listings are unavailable/i);
+  assert.match(output, /^apple \| https:\/\/checkbeforeyoushop\.com\/m\/apple$/m);
+});
+
+test('formatRate labels a gift card payout, and the store example labels it once', async () => {
+  const { data: { rates } } = await client.getStore('nike');
+  const [giftCard] = filterByProgram(rates, 'capitalone-shopping');
+  assert.equal(formatRate(giftCard), '2% (gift card payout)');
+  const output = execFileSync(process.execPath, [
+    fileURLToPath(new URL('../examples/store-lookup.mjs', import.meta.url)), 'nike',
+  ], { env: { ...process.env, CBYS_FIXTURES_DIR: fixtureDir }, encoding: 'utf8' });
+  const line = output.split('\n').find((text) => text.includes('Capital One Shopping'));
+  assert.equal(line?.match(/gift card payout/g)?.length, 1);
+});
+
+test('README and public type declarations give the limits of upstream summary and verdict prose', async () => {
+  const [readme, types] = await Promise.all([
+    readFile(new URL('../README.md', import.meta.url), 'utf8'),
+    readFile(new URL('../dist/types.d.ts', import.meta.url), 'utf8'),
+  ]);
+  for (const doc of [readme, types]) {
+    assert.match(doc, /upstream prose/i);
+    assert.match(doc, /across units/i);
+    assert.match(doc, /per-unit rows/i);
+    assert.match(doc, /preserve .*verdict\.caveats/i);
+  }
+});
+
+test('SDK includes a copy of the root MIT license in the package manifest', async () => {
+  const [root, copy, manifest] = await Promise.all([
+    readFile(new URL('../../../LICENSE', import.meta.url), 'utf8'),
+    readFile(new URL('../LICENSE', import.meta.url), 'utf8'),
+    readFile(new URL('../package.json', import.meta.url), 'utf8'),
+  ]);
+  assert.match(copy, /MIT License/);
+  assert.equal(copy, root);
+  assert.ok(JSON.parse(manifest).files.includes('LICENSE'));
+});
+
+test('README clone instructions cover the buildout branch and the default branch after merge', async () => {
+  const readme = await readFile(new URL('../README.md', import.meta.url), 'utf8');
+  assert.match(readme, /^git clone --branch feat\/ecosystem-buildout /m);
+  assert.match(readme, /merged[\s\S]*?default branch/i);
 });

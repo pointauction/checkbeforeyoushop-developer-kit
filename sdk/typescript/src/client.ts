@@ -7,6 +7,7 @@ import {
   CbysNotFoundError,
   CbysTimeoutError,
 } from './errors.js';
+import { normalizeLookupInput, normalizeLookupKey } from './normalize.js';
 import type {
   Envelope,
   HighsData,
@@ -63,7 +64,7 @@ export class CbysClient {
   }
 
   async search(q: string): Promise<Envelope<SearchData>> {
-    const query = q.trim();
+    const query = normalizeLookupInput(q);
     const url = this.#url('/search.json');
     url.searchParams.set('q', query);
     if (query.length < 2) {
@@ -89,7 +90,7 @@ export class CbysClient {
   }
 
   async resolveStore(query: string): Promise<ResolveStoreResult> {
-    const key = query.trim().toLowerCase();
+    const key = normalizeLookupKey(query);
     let search: Envelope<SearchData>;
     try {
       search = await this.search(query);
@@ -107,11 +108,13 @@ export class CbysClient {
     const portalHits = results.filter((hit) => hit.kind === 'portal');
 
     // The search endpoint ranks names and domains, and may omit a valid slug.
-    const slugMatch = merchants.find((hit) => hit.slug.toLowerCase() === key) ?? await this.#probeSlug(key);
+    const slugMatch = merchants.find((hit) => normalizeLookupKey(hit.slug) === key) ?? await this.#probeSlug(key);
     if (slugMatch) return { status: 'found', store: slugMatch, matchedBy: 'slug', portalHits };
 
-    const names = merchants.filter((hit) => hit.name.toLowerCase() === key);
-    const exact = names.length ? names : merchants.filter((hit) => hit.domain?.toLowerCase() === key);
+    const names = merchants.filter((hit) => normalizeLookupKey(hit.name) === key);
+    const exact = names.length
+      ? names
+      : merchants.filter((hit) => normalizeLookupKey(hit.domain ?? '') === key);
     const [first] = exact;
     if (exact.length === 1 && first) {
       return { status: 'found', store: first, matchedBy: names.length ? 'name' : 'domain', portalHits };
@@ -126,7 +129,7 @@ export class CbysClient {
     if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) return undefined;
     try {
       const { data: { merchant } } = await this.getStore(slug);
-      if (merchant.slug.toLowerCase() !== slug) return undefined;
+      if (normalizeLookupKey(merchant.slug) !== slug) return undefined;
       return {
         kind: 'merchant',
         slug: merchant.slug,
@@ -149,7 +152,7 @@ export class CbysClient {
   }
 
   #resourceUrl(resource: 'merchants' | 'portals', id: string): URL {
-    const key = id.trim();
+    const key = normalizeLookupInput(id);
     const url = this.#url(`/${resource}/${encodeURIComponent(key)}.json`);
     if (!key) throw new CbysBadRequestError(`Missing ${resource === 'merchants' ? 'merchant slug' : 'portal id'}`, url.href);
     return url;
@@ -169,7 +172,8 @@ export class CbysClient {
 
       const { response, body } = result;
       if (canRetry && isRetryStatus(response.status)) {
-        await wait(Math.max(backoffMs(attempt), retryAfterMs(response.headers.get('Retry-After'))));
+        const retryDelayMs = retryAfterMs(response.headers.get('Retry-After')) ?? 0;
+        await wait(Math.max(backoffMs(attempt), retryDelayMs));
         continue;
       }
 
@@ -259,7 +263,9 @@ function parseResponse(response: Response, body: string, url: string): unknown {
     : `HTTP ${response.status}${response.statusText ? ` ${response.statusText}` : ''}`;
   if (response.status === 400) throw new CbysBadRequestError(message, url);
   if (response.status === 404) throw new CbysNotFoundError(message, url);
-  throw new CbysHttpError(response.status, message, url);
+  const retryDelayMs = response.status === 429 ? retryAfterMs(response.headers.get('Retry-After')) : undefined;
+  const retryAfterSeconds = retryDelayMs === undefined ? undefined : Math.ceil(retryDelayMs / 1_000);
+  throw new CbysHttpError(response.status, message, url, { retryAfterSeconds });
 }
 
 function isRetryStatus(status: number): boolean {
@@ -271,14 +277,14 @@ function backoffMs(attempt: number): number {
   return window * (0.5 + 0.5 * Math.random());
 }
 
-function retryAfterMs(value: string | null): number {
-  if (value === null) return 0;
+function retryAfterMs(value: string | null): number | undefined {
+  if (value === null) return undefined;
   if (/^\d+$/.test(value)) {
     const ms = Number(value) * 1_000;
-    return Number.isSafeInteger(ms) ? ms : 0;
+    return Number.isSafeInteger(ms) ? ms : undefined;
   }
   const date = Date.parse(value);
-  return Number.isFinite(date) ? Math.max(0, date - Date.now()) : 0;
+  return Number.isFinite(date) ? Math.max(0, date - Date.now()) : undefined;
 }
 
 async function wait(ms: number): Promise<void> {

@@ -95,15 +95,23 @@ export interface Store {
 }
 
 export interface Verdict {
+  /** Upstream prose that can single out one program across units. */
   headline: string;
   tone: 'ath' | 'high' | 'good' | 'typical' | 'low' | 'young';
+  /** Keep these qualifications with the headline when displaying the verdict. */
   caveats: string[];
 }
 
 export interface StoreData {
   merchant: Store;
+  /** Upstream prose that can single out one program across units. Use per-unit rows for comparisons. */
   summary: string;
+  /**
+   * Upstream prose that can single out one program across units.
+   * Use per-unit rows for comparisons and preserve all verdict.caveats when displaying it.
+   */
   verdict: Verdict | null;
+  /** The API's per-unit leaders. */
   best_rates: BestStoreRate[];
   rates: StoreRate[];
 }

@@ -1,6 +1,7 @@
 import { readFile } from 'node:fs/promises';
 import { resolve, sep } from 'node:path';
 import { CbysError, CbysFixtureMissingError } from './errors.js';
+import { normalizeLookupKey } from './normalize.js';
 
 export { CbysFixtureMissingError };
 
@@ -22,7 +23,7 @@ export function createFixtureFetch(dir = process.env.CBYS_FIXTURES_DIR) {
     const url = new URL(input);
     const query = url.searchParams.get('q') ?? '';
     const key = url.pathname === '/api/v1/search.json'
-      ? `${url.pathname}?q=${query.trim().toLowerCase()}`
+      ? `${url.pathname}?q=${normalizeLookupKey(query)}`
       : url.pathname;
     if (init?.method && init.method.toUpperCase() !== 'GET') {
       throw new CbysFixtureMissingError(`${init.method} ${key}`);

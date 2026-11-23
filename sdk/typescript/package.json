@@ -18,11 +18,11 @@
       "node": "./dist/node.js"
     }
   },
-  "files": ["dist"],
+  "files": ["dist", "LICENSE"],
   "scripts": {
     "build": "tsc",
     "test": "npm run build && node --test test/sdk.test.mjs",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit -p tsconfig.typecheck.json"
   },
   "devDependencies": {
     "typescript": "~5.9.3"

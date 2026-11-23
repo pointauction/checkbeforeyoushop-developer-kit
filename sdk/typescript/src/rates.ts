@@ -1,10 +1,12 @@
-import { CbysMixedKindError, CbysMixedUnitError } from './errors.js';
-import type { Envelope, RateKind, RateUnit } from './types.js';
+import { CbysAmbiguousProgramError, CbysMixedKindError, CbysMixedUnitError } from './errors.js';
+import { normalizeLookupKey } from './normalize.js';
+import type { Envelope, PayoutKind, RateKind, RateUnit } from './types.js';
 
-export interface ComparableRate {
-  rate_unit: string;
-  rate_kind: RateKind;
+export interface ComparableRate<Unit extends string = string, Kind extends RateKind = RateKind> {
+  rate_unit: Unit;
+  rate_kind: Kind;
   rate_value: number;
+  best_category_value?: number | null;
   is_up_to?: boolean;
   is_stale?: boolean;
 }
@@ -15,8 +17,10 @@ type FreshnessFields = {
   last_confirmed_at?: string | null;
 };
 type ProgramFields = { program: string; portal_id: string; portal_name: string };
-type DisplayRate = Pick<ComparableRate, 'rate_unit' | 'rate_kind' | 'is_up_to' | 'is_stale'> & {
+type DisplayRate = Omit<ComparableRate, 'rate_value'> & {
   rate_display: string;
+  best_category_label?: string | null;
+  payout_kind?: PayoutKind;
 };
 
 const DISPLAY_UNIT: Record<RateUnit, RegExp> = {
@@ -29,8 +33,15 @@ const DISPLAY_UNIT: Record<RateUnit, RegExp> = {
   flat_miles: / miles?$/,
 };
 
-/** Comparator for rows in the same unit and rate kind. */
-export function compareRates(a: ComparableRate, b: ComparableRate): number {
+/**
+ * Compares rows in the same unit and kind. Sorts stale rows last, then higher
+ * confirmed category values (or the reported values when absent) first.
+ * For equal values, fixed rates come first, then higher advertised ceilings.
+ */
+export function compareRates<Unit extends string, Kind extends RateKind>(
+  a: ComparableRate<Unit, Kind>,
+  b: ComparableRate<NoInfer<Unit>, NoInfer<Kind>>,
+): number {
   if (a.rate_unit !== b.rate_unit) {
     throw new CbysMixedUnitError(a.rate_unit, b.rate_unit);
   }
@@ -39,8 +50,9 @@ export function compareRates(a: ComparableRate, b: ComparableRate): number {
   }
   return (
     Number(a.is_stale === true) - Number(b.is_stale === true) ||
-    b.rate_value - a.rate_value ||
-    Number(a.is_up_to === true) - Number(b.is_up_to === true)
+    (b.best_category_value ?? b.rate_value) - (a.best_category_value ?? a.rate_value) ||
+    Number(a.is_up_to === true) - Number(b.is_up_to === true) ||
+    b.rate_value - a.rate_value
   );
 }
 
@@ -65,11 +77,44 @@ export function bestPerUnit<T extends ComparableRate>(rates: readonly T[]): Map<
   return best;
 }
 
+const CURRENCY_TERMS = new Set(['mile', 'miles', 'airline miles', 'point', 'points', 'cash', 'cashback', 'cash back']);
+
+const PROGRAM_ALIASES = new Map([
+  ['aa', 'aa-eshopping'],
+  ['american', 'aa-eshopping'],
+  ['american airlines', 'aa-eshopping'],
+  ['aadvantage', 'aa-eshopping'],
+  ['delta', 'delta-skymiles'],
+  ['united', 'united-mileageplus'],
+  ['mileageplus', 'united-mileageplus'],
+]);
+
+function programTokens(value: string): string {
+  return value.match(/[\p{L}\p{M}\p{N}]+/gu)?.join(' ') ?? '';
+}
+
+/**
+ * Finds exact program, portal ID, or portal name matches in that order.
+ * Falls back to known aliases and contiguous whole tokens.
+ * @throws {CbysAmbiguousProgramError} For a generic currency query.
+ */
 export function filterByProgram<T extends ProgramFields>(rates: readonly T[], program: string): T[] {
-  const query = program.trim().toLowerCase();
-  if (!query) return [];
-  return rates.filter((row) => [row.program, row.portal_id, row.portal_name]
-    .some((value) => value.toLowerCase().includes(query)));
+  const query = normalizeLookupKey(program);
+  const tokens = programTokens(query);
+  if (!tokens) return [];
+  if (CURRENCY_TERMS.has(tokens)) throw new CbysAmbiguousProgramError(query);
+
+  const fields = ['program', 'portal_id', 'portal_name'] as const;
+  for (const field of fields) {
+    const matches = rates.filter((row) => normalizeLookupKey(row[field]) === query);
+    if (matches.length) return matches;
+  }
+
+  const portalId = PROGRAM_ALIASES.get(tokens);
+  if (portalId) return rates.filter((row) => normalizeLookupKey(row.portal_id) === portalId);
+
+  const phrase = ` ${tokens} `;
+  return rates.filter((row) => fields.some((field) => ` ${programTokens(normalizeLookupKey(row[field]))} `.includes(phrase)));
 }
 
 export interface RateFreshness {
@@ -88,6 +133,19 @@ export function freshness(row: FreshnessFields, now: Date | number = Date.now())
   };
 }
 
+function formatCategoryValue(value: number, unit: string): string {
+  switch (unit) {
+    case 'pct_cash': return `${value}%`;
+    case 'miles_per_dollar': return `${value} mi/$`;
+    case 'points_per_dollar': return `${value} ${value === 1 ? 'pt' : 'pts'}/$`;
+    case 'cents_per_gallon': return `${value}¢/gal`;
+    case 'flat_cash': return `$${value}`;
+    case 'flat_points': return `${value.toLocaleString('en-US')} ${value === 1 ? 'pt' : 'pts'}`;
+    case 'flat_miles': return `${value.toLocaleString('en-US')} ${value === 1 ? 'mile' : 'miles'}`;
+    default: return `${value} (${unit})`;
+  }
+}
+
 export function formatRate(row: DisplayRate): string {
   const unitPattern = Object.hasOwn(DISPLAY_UNIT, row.rate_unit)
     ? DISPLAY_UNIT[row.rate_unit as RateUnit]
@@ -97,8 +155,13 @@ export function formatRate(row: DisplayRate): string {
     : `${row.rate_display} (${row.rate_unit})`;
   const qualifier = row.is_up_to ? 'up to ' : '';
   const bonus = row.rate_kind === 'one_time_bonus' ? ' (one-time bonus)' : '';
+  const payout = row.payout_kind === 'gift_card' ? ' (gift card payout)' : '';
   const stale = row.is_stale ? ' [stale]' : '';
-  return `${qualifier}${display}${bonus}${stale}`;
+  const categoryLabel = row.best_category_label?.trim() || 'Confirmed category';
+  const category = row.is_up_to && row.best_category_value != null
+    ? ` · ${categoryLabel}: ${formatCategoryValue(row.best_category_value, row.rate_unit)}`
+    : '';
+  return `${qualifier}${display}${category}${bonus}${payout}${stale}`;
 }
 
 export function attributionFor(envelope: Envelope<unknown>, store: { page_url: string }) {
