@@ -1,0 +1,1 @@
+{"answer": "The CheckBeforeYouShop portal directory lists **47 registered entries**, of which **44 are active** with a recorded check, as of the November 22, 2026 snapshot.", "tool_calls": [{"tool": "list_portals", "args": {}}], "model": "gpt-6.2-sol", "runner": "sol-1"}

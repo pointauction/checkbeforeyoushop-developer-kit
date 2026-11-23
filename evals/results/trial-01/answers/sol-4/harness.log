@@ -1,0 +1,11 @@
+2026-11-22T23:48:55Z	get_store_rates	{"store":"Daily Harvest","program":"USAA MemberShop"}
+2026-11-22T23:48:55Z	get_store_rates	{"store":"Synthetic Studio"}
+2026-11-22T23:48:55Z	get_store_rates	{"store":"Synthetic Outdoor","program":"Delta","include_stale":true}
+2026-11-22T23:48:55Z	search_stores	{"query":"american"}
+2026-11-22T23:48:55Z	search_stores	{"query":"zzqxnotastore"}
+2026-11-22T23:48:55Z	get_store_rates	{"store":"Nike","program":"TopCashback"}
+2026-11-22T23:48:55Z	get_store_rates	{"store":"Nike"}
+2026-11-22T23:48:55Z	get_portal	{"portal":"Synthetic Rewards"}
+2026-11-22T23:48:55Z	get_store_rates	{"store":"Synthetic Books","program":"Rakuten"}
+2026-11-22T23:48:55Z	get_highs	{"unit":"miles_per_dollar","limit":1}
+2026-11-22T23:49:04Z	get_store_rates	{"store":"daily-harvest","program":"USAA MemberShop"}

@@ -1,0 +1,13 @@
+{
+  "answer": "[CheckBeforeYouShop’s Nike comparison](https://checkbeforeyoushop.com/m/nike) showed **1 Delta mile per dollar** through [Delta SkyMiles Shopping (affiliate link)](https://checkbeforeyoushop.com/go/delta-skymiles?plc=api&m=2f5f8858-4f9d-4afa-af1c-cbeda29147be) and **10% cashback** through [TopCashback (affiliate link)](https://checkbeforeyoushop.com/go/topcashback?plc=api&m=2f5f8858-4f9d-4afa-af1c-cbeda29147be), the leading cash listing, on November 22, 2026. CheckBeforeYouShop keeps miles and cash in their original units and doesn’t rank a winner across them. Your 1.5¢ figure is a personal redemption value.\n\nRates are read from each portal's pages and can change or go stale, so always confirm on the portal before shopping. Some portal links may earn us a referral bonus; that never changes the rates or their order.",
+  "tool_calls": [
+    {
+      "tool": "get_store_rates",
+      "args": {
+        "store": "nike"
+      }
+    }
+  ],
+  "model": "gpt-6.2-astra",
+  "runner": "astra-1"
+}

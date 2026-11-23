@@ -1,0 +1,14 @@
+{
+  "answer": "I’d pick [TopCashback (affiliate link)](https://checkbeforeyoushop.com/go/topcashback?plc=api&m=da21e955-518c-553f-9a07-56925d6b4862) for its **flat 8% cashback** on eligible purchases. [Rakuten (affiliate link)](https://checkbeforeyoushop.com/go/rakuten?plc=api&m=da21e955-518c-553f-9a07-56925d6b4862) listed **up to 8%**, so it could match TopCashback or pay less. [CheckBeforeYouShop’s Synthetic Kitchen comparison](https://checkbeforeyoushop.com/m/synthetic-kitchen) last confirmed both on November 22, 2026 at 13:00 UTC.\n\nRates are read from each portal's pages and can change or go stale, so always confirm on the portal before shopping. Some portal links may earn us a referral bonus; that never changes the rates or their order.",
+  "tool_calls": [
+    {
+      "tool": "get_store_rates",
+      "args": {
+        "store": "synthetic-kitchen",
+        "unit": "pct_cash"
+      }
+    }
+  ],
+  "model": "gpt-6.2-astra",
+  "runner": "astra-1"
+}

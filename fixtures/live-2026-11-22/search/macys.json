@@ -1,0 +1,85 @@
+{
+  "data": {
+    "query": "macys",
+    "count": 9,
+    "results": [
+      {
+        "kind": "merchant",
+        "slug": "macys-com",
+        "name": "Macys.com",
+        "domain": "macys.com",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/macys-com"
+      },
+      {
+        "kind": "merchant",
+        "slug": "toys-r-us-by-macy-s",
+        "name": "Toys R Us by Macy's",
+        "domain": "macys.com",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/toys-r-us-by-macy-s"
+      },
+      {
+        "kind": "merchant",
+        "slug": "macy-s-canada",
+        "name": "Macy's Canada",
+        "domain": "macys.com",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/macy-s-canada"
+      },
+      {
+        "kind": "merchant",
+        "slug": "macy-s-au-apac",
+        "name": "Macy's AU/APAC",
+        "domain": "macys.com",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/macy-s-au-apac"
+      },
+      {
+        "kind": "merchant",
+        "slug": "macy-s-wine-shop",
+        "name": "Macy's Wine Shop",
+        "domain": null,
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/macy-s-wine-shop"
+      },
+      {
+        "kind": "merchant",
+        "slug": "macy-s-us",
+        "name": "Macy's US",
+        "domain": null,
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/macy-s-us"
+      },
+      {
+        "kind": "merchant",
+        "slug": "macy-s-au-asia-pacific",
+        "name": "Macy's AU/Asia Pacific",
+        "domain": null,
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/macy-s-au-asia-pacific"
+      },
+      {
+        "kind": "merchant",
+        "slug": "macyswineshop",
+        "name": "Macyswineshop",
+        "domain": null,
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/macyswineshop"
+      },
+      {
+        "kind": "merchant",
+        "slug": "toys-r-us-at-macy-s",
+        "name": "Toys R Us at Macy's",
+        "domain": null,
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/toys-r-us-at-macy-s"
+      }
+    ],
+    "did_you_mean": false
+  },
+  "data_as_of": null,
+  "source": "CheckBeforeYouShop",
+  "attribution": "Data from CheckBeforeYouShop (checkbeforeyoushop.com), free to use with attribution and a link to each item's page_url.",
+  "disclosure": "Rates are read from each portal's pages and can change or go stale, so always confirm on the portal before shopping. Some portal links may earn us a referral bonus; that never changes the rates or their order."
+}

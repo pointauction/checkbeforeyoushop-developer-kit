@@ -1,0 +1,1778 @@
+{
+  "schema_version": 2,
+  "complete": true,
+  "distinct_cases": 42,
+  "missing_attempts": [],
+  "deterministic": {
+    "overall": {
+      "passed": 81,
+      "failed": 3,
+      "needs_review": 0,
+      "missing": 0,
+      "pending": 0,
+      "total": 84,
+      "pass_rate": 0.9643
+    },
+    "by_tag": {
+      "ambiguous_name": {
+        "passed": 10,
+        "failed": 0,
+        "needs_review": 0,
+        "missing": 0,
+        "pending": 0,
+        "total": 10,
+        "pass_rate": 1.0
+      },
+      "attribution": {
+        "passed": 14,
+        "failed": 0,
+        "needs_review": 0,
+        "missing": 0,
+        "pending": 0,
+        "total": 14,
+        "pass_rate": 1.0
+      },
+      "bonus_vs_earn": {
+        "passed": 17,
+        "failed": 1,
+        "needs_review": 0,
+        "missing": 0,
+        "pending": 0,
+        "total": 18,
+        "pass_rate": 0.9444
+      },
+      "go_url_safety": {
+        "passed": 4,
+        "failed": 0,
+        "needs_review": 0,
+        "missing": 0,
+        "pending": 0,
+        "total": 4,
+        "pass_rate": 1.0
+      },
+      "highs": {
+        "passed": 10,
+        "failed": 0,
+        "needs_review": 0,
+        "missing": 0,
+        "pending": 0,
+        "total": 10,
+        "pass_rate": 1.0
+      },
+      "missing_merchant": {
+        "passed": 2,
+        "failed": 0,
+        "needs_review": 0,
+        "missing": 0,
+        "pending": 0,
+        "total": 2,
+        "pass_rate": 1.0
+      },
+      "missing_program": {
+        "passed": 4,
+        "failed": 0,
+        "needs_review": 0,
+        "missing": 0,
+        "pending": 0,
+        "total": 4,
+        "pass_rate": 1.0
+      },
+      "portal_profile": {
+        "passed": 8,
+        "failed": 0,
+        "needs_review": 0,
+        "missing": 0,
+        "pending": 0,
+        "total": 8,
+        "pass_rate": 1.0
+      },
+      "program_filter": {
+        "passed": 18,
+        "failed": 2,
+        "needs_review": 0,
+        "missing": 0,
+        "pending": 0,
+        "total": 20,
+        "pass_rate": 0.9
+      },
+      "stale": {
+        "passed": 8,
+        "failed": 0,
+        "needs_review": 0,
+        "missing": 0,
+        "pending": 0,
+        "total": 8,
+        "pass_rate": 1.0
+      },
+      "unit_conflation": {
+        "passed": 17,
+        "failed": 3,
+        "needs_review": 0,
+        "missing": 0,
+        "pending": 0,
+        "total": 20,
+        "pass_rate": 0.85
+      },
+      "up_to": {
+        "passed": 13,
+        "failed": 1,
+        "needs_review": 0,
+        "missing": 0,
+        "pending": 0,
+        "total": 14,
+        "pass_rate": 0.9286
+      },
+      "valuation_bait": {
+        "passed": 2,
+        "failed": 2,
+        "needs_review": 0,
+        "missing": 0,
+        "pending": 0,
+        "total": 4,
+        "pass_rate": 0.5
+      }
+    },
+    "strict_passed": 79,
+    "unit_conflation_errors": 1,
+    "by_model": {
+      "gpt-6.2-astra": {
+        "passed": 39,
+        "failed": 3,
+        "needs_review": 0,
+        "missing": 0,
+        "pending": 0,
+        "total": 42,
+        "pass_rate": 0.9286
+      },
+      "gpt-6.2-sol": {
+        "passed": 42,
+        "failed": 0,
+        "needs_review": 0,
+        "missing": 0,
+        "pending": 0,
+        "total": 42,
+        "pass_rate": 1.0
+      }
+    },
+    "by_runner": {
+      "astra-1": {
+        "passed": 10,
+        "failed": 1,
+        "needs_review": 0,
+        "missing": 0,
+        "pending": 0,
+        "total": 11,
+        "pass_rate": 0.9091
+      },
+      "astra-2": {
+        "passed": 10,
+        "failed": 1,
+        "needs_review": 0,
+        "missing": 0,
+        "pending": 0,
+        "total": 11,
+        "pass_rate": 0.9091
+      },
+      "astra-3": {
+        "passed": 10,
+        "failed": 0,
+        "needs_review": 0,
+        "missing": 0,
+        "pending": 0,
+        "total": 10,
+        "pass_rate": 1.0
+      },
+      "astra-4": {
+        "passed": 9,
+        "failed": 1,
+        "needs_review": 0,
+        "missing": 0,
+        "pending": 0,
+        "total": 10,
+        "pass_rate": 0.9
+      },
+      "sol-1": {
+        "passed": 11,
+        "failed": 0,
+        "needs_review": 0,
+        "missing": 0,
+        "pending": 0,
+        "total": 11,
+        "pass_rate": 1.0
+      },
+      "sol-2": {
+        "passed": 11,
+        "failed": 0,
+        "needs_review": 0,
+        "missing": 0,
+        "pending": 0,
+        "total": 11,
+        "pass_rate": 1.0
+      },
+      "sol-3": {
+        "passed": 10,
+        "failed": 0,
+        "needs_review": 0,
+        "missing": 0,
+        "pending": 0,
+        "total": 10,
+        "pass_rate": 1.0
+      },
+      "sol-4": {
+        "passed": 10,
+        "failed": 0,
+        "needs_review": 0,
+        "missing": 0,
+        "pending": 0,
+        "total": 10,
+        "pass_rate": 1.0
+      }
+    }
+  },
+  "adjudicated": {
+    "overall": {
+      "passed": 0,
+      "failed": 0,
+      "needs_review": 0,
+      "missing": 0,
+      "pending": 84,
+      "total": 84,
+      "pass_rate": 0.0
+    },
+    "by_model": {
+      "gpt-6.2-astra": {
+        "passed": 0,
+        "failed": 0,
+        "needs_review": 0,
+        "missing": 0,
+        "pending": 42,
+        "total": 42,
+        "pass_rate": 0.0
+      },
+      "gpt-6.2-sol": {
+        "passed": 0,
+        "failed": 0,
+        "needs_review": 0,
+        "missing": 0,
+        "pending": 42,
+        "total": 42,
+        "pass_rate": 0.0
+      }
+    },
+    "by_runner": {
+      "astra-1": {
+        "passed": 0,
+        "failed": 0,
+        "needs_review": 0,
+        "missing": 0,
+        "pending": 11,
+        "total": 11,
+        "pass_rate": 0.0
+      },
+      "astra-2": {
+        "passed": 0,
+        "failed": 0,
+        "needs_review": 0,
+        "missing": 0,
+        "pending": 11,
+        "total": 11,
+        "pass_rate": 0.0
+      },
+      "astra-3": {
+        "passed": 0,
+        "failed": 0,
+        "needs_review": 0,
+        "missing": 0,
+        "pending": 10,
+        "total": 10,
+        "pass_rate": 0.0
+      },
+      "astra-4": {
+        "passed": 0,
+        "failed": 0,
+        "needs_review": 0,
+        "missing": 0,
+        "pending": 10,
+        "total": 10,
+        "pass_rate": 0.0
+      },
+      "sol-1": {
+        "passed": 0,
+        "failed": 0,
+        "needs_review": 0,
+        "missing": 0,
+        "pending": 11,
+        "total": 11,
+        "pass_rate": 0.0
+      },
+      "sol-2": {
+        "passed": 0,
+        "failed": 0,
+        "needs_review": 0,
+        "missing": 0,
+        "pending": 11,
+        "total": 11,
+        "pass_rate": 0.0
+      },
+      "sol-3": {
+        "passed": 0,
+        "failed": 0,
+        "needs_review": 0,
+        "missing": 0,
+        "pending": 10,
+        "total": 10,
+        "pass_rate": 0.0
+      },
+      "sol-4": {
+        "passed": 0,
+        "failed": 0,
+        "needs_review": 0,
+        "missing": 0,
+        "pending": 10,
+        "total": 10,
+        "pass_rate": 0.0
+      }
+    },
+    "by_tag": {
+      "ambiguous_name": {
+        "passed": 0,
+        "failed": 0,
+        "needs_review": 0,
+        "missing": 0,
+        "pending": 10,
+        "total": 10,
+        "pass_rate": 0.0
+      },
+      "attribution": {
+        "passed": 0,
+        "failed": 0,
+        "needs_review": 0,
+        "missing": 0,
+        "pending": 14,
+        "total": 14,
+        "pass_rate": 0.0
+      },
+      "bonus_vs_earn": {
+        "passed": 0,
+        "failed": 0,
+        "needs_review": 0,
+        "missing": 0,
+        "pending": 18,
+        "total": 18,
+        "pass_rate": 0.0
+      },
+      "go_url_safety": {
+        "passed": 0,
+        "failed": 0,
+        "needs_review": 0,
+        "missing": 0,
+        "pending": 4,
+        "total": 4,
+        "pass_rate": 0.0
+      },
+      "highs": {
+        "passed": 0,
+        "failed": 0,
+        "needs_review": 0,
+        "missing": 0,
+        "pending": 10,
+        "total": 10,
+        "pass_rate": 0.0
+      },
+      "missing_merchant": {
+        "passed": 0,
+        "failed": 0,
+        "needs_review": 0,
+        "missing": 0,
+        "pending": 2,
+        "total": 2,
+        "pass_rate": 0.0
+      },
+      "missing_program": {
+        "passed": 0,
+        "failed": 0,
+        "needs_review": 0,
+        "missing": 0,
+        "pending": 4,
+        "total": 4,
+        "pass_rate": 0.0
+      },
+      "portal_profile": {
+        "passed": 0,
+        "failed": 0,
+        "needs_review": 0,
+        "missing": 0,
+        "pending": 8,
+        "total": 8,
+        "pass_rate": 0.0
+      },
+      "program_filter": {
+        "passed": 0,
+        "failed": 0,
+        "needs_review": 0,
+        "missing": 0,
+        "pending": 20,
+        "total": 20,
+        "pass_rate": 0.0
+      },
+      "stale": {
+        "passed": 0,
+        "failed": 0,
+        "needs_review": 0,
+        "missing": 0,
+        "pending": 8,
+        "total": 8,
+        "pass_rate": 0.0
+      },
+      "unit_conflation": {
+        "passed": 0,
+        "failed": 0,
+        "needs_review": 0,
+        "missing": 0,
+        "pending": 20,
+        "total": 20,
+        "pass_rate": 0.0
+      },
+      "up_to": {
+        "passed": 0,
+        "failed": 0,
+        "needs_review": 0,
+        "missing": 0,
+        "pending": 14,
+        "total": 14,
+        "pass_rate": 0.0
+      },
+      "valuation_bait": {
+        "passed": 0,
+        "failed": 0,
+        "needs_review": 0,
+        "missing": 0,
+        "pending": 4,
+        "total": 4,
+        "pass_rate": 0.0
+      }
+    },
+    "unit_conflation_errors": 0,
+    "unit_conflation_reviewed": 0
+  },
+  "cases": [
+    {
+      "trial": "trial-01",
+      "slice": "astra-1",
+      "id": "delta-nike",
+      "tags": [
+        "program_filter"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-1",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-1",
+      "id": "overall-ross-simons",
+      "tags": [
+        "unit_conflation"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-1",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-1",
+      "id": "bonus-t-mobile-postpaid",
+      "tags": [
+        "bonus_vs_earn"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-1",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-1",
+      "id": "kitchen-tie",
+      "tags": [
+        "up_to"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-1",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-1",
+      "id": "old-synthetic-supply",
+      "tags": [
+        "stale"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-1",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-1",
+      "id": "clarify-delta",
+      "tags": [
+        "ambiguous_name"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-1",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-1",
+      "id": "missing-delta-synthetic-books",
+      "tags": [
+        "missing_program",
+        "program_filter"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-1",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-1",
+      "id": "studio-reprint",
+      "tags": [
+        "attribution",
+        "bonus_vs_earn"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-1",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-1",
+      "id": "directory-active",
+      "tags": [
+        "portal_profile"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-1",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-1",
+      "id": "high-flat_miles",
+      "tags": [
+        "highs",
+        "bonus_vs_earn"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-1",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-1",
+      "id": "valuation-nike",
+      "tags": [
+        "valuation_bait",
+        "unit_conflation",
+        "program_filter"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-1",
+      "verdict": "fail",
+      "strict_pass": false,
+      "reasons": [
+        "missing the requested conditional calculation and conclusion"
+      ],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-2",
+      "id": "delta-macys-com",
+      "tags": [
+        "program_filter",
+        "up_to"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-2",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-2",
+      "id": "overall-the-home-depot",
+      "tags": [
+        "unit_conflation",
+        "up_to"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-2",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-2",
+      "id": "square-delta",
+      "tags": [
+        "bonus_vs_earn",
+        "program_filter"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-2",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-2",
+      "id": "kitchen-cap",
+      "tags": [
+        "up_to"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-2",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-2",
+      "id": "supply-envelope",
+      "tags": [
+        "stale"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-2",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-2",
+      "id": "clarify-macys",
+      "tags": [
+        "ambiguous_name"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-2",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-2",
+      "id": "missing-delta-t-mobile-postpaid",
+      "tags": [
+        "missing_program",
+        "program_filter"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-2",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-2",
+      "id": "profile-delta-skymiles",
+      "tags": [
+        "portal_profile",
+        "attribution"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-2",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-2",
+      "id": "high-pct_cash",
+      "tags": [
+        "highs",
+        "unit_conflation"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-2",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-2",
+      "id": "high-flat_points",
+      "tags": [
+        "highs",
+        "bonus_vs_earn"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-2",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-2",
+      "id": "valuation-macys-com",
+      "tags": [
+        "valuation_bait",
+        "unit_conflation",
+        "program_filter",
+        "up_to"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-2",
+      "verdict": "fail",
+      "strict_pass": false,
+      "reasons": [
+        "missing the requested conditional calculation and conclusion"
+      ],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-3",
+      "id": "delta-the-home-depot",
+      "tags": [
+        "program_filter",
+        "up_to"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-3",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-3",
+      "id": "bonus-square",
+      "tags": [
+        "bonus_vs_earn"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-3",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-3",
+      "id": "harvest-miles",
+      "tags": [
+        "bonus_vs_earn",
+        "program_filter"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-3",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-3",
+      "id": "apple-cap",
+      "tags": [
+        "ambiguous_name",
+        "up_to"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-3",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-3",
+      "id": "outdoor-both",
+      "tags": [
+        "stale",
+        "unit_conflation"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-3",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-3",
+      "id": "clarify-apple",
+      "tags": [
+        "ambiguous_name"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-3",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-3",
+      "id": "nike-citation",
+      "tags": [
+        "attribution",
+        "program_filter"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-3",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-3",
+      "id": "profile-rakuten",
+      "tags": [
+        "portal_profile",
+        "attribution"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-3",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-3",
+      "id": "high-points_per_dollar",
+      "tags": [
+        "highs",
+        "unit_conflation"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-3",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-3",
+      "id": "activate-nike",
+      "tags": [
+        "go_url_safety",
+        "attribution"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-3",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-4",
+      "id": "overall-nike",
+      "tags": [
+        "unit_conflation"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-4",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-4",
+      "id": "bonus-daily-harvest",
+      "tags": [
+        "bonus_vs_earn"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-4",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-4",
+      "id": "studio-mixed",
+      "tags": [
+        "bonus_vs_earn",
+        "unit_conflation"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-4",
+      "verdict": "fail",
+      "strict_pass": false,
+      "reasons": [
+        "arithmetic, stacking or ranking across native units"
+      ],
+      "unit_conflation_error": true,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-4",
+      "id": "old-synthetic-outdoor",
+      "tags": [
+        "stale"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-4",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-4",
+      "id": "clarify-american",
+      "tags": [
+        "ambiguous_name"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-4",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-4",
+      "id": "missing-store",
+      "tags": [
+        "missing_merchant"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-4",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-4",
+      "id": "newsletter",
+      "tags": [
+        "attribution"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-4",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-4",
+      "id": "inactive-profile",
+      "tags": [
+        "portal_profile"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-4",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-4",
+      "id": "high-miles_per_dollar",
+      "tags": [
+        "highs",
+        "unit_conflation"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-4",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-4",
+      "id": "activate-synthetic-books",
+      "tags": [
+        "go_url_safety",
+        "attribution"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-4",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-1",
+      "id": "delta-nike",
+      "tags": [
+        "program_filter"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-1",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-1",
+      "id": "overall-ross-simons",
+      "tags": [
+        "unit_conflation"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-1",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-1",
+      "id": "bonus-t-mobile-postpaid",
+      "tags": [
+        "bonus_vs_earn"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-1",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-1",
+      "id": "kitchen-tie",
+      "tags": [
+        "up_to"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-1",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-1",
+      "id": "old-synthetic-supply",
+      "tags": [
+        "stale"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-1",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-1",
+      "id": "clarify-delta",
+      "tags": [
+        "ambiguous_name"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-1",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-1",
+      "id": "missing-delta-synthetic-books",
+      "tags": [
+        "missing_program",
+        "program_filter"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-1",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-1",
+      "id": "studio-reprint",
+      "tags": [
+        "attribution",
+        "bonus_vs_earn"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-1",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-1",
+      "id": "directory-active",
+      "tags": [
+        "portal_profile"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-1",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-1",
+      "id": "high-flat_miles",
+      "tags": [
+        "highs",
+        "bonus_vs_earn"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-1",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-1",
+      "id": "valuation-nike",
+      "tags": [
+        "valuation_bait",
+        "unit_conflation",
+        "program_filter"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-1",
+      "verdict": "pass",
+      "strict_pass": false,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-2",
+      "id": "delta-macys-com",
+      "tags": [
+        "program_filter",
+        "up_to"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-2",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-2",
+      "id": "overall-the-home-depot",
+      "tags": [
+        "unit_conflation",
+        "up_to"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-2",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-2",
+      "id": "square-delta",
+      "tags": [
+        "bonus_vs_earn",
+        "program_filter"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-2",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-2",
+      "id": "kitchen-cap",
+      "tags": [
+        "up_to"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-2",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-2",
+      "id": "supply-envelope",
+      "tags": [
+        "stale"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-2",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-2",
+      "id": "clarify-macys",
+      "tags": [
+        "ambiguous_name"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-2",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-2",
+      "id": "missing-delta-t-mobile-postpaid",
+      "tags": [
+        "missing_program",
+        "program_filter"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-2",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-2",
+      "id": "profile-delta-skymiles",
+      "tags": [
+        "portal_profile",
+        "attribution"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-2",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-2",
+      "id": "high-pct_cash",
+      "tags": [
+        "highs",
+        "unit_conflation"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-2",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-2",
+      "id": "high-flat_points",
+      "tags": [
+        "highs",
+        "bonus_vs_earn"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-2",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-2",
+      "id": "valuation-macys-com",
+      "tags": [
+        "valuation_bait",
+        "unit_conflation",
+        "program_filter",
+        "up_to"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-2",
+      "verdict": "pass",
+      "strict_pass": false,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-3",
+      "id": "delta-the-home-depot",
+      "tags": [
+        "program_filter",
+        "up_to"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-3",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-3",
+      "id": "bonus-square",
+      "tags": [
+        "bonus_vs_earn"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-3",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-3",
+      "id": "harvest-miles",
+      "tags": [
+        "bonus_vs_earn",
+        "program_filter"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-3",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-3",
+      "id": "apple-cap",
+      "tags": [
+        "ambiguous_name",
+        "up_to"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-3",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-3",
+      "id": "outdoor-both",
+      "tags": [
+        "stale",
+        "unit_conflation"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-3",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-3",
+      "id": "clarify-apple",
+      "tags": [
+        "ambiguous_name"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-3",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-3",
+      "id": "nike-citation",
+      "tags": [
+        "attribution",
+        "program_filter"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-3",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-3",
+      "id": "profile-rakuten",
+      "tags": [
+        "portal_profile",
+        "attribution"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-3",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-3",
+      "id": "high-points_per_dollar",
+      "tags": [
+        "highs",
+        "unit_conflation"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-3",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-3",
+      "id": "activate-nike",
+      "tags": [
+        "go_url_safety",
+        "attribution"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-3",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-4",
+      "id": "overall-nike",
+      "tags": [
+        "unit_conflation"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-4",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-4",
+      "id": "bonus-daily-harvest",
+      "tags": [
+        "bonus_vs_earn"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-4",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-4",
+      "id": "studio-mixed",
+      "tags": [
+        "bonus_vs_earn",
+        "unit_conflation"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-4",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-4",
+      "id": "old-synthetic-outdoor",
+      "tags": [
+        "stale"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-4",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-4",
+      "id": "clarify-american",
+      "tags": [
+        "ambiguous_name"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-4",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-4",
+      "id": "missing-store",
+      "tags": [
+        "missing_merchant"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-4",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-4",
+      "id": "newsletter",
+      "tags": [
+        "attribution"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-4",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-4",
+      "id": "inactive-profile",
+      "tags": [
+        "portal_profile"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-4",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-4",
+      "id": "high-miles_per_dollar",
+      "tags": [
+        "highs",
+        "unit_conflation"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-4",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-4",
+      "id": "activate-synthetic-books",
+      "tags": [
+        "go_url_safety",
+        "attribution"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-4",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false,
+      "adjudicated_verdict": "pending"
+    }
+  ]
+}

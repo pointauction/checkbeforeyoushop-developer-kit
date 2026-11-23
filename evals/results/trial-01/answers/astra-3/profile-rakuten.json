@@ -1,0 +1,13 @@
+{
+  "answer": "As of November 22, 2026, CheckBeforeYouShop tracked 3,121 stores on Rakuten and scheduled a portal check every 24 hours. [Rakuten’s CheckBeforeYouShop profile](https://checkbeforeyoushop.com/p/rakuten)\n\nThis is a historical snapshot. Confirm the offer on the portal before shopping. CheckBeforeYouShop may earn a referral bonus from some links. That does not affect rates or their order.",
+  "tool_calls": [
+    {
+      "tool": "get_portal",
+      "args": {
+        "portal": "rakuten"
+      }
+    }
+  ],
+  "model": "gpt-6.2-astra",
+  "runner": "astra-3"
+}

@@ -1,0 +1,14 @@
+{
+  "answer": "Rakuten showed 4% cash back, confirmed November 22, 2026 at 13:00 UTC. Delta SkyMiles Shopping showed 7 miles per dollar, last confirmed November 13, 2026 at 13:00 UTC. The Delta listing was flagged as stale and needs reconfirming.\n\n[Synthetic Outdoor on CheckBeforeYouShop](https://checkbeforeyoushop.com/m/synthetic-outdoor) · [Delta SkyMiles Shopping affiliate link](https://checkbeforeyoushop.com/go/delta-skymiles?plc=api&m=ec23ae21-86ed-526d-9424-0f91d571809e) · [Rakuten affiliate link](https://checkbeforeyoushop.com/go/rakuten?plc=api&m=ec23ae21-86ed-526d-9424-0f91d571809e)\n\nThis is a historical snapshot. Confirm the offer on the portal before shopping. CheckBeforeYouShop may earn a referral bonus from some links. That does not affect rates or their order.",
+  "tool_calls": [
+    {
+      "tool": "get_store_rates",
+      "args": {
+        "store": "synthetic-outdoor",
+        "include_stale": true
+      }
+    }
+  ],
+  "model": "gpt-6.2-astra",
+  "runner": "astra-3"
+}

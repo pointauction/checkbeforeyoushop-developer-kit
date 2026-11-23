@@ -1,0 +1,157 @@
+{
+  "data": {
+    "query": "nike",
+    "count": 18,
+    "results": [
+      {
+        "kind": "merchant",
+        "slug": "nike",
+        "name": "Nike",
+        "domain": "nike.com",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/nike"
+      },
+      {
+        "kind": "merchant",
+        "slug": "nike-tw",
+        "name": "Nike TW",
+        "domain": "nike.com",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/nike-tw"
+      },
+      {
+        "kind": "merchant",
+        "slug": "nike-asia-pacific",
+        "name": "Nike Asia Pacific",
+        "domain": "nike.com",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/nike-asia-pacific"
+      },
+      {
+        "kind": "merchant",
+        "slug": "nike-be",
+        "name": "Nike BE",
+        "domain": null,
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/nike-be"
+      },
+      {
+        "kind": "merchant",
+        "slug": "nike-br",
+        "name": "Nike BR",
+        "domain": null,
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/nike-br"
+      },
+      {
+        "kind": "merchant",
+        "slug": "nike-cn",
+        "name": "Nike CN",
+        "domain": null,
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/nike-cn"
+      },
+      {
+        "kind": "merchant",
+        "slug": "nike-ee",
+        "name": "Nike EE",
+        "domain": null,
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/nike-ee"
+      },
+      {
+        "kind": "merchant",
+        "slug": "nike-fi",
+        "name": "Nike FI",
+        "domain": null,
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/nike-fi"
+      },
+      {
+        "kind": "merchant",
+        "slug": "nike-mx",
+        "name": "Nike MX",
+        "domain": null,
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/nike-mx"
+      },
+      {
+        "kind": "merchant",
+        "slug": "nike-no",
+        "name": "Nike NO",
+        "domain": null,
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/nike-no"
+      },
+      {
+        "kind": "merchant",
+        "slug": "nike-pl",
+        "name": "Nike PL",
+        "domain": null,
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/nike-pl"
+      },
+      {
+        "kind": "merchant",
+        "slug": "nike-apac",
+        "name": "Nike APAC",
+        "domain": null,
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/nike-apac"
+      },
+      {
+        "kind": "merchant",
+        "slug": "yousweeps-win-nike-products",
+        "name": "YOUSWEEPS - Win Nike Products",
+        "domain": null,
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/yousweeps-win-nike-products"
+      },
+      {
+        "kind": "merchant",
+        "slug": "triple-nikel",
+        "name": "Triple Nikel",
+        "domain": "triplenikel.com",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/triple-nikel"
+      },
+      {
+        "kind": "merchant",
+        "slug": "unike-love",
+        "name": "Unike Love",
+        "domain": null,
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/unike-love"
+      },
+      {
+        "kind": "merchant",
+        "slug": "bilmekaniken",
+        "name": "Bilmekaniken",
+        "domain": null,
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/bilmekaniken"
+      },
+      {
+        "kind": "merchant",
+        "slug": "unike-love-shop",
+        "name": "Unike love shop",
+        "domain": null,
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/unike-love-shop"
+      },
+      {
+        "kind": "merchant",
+        "slug": "vitamiinikeskus-fi",
+        "name": "Vitamiinikeskus.fi",
+        "domain": null,
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/vitamiinikeskus-fi"
+      }
+    ],
+    "did_you_mean": false
+  },
+  "data_as_of": null,
+  "source": "CheckBeforeYouShop",
+  "attribution": "Data from CheckBeforeYouShop (checkbeforeyoushop.com), free to use with attribution and a link to each item's page_url.",
+  "disclosure": "Rates are read from each portal's pages and can change or go stale, so always confirm on the portal before shopping. Some portal links may earn us a referral bonus; that never changes the rates or their order."
+}

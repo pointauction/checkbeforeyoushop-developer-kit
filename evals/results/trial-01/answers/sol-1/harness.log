@@ -1,0 +1,14 @@
+2026-11-22T23:48:37Z	get_store_rates	{"store":"Ross-Simons"}
+2026-11-22T23:48:37Z	get_store_rates	{"store":"Nike","program":"Delta"}
+2026-11-22T23:48:37Z	get_store_rates	{"store":"Synthetic Kitchen","unit":"pct_cash"}
+2026-11-22T23:48:37Z	get_store_rates	{"store":"T-Mobile Postpaid","program":"TopCashback"}
+2026-11-22T23:48:37Z	get_store_rates	{"store":"Synthetic Supply","program":"Rakuten","include_stale":true}
+2026-11-22T23:48:43Z	get_store_rates	{"store":"Synthetic Books","program":"Delta","unit":"miles_per_dollar"}
+2026-11-22T23:48:43Z	search_stores	{"query":"delta shopping"}
+2026-11-22T23:48:43Z	get_store_rates	{"store":"Synthetic Studio","program":"Rakuten"}
+2026-11-22T23:48:43Z	get_store_rates	{"store":"t-mobile-postpaid","program":"TopCashback"}
+2026-11-22T23:48:43Z	get_store_rates	{"store":"Nike","unit":"pct_cash"}
+2026-11-22T23:48:43Z	get_highs	{"unit":"flat_miles","kind":"one_time_bonus"}
+2026-11-22T23:48:46Z	search_stores	{"query":"delta"}
+2026-11-22T23:48:46Z	get_store_rates	{"store":"Nike","program":"Delta"}
+2026-11-22T23:48:46Z	list_portals	{}

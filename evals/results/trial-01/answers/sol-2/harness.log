@@ -1,0 +1,20 @@
+2026-11-22T23:48:44Z	get_store_rates	{"store":"Macys.com","program":"Delta"}
+2026-11-22T23:48:44Z	get_store_rates	{"store":"T-Mobile Postpaid","program":"Delta"}
+2026-11-22T23:48:44Z	get_highs	{"unit":"pct_cash","kind":"earn_rate","limit":1}
+2026-11-22T23:48:44Z	get_store_rates	{"store":"Synthetic Supply","program":"Rakuten"}
+2026-11-22T23:48:44Z	get_store_rates	{"store":"Synthetic Kitchen","program":"Rakuten"}
+2026-11-22T23:48:44Z	get_store_rates	{"store":"The Home Depot"}
+2026-11-22T23:48:44Z	get_portal	{"portal":"Delta SkyMiles Shopping"}
+2026-11-22T23:48:44Z	get_store_rates	{"store":"Macys.com"}
+2026-11-22T23:48:44Z	search_stores	{"query":"macys"}
+2026-11-22T23:48:44Z	get_highs	{"unit":"flat_points","kind":"one_time_bonus","limit":1}
+2026-11-22T23:48:44Z	get_store_rates	{"store":"Square","program":"Delta"}
+2026-11-22T23:48:48Z	get_store_rates	{"store":"macys-com"}
+2026-11-22T23:48:48Z	get_store_rates	{"store":"macys-com","program":"Delta"}
+2026-11-22T23:48:48Z	get_store_rates	{"store":"the-home-depot"}
+2026-11-22T23:48:48Z	get_store_rates	{"store":"t-mobile-postpaid","program":"Delta"}
+2026-11-22T23:49:01Z	get_store_rates	{"store":"buckle","program":"topcashback","unit":"pct_cash"}
+2026-11-22T23:49:01Z	get_store_rates	{"store":"t-mobile-postpaid","program":"Delta"}
+2026-11-22T23:49:01Z	get_store_rates	{"store":"the-home-depot"}
+2026-11-22T23:49:01Z	get_store_rates	{"store":"square","program":"alaska-atmos","unit":"flat_points"}
+2026-11-22T23:49:01Z	get_store_rates	{"store":"macys-com"}

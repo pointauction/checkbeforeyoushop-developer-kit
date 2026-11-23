@@ -1,0 +1,13 @@
+{
+  "answer": "The best choice depends on which reward you want. In the November 22, 2026 snapshot, [CheckBeforeYouShop’s Ross-Simons comparison](https://checkbeforeyoushop.com/m/ross-simons) showed these leaders:\n\n- Cashback: **5%** through [Mr. Rebates (affiliate link)](https://checkbeforeyoushop.com/go/mrrebates?plc=api&m=0cd02c54-4415-497c-b468-61daa6c143ea), tied with Rakuten and USAA MemberShop.\n- Miles: **3.5 American AAdvantage miles per dollar** through [American AAdvantage eShopping (affiliate link)](https://checkbeforeyoushop.com/go/aa-eshopping?plc=api&m=0cd02c54-4415-497c-b468-61daa6c143ea).\n- Points: **6 Radisson Rewards points per dollar** through [Radisson Rewards Shop (affiliate link)](https://checkbeforeyoushop.com/go/radisson-rewardsshop?plc=api&m=0cd02c54-4415-497c-b468-61daa6c143ea).\n\nRates are read from each portal's pages and can change or go stale, so always confirm on the portal before shopping. Some portal links may earn us a referral bonus; that never changes the rates or their order.",
+  "tool_calls": [
+    {
+      "tool": "get_store_rates",
+      "args": {
+        "store": "ross-simons"
+      }
+    }
+  ],
+  "model": "gpt-6.2-astra",
+  "runner": "astra-1"
+}

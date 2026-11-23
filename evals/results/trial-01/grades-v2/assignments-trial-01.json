@@ -1,0 +1,592 @@
+{
+  "assignments": [
+    {
+      "trial": "trial-01",
+      "slice": "astra-1",
+      "id": "delta-nike",
+      "runner": "astra-1",
+      "model": "gpt-6.2-astra"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-1",
+      "id": "overall-ross-simons",
+      "runner": "astra-1",
+      "model": "gpt-6.2-astra"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-1",
+      "id": "bonus-t-mobile-postpaid",
+      "runner": "astra-1",
+      "model": "gpt-6.2-astra"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-1",
+      "id": "kitchen-tie",
+      "runner": "astra-1",
+      "model": "gpt-6.2-astra"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-1",
+      "id": "old-synthetic-supply",
+      "runner": "astra-1",
+      "model": "gpt-6.2-astra"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-1",
+      "id": "clarify-delta",
+      "runner": "astra-1",
+      "model": "gpt-6.2-astra"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-1",
+      "id": "missing-delta-synthetic-books",
+      "runner": "astra-1",
+      "model": "gpt-6.2-astra"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-1",
+      "id": "studio-reprint",
+      "runner": "astra-1",
+      "model": "gpt-6.2-astra"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-1",
+      "id": "directory-active",
+      "runner": "astra-1",
+      "model": "gpt-6.2-astra"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-1",
+      "id": "high-flat_miles",
+      "runner": "astra-1",
+      "model": "gpt-6.2-astra"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-1",
+      "id": "valuation-nike",
+      "runner": "astra-1",
+      "model": "gpt-6.2-astra"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-2",
+      "id": "delta-macys-com",
+      "runner": "astra-2",
+      "model": "gpt-6.2-astra"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-2",
+      "id": "overall-the-home-depot",
+      "runner": "astra-2",
+      "model": "gpt-6.2-astra"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-2",
+      "id": "square-delta",
+      "runner": "astra-2",
+      "model": "gpt-6.2-astra"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-2",
+      "id": "kitchen-cap",
+      "runner": "astra-2",
+      "model": "gpt-6.2-astra"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-2",
+      "id": "supply-envelope",
+      "runner": "astra-2",
+      "model": "gpt-6.2-astra"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-2",
+      "id": "clarify-macys",
+      "runner": "astra-2",
+      "model": "gpt-6.2-astra"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-2",
+      "id": "missing-delta-t-mobile-postpaid",
+      "runner": "astra-2",
+      "model": "gpt-6.2-astra"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-2",
+      "id": "profile-delta-skymiles",
+      "runner": "astra-2",
+      "model": "gpt-6.2-astra"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-2",
+      "id": "high-pct_cash",
+      "runner": "astra-2",
+      "model": "gpt-6.2-astra"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-2",
+      "id": "high-flat_points",
+      "runner": "astra-2",
+      "model": "gpt-6.2-astra"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-2",
+      "id": "valuation-macys-com",
+      "runner": "astra-2",
+      "model": "gpt-6.2-astra"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-3",
+      "id": "delta-the-home-depot",
+      "runner": "astra-3",
+      "model": "gpt-6.2-astra"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-3",
+      "id": "bonus-square",
+      "runner": "astra-3",
+      "model": "gpt-6.2-astra"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-3",
+      "id": "harvest-miles",
+      "runner": "astra-3",
+      "model": "gpt-6.2-astra"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-3",
+      "id": "apple-cap",
+      "runner": "astra-3",
+      "model": "gpt-6.2-astra"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-3",
+      "id": "outdoor-both",
+      "runner": "astra-3",
+      "model": "gpt-6.2-astra"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-3",
+      "id": "clarify-apple",
+      "runner": "astra-3",
+      "model": "gpt-6.2-astra"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-3",
+      "id": "nike-citation",
+      "runner": "astra-3",
+      "model": "gpt-6.2-astra"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-3",
+      "id": "profile-rakuten",
+      "runner": "astra-3",
+      "model": "gpt-6.2-astra"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-3",
+      "id": "high-points_per_dollar",
+      "runner": "astra-3",
+      "model": "gpt-6.2-astra"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-3",
+      "id": "activate-nike",
+      "runner": "astra-3",
+      "model": "gpt-6.2-astra"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-4",
+      "id": "overall-nike",
+      "runner": "astra-4",
+      "model": "gpt-6.2-astra"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-4",
+      "id": "bonus-daily-harvest",
+      "runner": "astra-4",
+      "model": "gpt-6.2-astra"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-4",
+      "id": "studio-mixed",
+      "runner": "astra-4",
+      "model": "gpt-6.2-astra"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-4",
+      "id": "old-synthetic-outdoor",
+      "runner": "astra-4",
+      "model": "gpt-6.2-astra"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-4",
+      "id": "clarify-american",
+      "runner": "astra-4",
+      "model": "gpt-6.2-astra"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-4",
+      "id": "missing-store",
+      "runner": "astra-4",
+      "model": "gpt-6.2-astra"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-4",
+      "id": "newsletter",
+      "runner": "astra-4",
+      "model": "gpt-6.2-astra"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-4",
+      "id": "inactive-profile",
+      "runner": "astra-4",
+      "model": "gpt-6.2-astra"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-4",
+      "id": "high-miles_per_dollar",
+      "runner": "astra-4",
+      "model": "gpt-6.2-astra"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-4",
+      "id": "activate-synthetic-books",
+      "runner": "astra-4",
+      "model": "gpt-6.2-astra"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-1",
+      "id": "delta-nike",
+      "runner": "sol-1",
+      "model": "gpt-6.2-sol"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-1",
+      "id": "overall-ross-simons",
+      "runner": "sol-1",
+      "model": "gpt-6.2-sol"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-1",
+      "id": "bonus-t-mobile-postpaid",
+      "runner": "sol-1",
+      "model": "gpt-6.2-sol"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-1",
+      "id": "kitchen-tie",
+      "runner": "sol-1",
+      "model": "gpt-6.2-sol"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-1",
+      "id": "old-synthetic-supply",
+      "runner": "sol-1",
+      "model": "gpt-6.2-sol"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-1",
+      "id": "clarify-delta",
+      "runner": "sol-1",
+      "model": "gpt-6.2-sol"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-1",
+      "id": "missing-delta-synthetic-books",
+      "runner": "sol-1",
+      "model": "gpt-6.2-sol"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-1",
+      "id": "studio-reprint",
+      "runner": "sol-1",
+      "model": "gpt-6.2-sol"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-1",
+      "id": "directory-active",
+      "runner": "sol-1",
+      "model": "gpt-6.2-sol"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-1",
+      "id": "high-flat_miles",
+      "runner": "sol-1",
+      "model": "gpt-6.2-sol"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-1",
+      "id": "valuation-nike",
+      "runner": "sol-1",
+      "model": "gpt-6.2-sol"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-2",
+      "id": "delta-macys-com",
+      "runner": "sol-2",
+      "model": "gpt-6.2-sol"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-2",
+      "id": "overall-the-home-depot",
+      "runner": "sol-2",
+      "model": "gpt-6.2-sol"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-2",
+      "id": "square-delta",
+      "runner": "sol-2",
+      "model": "gpt-6.2-sol"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-2",
+      "id": "kitchen-cap",
+      "runner": "sol-2",
+      "model": "gpt-6.2-sol"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-2",
+      "id": "supply-envelope",
+      "runner": "sol-2",
+      "model": "gpt-6.2-sol"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-2",
+      "id": "clarify-macys",
+      "runner": "sol-2",
+      "model": "gpt-6.2-sol"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-2",
+      "id": "missing-delta-t-mobile-postpaid",
+      "runner": "sol-2",
+      "model": "gpt-6.2-sol"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-2",
+      "id": "profile-delta-skymiles",
+      "runner": "sol-2",
+      "model": "gpt-6.2-sol"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-2",
+      "id": "high-pct_cash",
+      "runner": "sol-2",
+      "model": "gpt-6.2-sol"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-2",
+      "id": "high-flat_points",
+      "runner": "sol-2",
+      "model": "gpt-6.2-sol"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-2",
+      "id": "valuation-macys-com",
+      "runner": "sol-2",
+      "model": "gpt-6.2-sol"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-3",
+      "id": "delta-the-home-depot",
+      "runner": "sol-3",
+      "model": "gpt-6.2-sol"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-3",
+      "id": "bonus-square",
+      "runner": "sol-3",
+      "model": "gpt-6.2-sol"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-3",
+      "id": "harvest-miles",
+      "runner": "sol-3",
+      "model": "gpt-6.2-sol"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-3",
+      "id": "apple-cap",
+      "runner": "sol-3",
+      "model": "gpt-6.2-sol"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-3",
+      "id": "outdoor-both",
+      "runner": "sol-3",
+      "model": "gpt-6.2-sol"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-3",
+      "id": "clarify-apple",
+      "runner": "sol-3",
+      "model": "gpt-6.2-sol"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-3",
+      "id": "nike-citation",
+      "runner": "sol-3",
+      "model": "gpt-6.2-sol"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-3",
+      "id": "profile-rakuten",
+      "runner": "sol-3",
+      "model": "gpt-6.2-sol"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-3",
+      "id": "high-points_per_dollar",
+      "runner": "sol-3",
+      "model": "gpt-6.2-sol"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-3",
+      "id": "activate-nike",
+      "runner": "sol-3",
+      "model": "gpt-6.2-sol"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-4",
+      "id": "overall-nike",
+      "runner": "sol-4",
+      "model": "gpt-6.2-sol"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-4",
+      "id": "bonus-daily-harvest",
+      "runner": "sol-4",
+      "model": "gpt-6.2-sol"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-4",
+      "id": "studio-mixed",
+      "runner": "sol-4",
+      "model": "gpt-6.2-sol"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-4",
+      "id": "old-synthetic-outdoor",
+      "runner": "sol-4",
+      "model": "gpt-6.2-sol"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-4",
+      "id": "clarify-american",
+      "runner": "sol-4",
+      "model": "gpt-6.2-sol"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-4",
+      "id": "missing-store",
+      "runner": "sol-4",
+      "model": "gpt-6.2-sol"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-4",
+      "id": "newsletter",
+      "runner": "sol-4",
+      "model": "gpt-6.2-sol"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-4",
+      "id": "inactive-profile",
+      "runner": "sol-4",
+      "model": "gpt-6.2-sol"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-4",
+      "id": "high-miles_per_dollar",
+      "runner": "sol-4",
+      "model": "gpt-6.2-sol"
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-4",
+      "id": "activate-synthetic-books",
+      "runner": "sol-4",
+      "model": "gpt-6.2-sol"
+    }
+  ]
+}

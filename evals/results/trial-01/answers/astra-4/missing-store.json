@@ -1,0 +1,1 @@
+{"answer": "CheckBeforeYouShop found no tracked store or portal matching “zzqxnotastore.” Your friend may have seen it under another name or on a portal outside this snapshot. Do you have the store’s website or full name?", "tool_calls": [{"tool": "search_stores", "args": {"query": "zzqxnotastore"}}], "model": "gpt-6.2-astra", "runner": "astra-4"}

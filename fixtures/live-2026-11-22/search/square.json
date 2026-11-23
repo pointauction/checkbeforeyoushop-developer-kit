@@ -1,0 +1,181 @@
+{
+  "data": {
+    "query": "square",
+    "count": 21,
+    "results": [
+      {
+        "kind": "merchant",
+        "slug": "square",
+        "name": "Square",
+        "domain": "squareup.com",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/square"
+      },
+      {
+        "kind": "merchant",
+        "slug": "happy-manager",
+        "name": "Happy Manager",
+        "domain": "happy-manager-llc.square.site",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/happy-manager"
+      },
+      {
+        "kind": "merchant",
+        "slug": "square-signs",
+        "name": "Square Signs",
+        "domain": "squaresigns.com",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/square-signs"
+      },
+      {
+        "kind": "merchant",
+        "slug": "square-off-us-canada",
+        "name": "Square Off (US & Canada)",
+        "domain": "squareoffnow.com",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/square-off-us-canada"
+      },
+      {
+        "kind": "merchant",
+        "slug": "squarespace",
+        "name": "Squarespace",
+        "domain": "squarespace.com",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/squarespace"
+      },
+      {
+        "kind": "merchant",
+        "slug": "squareup",
+        "name": "Squareup",
+        "domain": null,
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/squareup"
+      },
+      {
+        "kind": "merchant",
+        "slug": "squarespace-us",
+        "name": "Squarespace US",
+        "domain": null,
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/squarespace-us"
+      },
+      {
+        "kind": "merchant",
+        "slug": "squareup-com-us",
+        "name": "squareup.com US",
+        "domain": null,
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/squareup-com-us"
+      },
+      {
+        "kind": "merchant",
+        "slug": "collector-square",
+        "name": "Collector Square",
+        "domain": "collectorsquare.com",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/collector-square"
+      },
+      {
+        "kind": "merchant",
+        "slug": "mary-square",
+        "name": "Mary Square",
+        "domain": "marysquare.com",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/mary-square"
+      },
+      {
+        "kind": "merchant",
+        "slug": "the-fashion-square-us",
+        "name": "The Fashion Square US",
+        "domain": "the-fashion-square.com",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/the-fashion-square-us"
+      },
+      {
+        "kind": "merchant",
+        "slug": "kliktix-official-times-square-ticket-office-ca",
+        "name": "Kliktix - Official Times Square Ticket Office CA",
+        "domain": null,
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/kliktix-official-times-square-ticket-office-ca"
+      },
+      {
+        "kind": "merchant",
+        "slug": "kliktix-official-times-square-ticket-office-uk",
+        "name": "Kliktix - Official Times Square Ticket Office UK",
+        "domain": null,
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/kliktix-official-times-square-ticket-office-uk"
+      },
+      {
+        "kind": "merchant",
+        "slug": "q-squared-design-nyc",
+        "name": "Q Squared Design NYC",
+        "domain": "qsquarednyc.com",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/q-squared-design-nyc"
+      },
+      {
+        "kind": "merchant",
+        "slug": "dsquared2",
+        "name": "Dsquared2",
+        "domain": "dsquared2.com",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/dsquared2"
+      },
+      {
+        "kind": "merchant",
+        "slug": "homesquare",
+        "name": "Homesquare",
+        "domain": "homesquare.com",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/homesquare"
+      },
+      {
+        "kind": "merchant",
+        "slug": "iconosquare",
+        "name": "Iconosquare",
+        "domain": null,
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/iconosquare"
+      },
+      {
+        "kind": "merchant",
+        "slug": "printsquare",
+        "name": "PRINTSQUARE",
+        "domain": null,
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/printsquare"
+      },
+      {
+        "kind": "merchant",
+        "slug": "estelarsquare",
+        "name": "Estelarsquare",
+        "domain": null,
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/estelarsquare"
+      },
+      {
+        "kind": "merchant",
+        "slug": "softfunch-inc",
+        "name": "SOFTFUNCH INC",
+        "domain": "printsquare.net",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/softfunch-inc"
+      },
+      {
+        "kind": "merchant",
+        "slug": "thegolfsquare",
+        "name": "Thegolfsquare",
+        "domain": null,
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/thegolfsquare"
+      }
+    ],
+    "did_you_mean": false
+  },
+  "data_as_of": null,
+  "source": "CheckBeforeYouShop",
+  "attribution": "Data from CheckBeforeYouShop (checkbeforeyoushop.com), free to use with attribution and a link to each item's page_url.",
+  "disclosure": "Rates are read from each portal's pages and can change or go stale, so always confirm on the portal before shopping. Some portal links may earn us a referral bonus; that never changes the rates or their order."
+}

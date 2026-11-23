@@ -1,0 +1,281 @@
+{
+  "schema_version": 2,
+  "cases": [
+    {
+      "trial": "trial-01",
+      "slice": "sol-2",
+      "id": "delta-macys-com",
+      "tags": [
+        "program_filter",
+        "up_to"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-2",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-2",
+      "id": "overall-the-home-depot",
+      "tags": [
+        "unit_conflation",
+        "up_to"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-2",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-2",
+      "id": "square-delta",
+      "tags": [
+        "bonus_vs_earn",
+        "program_filter"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-2",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-2",
+      "id": "kitchen-cap",
+      "tags": [
+        "up_to"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-2",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-2",
+      "id": "supply-envelope",
+      "tags": [
+        "stale"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-2",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-2",
+      "id": "clarify-macys",
+      "tags": [
+        "ambiguous_name"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-2",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-2",
+      "id": "missing-delta-t-mobile-postpaid",
+      "tags": [
+        "missing_program",
+        "program_filter"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-2",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-2",
+      "id": "profile-delta-skymiles",
+      "tags": [
+        "portal_profile",
+        "attribution"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-2",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-2",
+      "id": "high-pct_cash",
+      "tags": [
+        "highs",
+        "unit_conflation"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-2",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-2",
+      "id": "high-flat_points",
+      "tags": [
+        "highs",
+        "bonus_vs_earn"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-2",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-2",
+      "id": "valuation-macys-com",
+      "tags": [
+        "valuation_bait",
+        "unit_conflation",
+        "program_filter",
+        "up_to"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-2",
+      "verdict": "pass",
+      "strict_pass": false,
+      "reasons": [],
+      "unit_conflation_error": false
+    }
+  ],
+  "overall": {
+    "passed": 11,
+    "failed": 0,
+    "needs_review": 0,
+    "missing": 0,
+    "pending": 0,
+    "total": 11,
+    "pass_rate": 1.0
+  },
+  "by_tag": {
+    "ambiguous_name": {
+      "passed": 1,
+      "failed": 0,
+      "needs_review": 0,
+      "missing": 0,
+      "pending": 0,
+      "total": 1,
+      "pass_rate": 1.0
+    },
+    "attribution": {
+      "passed": 1,
+      "failed": 0,
+      "needs_review": 0,
+      "missing": 0,
+      "pending": 0,
+      "total": 1,
+      "pass_rate": 1.0
+    },
+    "bonus_vs_earn": {
+      "passed": 2,
+      "failed": 0,
+      "needs_review": 0,
+      "missing": 0,
+      "pending": 0,
+      "total": 2,
+      "pass_rate": 1.0
+    },
+    "highs": {
+      "passed": 2,
+      "failed": 0,
+      "needs_review": 0,
+      "missing": 0,
+      "pending": 0,
+      "total": 2,
+      "pass_rate": 1.0
+    },
+    "missing_program": {
+      "passed": 1,
+      "failed": 0,
+      "needs_review": 0,
+      "missing": 0,
+      "pending": 0,
+      "total": 1,
+      "pass_rate": 1.0
+    },
+    "portal_profile": {
+      "passed": 1,
+      "failed": 0,
+      "needs_review": 0,
+      "missing": 0,
+      "pending": 0,
+      "total": 1,
+      "pass_rate": 1.0
+    },
+    "program_filter": {
+      "passed": 4,
+      "failed": 0,
+      "needs_review": 0,
+      "missing": 0,
+      "pending": 0,
+      "total": 4,
+      "pass_rate": 1.0
+    },
+    "stale": {
+      "passed": 1,
+      "failed": 0,
+      "needs_review": 0,
+      "missing": 0,
+      "pending": 0,
+      "total": 1,
+      "pass_rate": 1.0
+    },
+    "unit_conflation": {
+      "passed": 3,
+      "failed": 0,
+      "needs_review": 0,
+      "missing": 0,
+      "pending": 0,
+      "total": 3,
+      "pass_rate": 1.0
+    },
+    "up_to": {
+      "passed": 4,
+      "failed": 0,
+      "needs_review": 0,
+      "missing": 0,
+      "pending": 0,
+      "total": 4,
+      "pass_rate": 1.0
+    },
+    "valuation_bait": {
+      "passed": 1,
+      "failed": 0,
+      "needs_review": 0,
+      "missing": 0,
+      "pending": 0,
+      "total": 1,
+      "pass_rate": 1.0
+    }
+  },
+  "strict_passed": 10,
+  "unit_conflation_errors": 0
+}

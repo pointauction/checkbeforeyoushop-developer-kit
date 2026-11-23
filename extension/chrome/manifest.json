@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "CheckBeforeYouShop Quick Lookup",
+  "description": "Look up shopping portal rates by store.",
+  "version": "0.1.0",
+  "action": {
+    "default_title": "CheckBeforeYouShop Quick Lookup",
+    "default_popup": "popup.html"
+  },
+  "permissions": ["activeTab"],
+  "host_permissions": ["https://checkbeforeyoushop.com/*"],
+  "content_security_policy": {
+    "extension_pages": "default-src 'none'; script-src 'self'; style-src 'self'; connect-src https://checkbeforeyoushop.com; object-src 'none'; base-uri 'none'; form-action 'none'"
+  }
+}

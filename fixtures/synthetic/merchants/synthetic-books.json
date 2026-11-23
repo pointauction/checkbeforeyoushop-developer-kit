@@ -1,0 +1,83 @@
+{
+  "data": {
+    "merchant": {
+      "slug": "synthetic-books",
+      "name": "Synthetic Books",
+      "domain": "synthetic-books.example",
+      "page_url": "https://checkbeforeyoushop.com/m/synthetic-books",
+      "portals_tracked": 2,
+      "tracked_since": "2026-07-11T12:56:08.83287+00:00"
+    },
+    "summary": "2 portal listings for Synthetic Books.",
+    "verdict": {
+      "headline": "2 portal listings for Synthetic Books.",
+      "tone": "young",
+      "caveats": []
+    },
+    "best_rates": [
+      {
+        "portal_id": "rakuten",
+        "portal_name": "Rakuten",
+        "program": "cash",
+        "payout_kind": null,
+        "rate_value": 4,
+        "rate_unit": "pct_cash",
+        "rate_kind": "earn_rate",
+        "rate_display": "4%",
+        "unit_group": "Cashback",
+        "is_up_to": false,
+        "best_category_value": null,
+        "best_category_label": null,
+        "is_elevated": false,
+        "is_stale": false,
+        "last_confirmed_at": "2026-11-22T13:00:00+00:00",
+        "go_url": "https://checkbeforeyoushop.com/go/rakuten?plc=api&m=a4c29b8b-096a-53f1-a4df-aced4c2923b8"
+      }
+    ],
+    "rates": [
+      {
+        "portal_id": "rakuten",
+        "portal_name": "Rakuten",
+        "program": "cash",
+        "payout_kind": null,
+        "rate_value": 4,
+        "rate_unit": "pct_cash",
+        "rate_kind": "earn_rate",
+        "rate_display": "4%",
+        "unit_group": "Cashback",
+        "is_up_to": false,
+        "best_category_value": null,
+        "best_category_label": null,
+        "is_elevated": false,
+        "is_stale": false,
+        "last_confirmed_at": "2026-11-22T13:00:00+00:00",
+        "listing_label": null,
+        "go_url": "https://checkbeforeyoushop.com/go/rakuten?plc=api&m=a4c29b8b-096a-53f1-a4df-aced4c2923b8"
+      },
+      {
+        "portal_id": "befrugal",
+        "portal_name": "BeFrugal",
+        "program": "cash",
+        "payout_kind": null,
+        "rate_value": 3,
+        "rate_unit": "pct_cash",
+        "rate_kind": "earn_rate",
+        "rate_display": "3%",
+        "unit_group": "Cashback",
+        "is_up_to": false,
+        "best_category_value": null,
+        "best_category_label": null,
+        "is_elevated": false,
+        "is_stale": false,
+        "last_confirmed_at": "2026-11-22T13:00:00+00:00",
+        "listing_label": null,
+        "go_url": "https://checkbeforeyoushop.com/go/befrugal?plc=api&m=a4c29b8b-096a-53f1-a4df-aced4c2923b8"
+      }
+    ]
+  },
+  "data_as_of": "2026-11-22T13:00:00+00:00",
+  "source": "CheckBeforeYouShop",
+  "attribution": "Data from CheckBeforeYouShop (checkbeforeyoushop.com), free to use with attribution and a link to each item's page_url.",
+  "disclosure": "Rates are read from each portal's pages and can change or go stale, so always confirm on the portal before shopping. Some portal links may earn us a referral bonus; that never changes the rates or their order.",
+  "_synthetic_note": "Only cashback offers are tracked."
+}

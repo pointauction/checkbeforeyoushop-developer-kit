@@ -1,0 +1,29 @@
+{
+  "data": {
+    "query": "home depot",
+    "count": 2,
+    "results": [
+      {
+        "kind": "merchant",
+        "slug": "the-home-depot",
+        "name": "The Home Depot",
+        "domain": "homedepot.com",
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/the-home-depot"
+      },
+      {
+        "kind": "merchant",
+        "slug": "home-depot-mexico",
+        "name": "Home Depot Mexico",
+        "domain": null,
+        "did_you_mean": false,
+        "page_url": "https://checkbeforeyoushop.com/m/home-depot-mexico"
+      }
+    ],
+    "did_you_mean": false
+  },
+  "data_as_of": null,
+  "source": "CheckBeforeYouShop",
+  "attribution": "Data from CheckBeforeYouShop (checkbeforeyoushop.com), free to use with attribution and a link to each item's page_url.",
+  "disclosure": "Rates are read from each portal's pages and can change or go stale, so always confirm on the portal before shopping. Some portal links may earn us a referral bonus; that never changes the rates or their order."
+}

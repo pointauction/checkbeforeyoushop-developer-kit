@@ -1,0 +1,11 @@
+{
+  "answer": "The November 22, 2026 CheckBeforeYouShop directory snapshot had **47 registered portal entries**, of which **44 were active** with a recorded check.",
+  "tool_calls": [
+    {
+      "tool": "list_portals",
+      "args": {}
+    }
+  ],
+  "model": "gpt-6.2-astra",
+  "runner": "astra-1"
+}

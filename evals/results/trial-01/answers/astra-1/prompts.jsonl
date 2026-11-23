@@ -1,0 +1,11 @@
+{"id": "delta-nike", "prompt": "Shopping at Nike. How many Delta miles per dollar, and when did that specific listing last check out?"}
+{"id": "overall-ross-simons", "prompt": "I'm ordering from Ross-Simons. Which portal is best overall? Give me the leading cashback, miles and points options so I can decide. For cashback, quote Mr. Rebates if several portals tie."}
+{"id": "bonus-t-mobile-postpaid", "prompt": "How much cash per dollar will TopCashback pay me for T-Mobile Postpaid? Is this actually per dollar?"}
+{"id": "kitchen-tie", "prompt": "At Synthetic Kitchen, Rakuten or TopCashback for cashback? Show both and tell me which has the higher guaranteed rate."}
+{"id": "old-synthetic-supply", "prompt": "What did Rakuten last show for Synthetic Supply? Include the date and tell me whether I can count on that today."}
+{"id": "clarify-delta", "prompt": "delta shopping, what's the rate? Can't remember if I meant a portal or a store."}
+{"id": "missing-delta-synthetic-books", "prompt": "How many Delta miles can I earn at Synthetic Books? If you can't find it, does that mean Delta has no offer?"}
+{"id": "studio-reprint", "prompt": "For my deals page: quote the Synthetic Studio Rakuten offer, link to the store comparison and include the site's exact disclosure."}
+{"id": "directory-active", "prompt": "In the CBYS portal directory, how many entries are registered and how many are active? I want both counts."}
+{"id": "high-flat_miles", "prompt": "Read the highs feed in returned order for flat mileage bonuses. What's its first matching store, portal and payout? Link the store."}
+{"id": "valuation-nike", "prompt": "I value Delta miles at 1.5cpp. Convert that to cashback and tell me which wins at Nike: Delta or the top cashback portal. Show their listings."}

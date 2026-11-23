@@ -1,0 +1,13 @@
+{
+  "answer": "Did you mean the [Delta SkyMiles Shopping portal](https://checkbeforeyoushop.com/p/delta-skymiles), or a store such as [Delta Faucet](https://checkbeforeyoushop.com/m/delta-faucet) or [Delta Air Lines](https://checkbeforeyoushop.com/m/delta-air-lines)? If you meant the portal, which store are you shopping at? The miles per dollar depend on the store.",
+  "tool_calls": [
+    {
+      "tool": "search_stores",
+      "args": {
+        "query": "delta"
+      }
+    }
+  ],
+  "model": "gpt-6.2-astra",
+  "runner": "astra-1"
+}

@@ -1,0 +1,14 @@
+{
+  "answer": "[Delta SkyMiles Shopping (affiliate link)](https://checkbeforeyoushop.com/go/delta-skymiles?plc=api&m=2f5f8858-4f9d-4afa-af1c-cbeda29147be) listed **1 Delta mile per dollar** at Nike. [CheckBeforeYouShop’s Nike comparison](https://checkbeforeyoushop.com/m/nike) last confirmed that specific listing on November 22, 2026 at 16:44:01 UTC (2026-11-22T16:44:01.738624+00:00).\n\nRates are read from each portal's pages and can change or go stale, so always confirm on the portal before shopping. Some portal links may earn us a referral bonus; that never changes the rates or their order.",
+  "tool_calls": [
+    {
+      "tool": "get_store_rates",
+      "args": {
+        "store": "nike",
+        "program": "Delta"
+      }
+    }
+  ],
+  "model": "gpt-6.2-astra",
+  "runner": "astra-1"
+}
