@@ -1,0 +1,11 @@
+2026-11-22T23:49:14Z	get_store_rates	{"store":"synthetic-supply","program":"Rakuten"}
+2026-11-22T23:49:14Z	get_store_rates	{"store":"macys-com","program":"Delta"}
+2026-11-22T23:49:14Z	get_store_rates	{"store":"t-mobile-postpaid","program":"Delta"}
+2026-11-22T23:49:14Z	get_store_rates	{"store":"the-home-depot"}
+2026-11-22T23:49:14Z	get_store_rates	{"store":"square","program":"Delta"}
+2026-11-22T23:49:14Z	search_stores	{"query":"macys"}
+2026-11-22T23:49:14Z	get_store_rates	{"store":"synthetic-kitchen","program":"Rakuten"}
+2026-11-22T23:49:14Z	get_portal	{"portal":"Delta SkyMiles Shopping"}
+2026-11-22T23:49:14Z	get_highs	{"unit":"flat_points","kind":"one_time_bonus","limit":1}
+2026-11-22T23:49:14Z	get_highs	{"unit":"pct_cash","kind":"earn_rate","limit":1}
+2026-11-22T23:49:14Z	get_store_rates	{"store":"macys-com"}

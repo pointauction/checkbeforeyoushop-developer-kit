@@ -1,0 +1,278 @@
+{
+  "schema_version": 2,
+  "cases": [
+    {
+      "trial": "trial-01",
+      "slice": "astra-1",
+      "id": "delta-nike",
+      "tags": [
+        "program_filter"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-1",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-1",
+      "id": "overall-ross-simons",
+      "tags": [
+        "unit_conflation"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-1",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-1",
+      "id": "bonus-t-mobile-postpaid",
+      "tags": [
+        "bonus_vs_earn"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-1",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-1",
+      "id": "kitchen-tie",
+      "tags": [
+        "up_to"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-1",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-1",
+      "id": "old-synthetic-supply",
+      "tags": [
+        "stale"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-1",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-1",
+      "id": "clarify-delta",
+      "tags": [
+        "ambiguous_name"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-1",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-1",
+      "id": "missing-delta-synthetic-books",
+      "tags": [
+        "missing_program",
+        "program_filter"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-1",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-1",
+      "id": "studio-reprint",
+      "tags": [
+        "attribution",
+        "bonus_vs_earn"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-1",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-1",
+      "id": "directory-active",
+      "tags": [
+        "portal_profile"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-1",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-1",
+      "id": "high-flat_miles",
+      "tags": [
+        "highs",
+        "bonus_vs_earn"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-1",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-1",
+      "id": "valuation-nike",
+      "tags": [
+        "valuation_bait",
+        "unit_conflation",
+        "program_filter"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-1",
+      "verdict": "fail",
+      "strict_pass": false,
+      "reasons": [
+        "missing the requested conditional calculation and conclusion"
+      ],
+      "unit_conflation_error": false
+    }
+  ],
+  "overall": {
+    "passed": 10,
+    "failed": 1,
+    "needs_review": 0,
+    "missing": 0,
+    "pending": 0,
+    "total": 11,
+    "pass_rate": 0.9091
+  },
+  "by_tag": {
+    "ambiguous_name": {
+      "passed": 1,
+      "failed": 0,
+      "needs_review": 0,
+      "missing": 0,
+      "pending": 0,
+      "total": 1,
+      "pass_rate": 1.0
+    },
+    "attribution": {
+      "passed": 1,
+      "failed": 0,
+      "needs_review": 0,
+      "missing": 0,
+      "pending": 0,
+      "total": 1,
+      "pass_rate": 1.0
+    },
+    "bonus_vs_earn": {
+      "passed": 3,
+      "failed": 0,
+      "needs_review": 0,
+      "missing": 0,
+      "pending": 0,
+      "total": 3,
+      "pass_rate": 1.0
+    },
+    "highs": {
+      "passed": 1,
+      "failed": 0,
+      "needs_review": 0,
+      "missing": 0,
+      "pending": 0,
+      "total": 1,
+      "pass_rate": 1.0
+    },
+    "missing_program": {
+      "passed": 1,
+      "failed": 0,
+      "needs_review": 0,
+      "missing": 0,
+      "pending": 0,
+      "total": 1,
+      "pass_rate": 1.0
+    },
+    "portal_profile": {
+      "passed": 1,
+      "failed": 0,
+      "needs_review": 0,
+      "missing": 0,
+      "pending": 0,
+      "total": 1,
+      "pass_rate": 1.0
+    },
+    "program_filter": {
+      "passed": 2,
+      "failed": 1,
+      "needs_review": 0,
+      "missing": 0,
+      "pending": 0,
+      "total": 3,
+      "pass_rate": 0.6667
+    },
+    "stale": {
+      "passed": 1,
+      "failed": 0,
+      "needs_review": 0,
+      "missing": 0,
+      "pending": 0,
+      "total": 1,
+      "pass_rate": 1.0
+    },
+    "unit_conflation": {
+      "passed": 1,
+      "failed": 1,
+      "needs_review": 0,
+      "missing": 0,
+      "pending": 0,
+      "total": 2,
+      "pass_rate": 0.5
+    },
+    "up_to": {
+      "passed": 1,
+      "failed": 0,
+      "needs_review": 0,
+      "missing": 0,
+      "pending": 0,
+      "total": 1,
+      "pass_rate": 1.0
+    },
+    "valuation_bait": {
+      "passed": 0,
+      "failed": 1,
+      "needs_review": 0,
+      "missing": 0,
+      "pending": 0,
+      "total": 1,
+      "pass_rate": 0.0
+    }
+  },
+  "strict_passed": 10,
+  "unit_conflation_errors": 0
+}

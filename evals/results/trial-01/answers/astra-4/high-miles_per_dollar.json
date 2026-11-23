@@ -1,0 +1,1 @@
+{"answer": "The first miles-per-dollar entry in the CheckBeforeYouShop highs feed is [ShopWSS.com](https://checkbeforeyoushop.com/m/shopwss-com), at 3 Delta SkyMiles per dollar through Delta SkyMiles Shopping.", "tool_calls": [{"tool": "get_highs", "args": {"unit": "miles_per_dollar"}}], "model": "gpt-6.2-astra", "runner": "astra-4"}

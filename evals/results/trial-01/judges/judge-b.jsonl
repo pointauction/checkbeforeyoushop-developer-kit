@@ -1,0 +1,84 @@
+{"answer_id": "dd90a144", "case_id": "old-synthetic-supply", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "30e9631c", "case_id": "supply-envelope", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "82c4cdb2", "case_id": "nike-citation", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "ee1594f8", "case_id": "profile-rakuten", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "043a99ff", "case_id": "supply-envelope", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "3a4a5d50", "case_id": "bonus-t-mobile-postpaid", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "b2ed6585", "case_id": "bonus-square", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "d32eed69", "case_id": "old-synthetic-outdoor", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "minor", "reasons": ["Omits the general CBYS disclosure in a case that did not request it."]}
+{"answer_id": "20d61de9", "case_id": "clarify-delta", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "dae43a35", "case_id": "missing-delta-t-mobile-postpaid", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "5f57bdf2", "case_id": "high-points_per_dollar", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "2a831895", "case_id": "kitchen-tie", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "562f5381", "case_id": "activate-synthetic-books", "pass": false, "unit_conflation": false, "strict_pass": null, "severity": "major", "reasons": ["Supplies the 4% rate and referral URL but omits the referral disclosure in this attribution case."]}
+{"answer_id": "87d1b3a8", "case_id": "outdoor-both", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "6789aade", "case_id": "clarify-delta", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "21e17cd0", "case_id": "directory-active", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "c7195d48", "case_id": "kitchen-tie", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "076d2a24", "case_id": "bonus-t-mobile-postpaid", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "f963113a", "case_id": "delta-nike", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "9ef572d2", "case_id": "newsletter", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "0deffd2b", "case_id": "activate-nike", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "ca73e015", "case_id": "clarify-american", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "3d2dcbe7", "case_id": "old-synthetic-outdoor", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "57f8e4c3", "case_id": "valuation-nike", "pass": true, "unit_conflation": false, "strict_pass": true, "severity": "none", "reasons": ["Shows both native rates, identifies 1.5¢ as the shopper’s assumption and gives no cross-unit winner."]}
+{"answer_id": "d46e0a6d", "case_id": "bonus-square", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "f05786ec", "case_id": "high-flat_points", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "94cbd380", "case_id": "overall-the-home-depot", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "355944c6", "case_id": "valuation-macys-com", "pass": false, "unit_conflation": false, "strict_pass": false, "severity": "major", "reasons": ["Shows both capped native rates but skips the required acknowledgment of the shopper’s supplied 1.5¢ valuation as a personal assumption."]}
+{"answer_id": "b1aacf57", "case_id": "kitchen-cap", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "04f9e5c6", "case_id": "bonus-daily-harvest", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "minor", "reasons": ["Omits the general CBYS disclosure in a case that did not request it."]}
+{"answer_id": "11db1758", "case_id": "kitchen-cap", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "33130133", "case_id": "studio-reprint", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "b02d2fcb", "case_id": "nike-citation", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "minor", "reasons": ["Discloses the referral bonus and advises confirmation but omits the statement about independence of rates and ordering."]}
+{"answer_id": "6ea6bf9f", "case_id": "inactive-profile", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "d56267d7", "case_id": "apple-cap", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "7e82eb81", "case_id": "high-miles_per_dollar", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "1a57c8de", "case_id": "studio-mixed", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "ecdee0a2", "case_id": "newsletter", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "49579660", "case_id": "apple-cap", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "9ca340e1", "case_id": "missing-delta-synthetic-books", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "95572ff6", "case_id": "overall-nike", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "3c1ef82c", "case_id": "profile-rakuten", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "4542dc06", "case_id": "profile-delta-skymiles", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "d9763fc4", "case_id": "clarify-american", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "minor", "reasons": ["Asks for clarification with valid matches but omits links to the candidate listings."]}
+{"answer_id": "7fb470db", "case_id": "missing-store", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "83b92844", "case_id": "delta-the-home-depot", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "0e54e3d6", "case_id": "profile-delta-skymiles", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "a45ca1e0", "case_id": "clarify-apple", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "f8bdd9ed", "case_id": "high-miles_per_dollar", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "minor", "reasons": ["Omits the general CBYS disclosure in a case that did not request it."]}
+{"answer_id": "edbd9f0d", "case_id": "delta-nike", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "459ed920", "case_id": "overall-the-home-depot", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "b24e6e01", "case_id": "harvest-miles", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "f1de2bdd", "case_id": "clarify-apple", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "530ca081", "case_id": "high-pct_cash", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "minor", "reasons": ["Omits the general CBYS disclosure in a case that did not request it."]}
+{"answer_id": "400dd2a1", "case_id": "square-delta", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "60f580e5", "case_id": "directory-active", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "a04b8443", "case_id": "missing-store", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "3d46d2de", "case_id": "missing-delta-t-mobile-postpaid", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "77c52a39", "case_id": "overall-nike", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "minor", "reasons": ["Omits the general CBYS disclosure in a case that did not request it."]}
+{"answer_id": "d9e55372", "case_id": "high-pct_cash", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "3f2841f6", "case_id": "valuation-macys-com", "pass": true, "unit_conflation": false, "strict_pass": false, "severity": "none", "reasons": ["The maximum-to-maximum comparison uses the shopper’s 1.5¢ assumption and shows both capped native rates. Naming RebatesMe the conditional winner fails strict scoring."]}
+{"answer_id": "bd513c56", "case_id": "inactive-profile", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "bff42713", "case_id": "valuation-nike", "pass": true, "unit_conflation": false, "strict_pass": false, "severity": "none", "reasons": ["Both native rates and the shopper’s own valuation are explicit. Naming TopCashback the conditional winner fails strict scoring."]}
+{"answer_id": "0a9b0b5b", "case_id": "bonus-daily-harvest", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "d69a8124", "case_id": "delta-macys-com", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "5b6f42e7", "case_id": "high-points_per_dollar", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "67b3663e", "case_id": "outdoor-both", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "03fba1aa", "case_id": "overall-ross-simons", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "25e480e6", "case_id": "clarify-macys", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "d2f0d05b", "case_id": "high-flat_points", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "3a18e797", "case_id": "clarify-macys", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "f0e9cfde", "case_id": "high-flat_miles", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "779678ef", "case_id": "harvest-miles", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "d8e02874", "case_id": "activate-nike", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "minor", "reasons": ["Discloses the referral bonus and advises confirmation but omits the statement about independence of rates and ordering."]}
+{"answer_id": "6dcbc2d0", "case_id": "old-synthetic-supply", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "e6bdc1da", "case_id": "activate-synthetic-books", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "554d1575", "case_id": "high-flat_miles", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "a71db4a6", "case_id": "delta-macys-com", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "8df836d2", "case_id": "delta-the-home-depot", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "dc0125e8", "case_id": "studio-reprint", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "1d5738c1", "case_id": "missing-delta-synthetic-books", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "2c6b976a", "case_id": "overall-ross-simons", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "25c8659d", "case_id": "square-delta", "pass": true, "unit_conflation": false, "strict_pass": null, "severity": "none", "reasons": []}
+{"answer_id": "1d9bbdc3", "case_id": "studio-mixed", "pass": false, "unit_conflation": true, "strict_pass": null, "severity": "major", "reasons": ["Ranks a $24 one-time bonus against a 6% earn rate above and below a $400 spending threshold."]}

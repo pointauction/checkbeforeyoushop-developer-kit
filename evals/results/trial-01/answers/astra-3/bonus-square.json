@@ -1,0 +1,14 @@
+{
+  "answer": "No. Rakuten’s Square listing showed a $20 one-time cash bonus. The amount is fixed regardless of how many dollars you spend on a qualifying purchase.\n\n[Square on CheckBeforeYouShop](https://checkbeforeyoushop.com/m/square) · [Rakuten affiliate link](https://checkbeforeyoushop.com/go/rakuten?plc=api&m=7d817a20-ad5c-42b8-9115-45d88ebd83a9)\n\nThis is a historical snapshot. Confirm the offer on the portal before shopping. CheckBeforeYouShop may earn a referral bonus from some links. That does not affect rates or their order.",
+  "tool_calls": [
+    {
+      "tool": "get_store_rates",
+      "args": {
+        "store": "square",
+        "program": "Rakuten"
+      }
+    }
+  ],
+  "model": "gpt-6.2-astra",
+  "runner": "astra-3"
+}

@@ -1,0 +1,11 @@
+2026-11-22T23:49:24Z	get_store_rates	{"store":"daily-harvest","program":"American AAdvantage eShopping"}
+2026-11-22T23:49:24Z	get_store_rates	{"store":"the-home-depot","program":"Delta"}
+2026-11-22T23:49:24Z	get_store_rates	{"store":"square","program":"Rakuten"}
+2026-11-22T23:49:24Z	get_store_rates	{"store":"apple.com","program":"TopCashback"}
+2026-11-22T23:49:24Z	get_store_rates	{"store":"synthetic-outdoor","include_stale":true}
+2026-11-22T23:49:24Z	get_store_rates	{"store":"nike","program":"Delta"}
+2026-11-22T23:49:24Z	get_store_rates	{"store":"nike","program":"Delta"}
+2026-11-22T23:49:24Z	search_stores	{"query":"apple"}
+2026-11-22T23:49:24Z	get_highs	{"unit":"points_per_dollar","limit":1}
+2026-11-22T23:49:24Z	get_portal	{"portal":"rakuten"}
+2026-11-22T23:49:30Z	get_store_rates	{"store":"apple","program":"TopCashback"}

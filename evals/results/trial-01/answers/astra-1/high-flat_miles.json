@@ -1,0 +1,15 @@
+{
+  "answer": "The first matching entry in CheckBeforeYouShop’s November 22, 2026 highs feed was [Square](https://checkbeforeyoushop.com/m/square) through **American AAdvantage eShopping**, listed at **1,100 AA miles as a one-time bonus**. The feed didn’t give a confirmation time or say whether that was an “up to” amount.\n\nRates are read from each portal's pages and can change or go stale, so always confirm on the portal before shopping. Some portal links may earn us a referral bonus; that never changes the rates or their order.",
+  "tool_calls": [
+    {
+      "tool": "get_highs",
+      "args": {
+        "unit": "flat_miles",
+        "kind": "one_time_bonus",
+        "limit": 1
+      }
+    }
+  ],
+  "model": "gpt-6.2-astra",
+  "runner": "astra-1"
+}

@@ -1,0 +1,256 @@
+{
+  "schema_version": 2,
+  "cases": [
+    {
+      "trial": "trial-01",
+      "slice": "astra-3",
+      "id": "delta-the-home-depot",
+      "tags": [
+        "program_filter",
+        "up_to"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-3",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-3",
+      "id": "bonus-square",
+      "tags": [
+        "bonus_vs_earn"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-3",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-3",
+      "id": "harvest-miles",
+      "tags": [
+        "bonus_vs_earn",
+        "program_filter"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-3",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-3",
+      "id": "apple-cap",
+      "tags": [
+        "ambiguous_name",
+        "up_to"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-3",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-3",
+      "id": "outdoor-both",
+      "tags": [
+        "stale",
+        "unit_conflation"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-3",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-3",
+      "id": "clarify-apple",
+      "tags": [
+        "ambiguous_name"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-3",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-3",
+      "id": "nike-citation",
+      "tags": [
+        "attribution",
+        "program_filter"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-3",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-3",
+      "id": "profile-rakuten",
+      "tags": [
+        "portal_profile",
+        "attribution"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-3",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-3",
+      "id": "high-points_per_dollar",
+      "tags": [
+        "highs",
+        "unit_conflation"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-3",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false
+    },
+    {
+      "trial": "trial-01",
+      "slice": "astra-3",
+      "id": "activate-nike",
+      "tags": [
+        "go_url_safety",
+        "attribution"
+      ],
+      "model": "gpt-6.2-astra",
+      "runner": "astra-3",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false
+    }
+  ],
+  "overall": {
+    "passed": 10,
+    "failed": 0,
+    "needs_review": 0,
+    "missing": 0,
+    "pending": 0,
+    "total": 10,
+    "pass_rate": 1.0
+  },
+  "by_tag": {
+    "ambiguous_name": {
+      "passed": 2,
+      "failed": 0,
+      "needs_review": 0,
+      "missing": 0,
+      "pending": 0,
+      "total": 2,
+      "pass_rate": 1.0
+    },
+    "attribution": {
+      "passed": 3,
+      "failed": 0,
+      "needs_review": 0,
+      "missing": 0,
+      "pending": 0,
+      "total": 3,
+      "pass_rate": 1.0
+    },
+    "bonus_vs_earn": {
+      "passed": 2,
+      "failed": 0,
+      "needs_review": 0,
+      "missing": 0,
+      "pending": 0,
+      "total": 2,
+      "pass_rate": 1.0
+    },
+    "go_url_safety": {
+      "passed": 1,
+      "failed": 0,
+      "needs_review": 0,
+      "missing": 0,
+      "pending": 0,
+      "total": 1,
+      "pass_rate": 1.0
+    },
+    "highs": {
+      "passed": 1,
+      "failed": 0,
+      "needs_review": 0,
+      "missing": 0,
+      "pending": 0,
+      "total": 1,
+      "pass_rate": 1.0
+    },
+    "portal_profile": {
+      "passed": 1,
+      "failed": 0,
+      "needs_review": 0,
+      "missing": 0,
+      "pending": 0,
+      "total": 1,
+      "pass_rate": 1.0
+    },
+    "program_filter": {
+      "passed": 3,
+      "failed": 0,
+      "needs_review": 0,
+      "missing": 0,
+      "pending": 0,
+      "total": 3,
+      "pass_rate": 1.0
+    },
+    "stale": {
+      "passed": 1,
+      "failed": 0,
+      "needs_review": 0,
+      "missing": 0,
+      "pending": 0,
+      "total": 1,
+      "pass_rate": 1.0
+    },
+    "unit_conflation": {
+      "passed": 2,
+      "failed": 0,
+      "needs_review": 0,
+      "missing": 0,
+      "pending": 0,
+      "total": 2,
+      "pass_rate": 1.0
+    },
+    "up_to": {
+      "passed": 2,
+      "failed": 0,
+      "needs_review": 0,
+      "missing": 0,
+      "pending": 0,
+      "total": 2,
+      "pass_rate": 1.0
+    }
+  },
+  "strict_passed": 10,
+  "unit_conflation_errors": 0
+}

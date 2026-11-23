@@ -1,0 +1,242 @@
+{
+  "schema_version": 2,
+  "cases": [
+    {
+      "trial": "trial-01",
+      "slice": "sol-4",
+      "id": "overall-nike",
+      "tags": [
+        "unit_conflation"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-4",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-4",
+      "id": "bonus-daily-harvest",
+      "tags": [
+        "bonus_vs_earn"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-4",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-4",
+      "id": "studio-mixed",
+      "tags": [
+        "bonus_vs_earn",
+        "unit_conflation"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-4",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-4",
+      "id": "old-synthetic-outdoor",
+      "tags": [
+        "stale"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-4",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-4",
+      "id": "clarify-american",
+      "tags": [
+        "ambiguous_name"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-4",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-4",
+      "id": "missing-store",
+      "tags": [
+        "missing_merchant"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-4",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-4",
+      "id": "newsletter",
+      "tags": [
+        "attribution"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-4",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-4",
+      "id": "inactive-profile",
+      "tags": [
+        "portal_profile"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-4",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-4",
+      "id": "high-miles_per_dollar",
+      "tags": [
+        "highs",
+        "unit_conflation"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-4",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false
+    },
+    {
+      "trial": "trial-01",
+      "slice": "sol-4",
+      "id": "activate-synthetic-books",
+      "tags": [
+        "go_url_safety",
+        "attribution"
+      ],
+      "model": "gpt-6.2-sol",
+      "runner": "sol-4",
+      "verdict": "pass",
+      "strict_pass": true,
+      "reasons": [],
+      "unit_conflation_error": false
+    }
+  ],
+  "overall": {
+    "passed": 10,
+    "failed": 0,
+    "needs_review": 0,
+    "missing": 0,
+    "pending": 0,
+    "total": 10,
+    "pass_rate": 1.0
+  },
+  "by_tag": {
+    "ambiguous_name": {
+      "passed": 1,
+      "failed": 0,
+      "needs_review": 0,
+      "missing": 0,
+      "pending": 0,
+      "total": 1,
+      "pass_rate": 1.0
+    },
+    "attribution": {
+      "passed": 2,
+      "failed": 0,
+      "needs_review": 0,
+      "missing": 0,
+      "pending": 0,
+      "total": 2,
+      "pass_rate": 1.0
+    },
+    "bonus_vs_earn": {
+      "passed": 2,
+      "failed": 0,
+      "needs_review": 0,
+      "missing": 0,
+      "pending": 0,
+      "total": 2,
+      "pass_rate": 1.0
+    },
+    "go_url_safety": {
+      "passed": 1,
+      "failed": 0,
+      "needs_review": 0,
+      "missing": 0,
+      "pending": 0,
+      "total": 1,
+      "pass_rate": 1.0
+    },
+    "highs": {
+      "passed": 1,
+      "failed": 0,
+      "needs_review": 0,
+      "missing": 0,
+      "pending": 0,
+      "total": 1,
+      "pass_rate": 1.0
+    },
+    "missing_merchant": {
+      "passed": 1,
+      "failed": 0,
+      "needs_review": 0,
+      "missing": 0,
+      "pending": 0,
+      "total": 1,
+      "pass_rate": 1.0
+    },
+    "portal_profile": {
+      "passed": 1,
+      "failed": 0,
+      "needs_review": 0,
+      "missing": 0,
+      "pending": 0,
+      "total": 1,
+      "pass_rate": 1.0
+    },
+    "stale": {
+      "passed": 1,
+      "failed": 0,
+      "needs_review": 0,
+      "missing": 0,
+      "pending": 0,
+      "total": 1,
+      "pass_rate": 1.0
+    },
+    "unit_conflation": {
+      "passed": 3,
+      "failed": 0,
+      "needs_review": 0,
+      "missing": 0,
+      "pending": 0,
+      "total": 3,
+      "pass_rate": 1.0
+    }
+  },
+  "strict_passed": 10,
+  "unit_conflation_errors": 0
+}

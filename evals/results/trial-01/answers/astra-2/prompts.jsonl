@@ -1,0 +1,11 @@
+{"id": "delta-macys-com", "prompt": "Shopping at Macys.com. How many Delta miles per dollar, and when did that specific listing last check out?"}
+{"id": "overall-the-home-depot", "prompt": "I'm ordering from The Home Depot. Which portal is best overall? Give me the leading cashback, miles and points options so I can decide."}
+{"id": "square-delta", "prompt": "Is Square really hundreds of SkyMiles per dollar? What is Delta showing?"}
+{"id": "kitchen-cap", "prompt": "What cashback does Rakuten list for Synthetic Kitchen, and do all purchases get that amount?"}
+{"id": "supply-envelope", "prompt": "Synthetic Supply looks freshly updated. Give the overall snapshot date and Rakuten's last confirmation date and cashback. Are they equally fresh?"}
+{"id": "clarify-macys", "prompt": "macys cashback pls. Not sure which US listing the receipt belongs to."}
+{"id": "missing-delta-t-mobile-postpaid", "prompt": "How many Delta miles can I earn at T-Mobile Postpaid? If you can't find it, does that mean Delta has no offer?"}
+{"id": "profile-delta-skymiles", "prompt": "How many stores does Delta SkyMiles Shopping track and how often is it scheduled to check? Link its CBYS profile."}
+{"id": "high-pct_cash", "prompt": "Read the highs feed in returned order for percentage cashback. What's its first matching store, portal and payout? Link the store."}
+{"id": "high-flat_points", "prompt": "Read the highs feed in returned order for flat points bonuses. What's its first matching store, portal and payout? Link the store."}
+{"id": "valuation-macys-com", "prompt": "I value Delta miles at 1.5cpp. Convert that to cashback and tell me which wins at Macys.com: Delta or the top cashback portal. Show their listings."}

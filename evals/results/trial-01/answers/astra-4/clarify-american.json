@@ -1,0 +1,1 @@
+{"answer": "Did you mean the American AAdvantage eShopping portal, or a store such as American Eagle Outfitters, American Tourister, or American Girl? A full name or store domain would help me point you to the right listing.", "tool_calls": [{"tool": "search_stores", "args": {"query": "american"}}], "model": "gpt-6.2-astra", "runner": "astra-4"}

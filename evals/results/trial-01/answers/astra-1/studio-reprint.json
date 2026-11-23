@@ -1,0 +1,14 @@
+{
+  "answer": "[CheckBeforeYouShop’s Synthetic Studio comparison](https://checkbeforeyoushop.com/m/synthetic-studio) listed a **$24 one-time cash bonus** through [Rakuten (affiliate link)](https://checkbeforeyoushop.com/go/rakuten?plc=api&m=f15a94ba-e124-5996-b43a-24f9d9e3d695), last confirmed November 22, 2026 at 13:00 UTC.\n\nRates are read from each portal's pages and can change or go stale, so always confirm on the portal before shopping. Some portal links may earn us a referral bonus; that never changes the rates or their order.",
+  "tool_calls": [
+    {
+      "tool": "get_store_rates",
+      "args": {
+        "store": "synthetic-studio",
+        "program": "Rakuten"
+      }
+    }
+  ],
+  "model": "gpt-6.2-astra",
+  "runner": "astra-1"
+}

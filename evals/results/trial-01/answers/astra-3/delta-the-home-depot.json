@@ -1,0 +1,14 @@
+{
+  "answer": "Delta SkyMiles Shopping listed up to 2.5 miles per dollar at The Home Depot. Your items may earn less. CheckBeforeYouShop last confirmed that specific Delta listing on November 22, 2026 at 16:44:01 UTC (2026-11-22T16:44:01.738624+00:00).\n\n[The Home Depot on CheckBeforeYouShop](https://checkbeforeyoushop.com/m/the-home-depot) · [Delta SkyMiles Shopping affiliate link](https://checkbeforeyoushop.com/go/delta-skymiles?plc=api&m=f420947b-4ae5-4acd-9d20-67919de592ec)\n\nThis is a historical snapshot. Confirm the offer on the portal before shopping. CheckBeforeYouShop may earn a referral bonus from some links. That does not affect rates or their order.",
+  "tool_calls": [
+    {
+      "tool": "get_store_rates",
+      "args": {
+        "store": "the-home-depot",
+        "program": "Delta"
+      }
+    }
+  ],
+  "model": "gpt-6.2-astra",
+  "runner": "astra-3"
+}

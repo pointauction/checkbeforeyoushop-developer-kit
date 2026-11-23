@@ -1,0 +1,1 @@
+{"answer": "CheckBeforeYouShop lists Synthetic Rewards as inactive. It has never recorded a successful check, and the profile shows 0 tracked stores. [Synthetic Rewards profile](https://checkbeforeyoushop.com/p/synthetic-rewards)", "tool_calls": [{"tool": "get_portal", "args": {"portal": "Synthetic Rewards"}}], "model": "gpt-6.2-astra", "runner": "astra-4"}

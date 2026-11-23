@@ -1,0 +1,14 @@
+{
+  "answer": "[CheckBeforeYouShop’s Synthetic Books comparison](https://checkbeforeyoushop.com/m/synthetic-books) only tracked cash offers in the snapshot. I can’t quote a Delta mileage rate from it. A missing listing doesn’t mean Delta has no offer. Check Synthetic Books directly in Delta SkyMiles Shopping before you buy.\n\nRates are read from each portal's pages and can change or go stale, so always confirm on the portal before shopping. Some portal links may earn us a referral bonus; that never changes the rates or their order.",
+  "tool_calls": [
+    {
+      "tool": "get_store_rates",
+      "args": {
+        "store": "synthetic-books",
+        "program": "Delta"
+      }
+    }
+  ],
+  "model": "gpt-6.2-astra",
+  "runner": "astra-1"
+}

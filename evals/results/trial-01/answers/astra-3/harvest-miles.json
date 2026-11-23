@@ -1,0 +1,14 @@
+{
+  "answer": "American AAdvantage eShopping listed a one-time bonus of 1,900 AAdvantage miles for Daily Harvest. That’s the total for a qualifying purchase.\n\n[Daily Harvest on CheckBeforeYouShop](https://checkbeforeyoushop.com/m/daily-harvest) · [American AAdvantage eShopping affiliate link](https://checkbeforeyoushop.com/go/aa-eshopping?plc=api&m=838c9114-11de-444c-ad52-f689c2917339)\n\nThis is a historical snapshot. Confirm the offer on the portal before shopping. CheckBeforeYouShop may earn a referral bonus from some links. That does not affect rates or their order.",
+  "tool_calls": [
+    {
+      "tool": "get_store_rates",
+      "args": {
+        "store": "daily-harvest",
+        "program": "American AAdvantage eShopping"
+      }
+    }
+  ],
+  "model": "gpt-6.2-astra",
+  "runner": "astra-3"
+}

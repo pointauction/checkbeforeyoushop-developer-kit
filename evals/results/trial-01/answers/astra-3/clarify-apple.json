@@ -1,0 +1,13 @@
+{
+  "answer": "Which merchant are you shopping with, [Apple (apple.com), the electronics store](https://checkbeforeyoushop.com/m/apple), or [Apple Vacations (applevacations.com), the travel company](https://checkbeforeyoushop.com/m/apple-vacations)?",
+  "tool_calls": [
+    {
+      "tool": "search_stores",
+      "args": {
+        "query": "apple"
+      }
+    }
+  ],
+  "model": "gpt-6.2-astra",
+  "runner": "astra-3"
+}

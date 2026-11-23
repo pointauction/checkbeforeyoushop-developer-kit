@@ -1,0 +1,11 @@
+2026-11-22T23:49:29Z	get_store_rates	{"store":"Nike"}
+2026-11-22T23:49:29Z	get_store_rates	{"store":"Daily Harvest"}
+2026-11-22T23:49:29Z	get_store_rates	{"store":"Synthetic Books"}
+2026-11-22T23:49:29Z	search_stores	{"query":"zzqxnotastore"}
+2026-11-22T23:49:29Z	get_store_rates	{"store":"Synthetic Studio"}
+2026-11-22T23:49:29Z	get_store_rates	{"store":"Synthetic Outdoor","include_stale":true}
+2026-11-22T23:49:29Z	get_highs	{"unit":"miles_per_dollar"}
+2026-11-22T23:49:29Z	get_store_rates	{"store":"Nike"}
+2026-11-22T23:49:29Z	get_portal	{"portal":"Synthetic Rewards"}
+2026-11-22T23:49:29Z	search_stores	{"query":"american"}
+2026-11-22T23:49:45Z	get_store_rates	{"store":"daily-harvest"}

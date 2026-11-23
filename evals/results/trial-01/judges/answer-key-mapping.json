@@ -1,0 +1,422 @@
+{
+ "3a4a5d50": {
+  "runner": "astra-1",
+  "model": "gpt-6.2-astra",
+  "case_id": "bonus-t-mobile-postpaid"
+ },
+ "6789aade": {
+  "runner": "astra-1",
+  "model": "gpt-6.2-astra",
+  "case_id": "clarify-delta"
+ },
+ "edbd9f0d": {
+  "runner": "astra-1",
+  "model": "gpt-6.2-astra",
+  "case_id": "delta-nike"
+ },
+ "60f580e5": {
+  "runner": "astra-1",
+  "model": "gpt-6.2-astra",
+  "case_id": "directory-active"
+ },
+ "f0e9cfde": {
+  "runner": "astra-1",
+  "model": "gpt-6.2-astra",
+  "case_id": "high-flat_miles"
+ },
+ "c7195d48": {
+  "runner": "astra-1",
+  "model": "gpt-6.2-astra",
+  "case_id": "kitchen-tie"
+ },
+ "1d5738c1": {
+  "runner": "astra-1",
+  "model": "gpt-6.2-astra",
+  "case_id": "missing-delta-synthetic-books"
+ },
+ "6dcbc2d0": {
+  "runner": "astra-1",
+  "model": "gpt-6.2-astra",
+  "case_id": "old-synthetic-supply"
+ },
+ "03fba1aa": {
+  "runner": "astra-1",
+  "model": "gpt-6.2-astra",
+  "case_id": "overall-ross-simons"
+ },
+ "dc0125e8": {
+  "runner": "astra-1",
+  "model": "gpt-6.2-astra",
+  "case_id": "studio-reprint"
+ },
+ "57f8e4c3": {
+  "runner": "astra-1",
+  "model": "gpt-6.2-astra",
+  "case_id": "valuation-nike"
+ },
+ "3a18e797": {
+  "runner": "astra-2",
+  "model": "gpt-6.2-astra",
+  "case_id": "clarify-macys"
+ },
+ "a71db4a6": {
+  "runner": "astra-2",
+  "model": "gpt-6.2-astra",
+  "case_id": "delta-macys-com"
+ },
+ "f05786ec": {
+  "runner": "astra-2",
+  "model": "gpt-6.2-astra",
+  "case_id": "high-flat_points"
+ },
+ "d9e55372": {
+  "runner": "astra-2",
+  "model": "gpt-6.2-astra",
+  "case_id": "high-pct_cash"
+ },
+ "b1aacf57": {
+  "runner": "astra-2",
+  "model": "gpt-6.2-astra",
+  "case_id": "kitchen-cap"
+ },
+ "dae43a35": {
+  "runner": "astra-2",
+  "model": "gpt-6.2-astra",
+  "case_id": "missing-delta-t-mobile-postpaid"
+ },
+ "94cbd380": {
+  "runner": "astra-2",
+  "model": "gpt-6.2-astra",
+  "case_id": "overall-the-home-depot"
+ },
+ "0e54e3d6": {
+  "runner": "astra-2",
+  "model": "gpt-6.2-astra",
+  "case_id": "profile-delta-skymiles"
+ },
+ "25c8659d": {
+  "runner": "astra-2",
+  "model": "gpt-6.2-astra",
+  "case_id": "square-delta"
+ },
+ "30e9631c": {
+  "runner": "astra-2",
+  "model": "gpt-6.2-astra",
+  "case_id": "supply-envelope"
+ },
+ "355944c6": {
+  "runner": "astra-2",
+  "model": "gpt-6.2-astra",
+  "case_id": "valuation-macys-com"
+ },
+ "0deffd2b": {
+  "runner": "astra-3",
+  "model": "gpt-6.2-astra",
+  "case_id": "activate-nike"
+ },
+ "d56267d7": {
+  "runner": "astra-3",
+  "model": "gpt-6.2-astra",
+  "case_id": "apple-cap"
+ },
+ "d46e0a6d": {
+  "runner": "astra-3",
+  "model": "gpt-6.2-astra",
+  "case_id": "bonus-square"
+ },
+ "f1de2bdd": {
+  "runner": "astra-3",
+  "model": "gpt-6.2-astra",
+  "case_id": "clarify-apple"
+ },
+ "83b92844": {
+  "runner": "astra-3",
+  "model": "gpt-6.2-astra",
+  "case_id": "delta-the-home-depot"
+ },
+ "779678ef": {
+  "runner": "astra-3",
+  "model": "gpt-6.2-astra",
+  "case_id": "harvest-miles"
+ },
+ "5f57bdf2": {
+  "runner": "astra-3",
+  "model": "gpt-6.2-astra",
+  "case_id": "high-points_per_dollar"
+ },
+ "82c4cdb2": {
+  "runner": "astra-3",
+  "model": "gpt-6.2-astra",
+  "case_id": "nike-citation"
+ },
+ "67b3663e": {
+  "runner": "astra-3",
+  "model": "gpt-6.2-astra",
+  "case_id": "outdoor-both"
+ },
+ "ee1594f8": {
+  "runner": "astra-3",
+  "model": "gpt-6.2-astra",
+  "case_id": "profile-rakuten"
+ },
+ "562f5381": {
+  "runner": "astra-4",
+  "model": "gpt-6.2-astra",
+  "case_id": "activate-synthetic-books"
+ },
+ "04f9e5c6": {
+  "runner": "astra-4",
+  "model": "gpt-6.2-astra",
+  "case_id": "bonus-daily-harvest"
+ },
+ "d9763fc4": {
+  "runner": "astra-4",
+  "model": "gpt-6.2-astra",
+  "case_id": "clarify-american"
+ },
+ "f8bdd9ed": {
+  "runner": "astra-4",
+  "model": "gpt-6.2-astra",
+  "case_id": "high-miles_per_dollar"
+ },
+ "bd513c56": {
+  "runner": "astra-4",
+  "model": "gpt-6.2-astra",
+  "case_id": "inactive-profile"
+ },
+ "a04b8443": {
+  "runner": "astra-4",
+  "model": "gpt-6.2-astra",
+  "case_id": "missing-store"
+ },
+ "9ef572d2": {
+  "runner": "astra-4",
+  "model": "gpt-6.2-astra",
+  "case_id": "newsletter"
+ },
+ "d32eed69": {
+  "runner": "astra-4",
+  "model": "gpt-6.2-astra",
+  "case_id": "old-synthetic-outdoor"
+ },
+ "77c52a39": {
+  "runner": "astra-4",
+  "model": "gpt-6.2-astra",
+  "case_id": "overall-nike"
+ },
+ "1d9bbdc3": {
+  "runner": "astra-4",
+  "model": "gpt-6.2-astra",
+  "case_id": "studio-mixed"
+ },
+ "076d2a24": {
+  "runner": "sol-1",
+  "model": "gpt-6.2-sol",
+  "case_id": "bonus-t-mobile-postpaid"
+ },
+ "20d61de9": {
+  "runner": "sol-1",
+  "model": "gpt-6.2-sol",
+  "case_id": "clarify-delta"
+ },
+ "f963113a": {
+  "runner": "sol-1",
+  "model": "gpt-6.2-sol",
+  "case_id": "delta-nike"
+ },
+ "21e17cd0": {
+  "runner": "sol-1",
+  "model": "gpt-6.2-sol",
+  "case_id": "directory-active"
+ },
+ "554d1575": {
+  "runner": "sol-1",
+  "model": "gpt-6.2-sol",
+  "case_id": "high-flat_miles"
+ },
+ "2a831895": {
+  "runner": "sol-1",
+  "model": "gpt-6.2-sol",
+  "case_id": "kitchen-tie"
+ },
+ "9ca340e1": {
+  "runner": "sol-1",
+  "model": "gpt-6.2-sol",
+  "case_id": "missing-delta-synthetic-books"
+ },
+ "dd90a144": {
+  "runner": "sol-1",
+  "model": "gpt-6.2-sol",
+  "case_id": "old-synthetic-supply"
+ },
+ "2c6b976a": {
+  "runner": "sol-1",
+  "model": "gpt-6.2-sol",
+  "case_id": "overall-ross-simons"
+ },
+ "33130133": {
+  "runner": "sol-1",
+  "model": "gpt-6.2-sol",
+  "case_id": "studio-reprint"
+ },
+ "bff42713": {
+  "runner": "sol-1",
+  "model": "gpt-6.2-sol",
+  "case_id": "valuation-nike"
+ },
+ "25e480e6": {
+  "runner": "sol-2",
+  "model": "gpt-6.2-sol",
+  "case_id": "clarify-macys"
+ },
+ "d69a8124": {
+  "runner": "sol-2",
+  "model": "gpt-6.2-sol",
+  "case_id": "delta-macys-com"
+ },
+ "d2f0d05b": {
+  "runner": "sol-2",
+  "model": "gpt-6.2-sol",
+  "case_id": "high-flat_points"
+ },
+ "530ca081": {
+  "runner": "sol-2",
+  "model": "gpt-6.2-sol",
+  "case_id": "high-pct_cash"
+ },
+ "11db1758": {
+  "runner": "sol-2",
+  "model": "gpt-6.2-sol",
+  "case_id": "kitchen-cap"
+ },
+ "3d46d2de": {
+  "runner": "sol-2",
+  "model": "gpt-6.2-sol",
+  "case_id": "missing-delta-t-mobile-postpaid"
+ },
+ "459ed920": {
+  "runner": "sol-2",
+  "model": "gpt-6.2-sol",
+  "case_id": "overall-the-home-depot"
+ },
+ "4542dc06": {
+  "runner": "sol-2",
+  "model": "gpt-6.2-sol",
+  "case_id": "profile-delta-skymiles"
+ },
+ "400dd2a1": {
+  "runner": "sol-2",
+  "model": "gpt-6.2-sol",
+  "case_id": "square-delta"
+ },
+ "043a99ff": {
+  "runner": "sol-2",
+  "model": "gpt-6.2-sol",
+  "case_id": "supply-envelope"
+ },
+ "3f2841f6": {
+  "runner": "sol-2",
+  "model": "gpt-6.2-sol",
+  "case_id": "valuation-macys-com"
+ },
+ "d8e02874": {
+  "runner": "sol-3",
+  "model": "gpt-6.2-sol",
+  "case_id": "activate-nike"
+ },
+ "49579660": {
+  "runner": "sol-3",
+  "model": "gpt-6.2-sol",
+  "case_id": "apple-cap"
+ },
+ "b2ed6585": {
+  "runner": "sol-3",
+  "model": "gpt-6.2-sol",
+  "case_id": "bonus-square"
+ },
+ "a45ca1e0": {
+  "runner": "sol-3",
+  "model": "gpt-6.2-sol",
+  "case_id": "clarify-apple"
+ },
+ "8df836d2": {
+  "runner": "sol-3",
+  "model": "gpt-6.2-sol",
+  "case_id": "delta-the-home-depot"
+ },
+ "b24e6e01": {
+  "runner": "sol-3",
+  "model": "gpt-6.2-sol",
+  "case_id": "harvest-miles"
+ },
+ "5b6f42e7": {
+  "runner": "sol-3",
+  "model": "gpt-6.2-sol",
+  "case_id": "high-points_per_dollar"
+ },
+ "b02d2fcb": {
+  "runner": "sol-3",
+  "model": "gpt-6.2-sol",
+  "case_id": "nike-citation"
+ },
+ "87d1b3a8": {
+  "runner": "sol-3",
+  "model": "gpt-6.2-sol",
+  "case_id": "outdoor-both"
+ },
+ "3c1ef82c": {
+  "runner": "sol-3",
+  "model": "gpt-6.2-sol",
+  "case_id": "profile-rakuten"
+ },
+ "e6bdc1da": {
+  "runner": "sol-4",
+  "model": "gpt-6.2-sol",
+  "case_id": "activate-synthetic-books"
+ },
+ "0a9b0b5b": {
+  "runner": "sol-4",
+  "model": "gpt-6.2-sol",
+  "case_id": "bonus-daily-harvest"
+ },
+ "ca73e015": {
+  "runner": "sol-4",
+  "model": "gpt-6.2-sol",
+  "case_id": "clarify-american"
+ },
+ "7e82eb81": {
+  "runner": "sol-4",
+  "model": "gpt-6.2-sol",
+  "case_id": "high-miles_per_dollar"
+ },
+ "6ea6bf9f": {
+  "runner": "sol-4",
+  "model": "gpt-6.2-sol",
+  "case_id": "inactive-profile"
+ },
+ "7fb470db": {
+  "runner": "sol-4",
+  "model": "gpt-6.2-sol",
+  "case_id": "missing-store"
+ },
+ "ecdee0a2": {
+  "runner": "sol-4",
+  "model": "gpt-6.2-sol",
+  "case_id": "newsletter"
+ },
+ "3d2dcbe7": {
+  "runner": "sol-4",
+  "model": "gpt-6.2-sol",
+  "case_id": "old-synthetic-outdoor"
+ },
+ "95572ff6": {
+  "runner": "sol-4",
+  "model": "gpt-6.2-sol",
+  "case_id": "overall-nike"
+ },
+ "1a57c8de": {
+  "runner": "sol-4",
+  "model": "gpt-6.2-sol",
+  "case_id": "studio-mixed"
+ }
+}
