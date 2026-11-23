@@ -251,6 +251,22 @@ class HTTPTests(unittest.TestCase):
         os.environ.pop("CBYS_FIXTURES_DIR", None)
         self.client = Client(base_url="https://example.test/", timeout=3, user_agent="cbys-test")
 
+    def test_portal_detail_uses_one_encoded_path_segment(self):
+        for portal_id, segment in (
+            ("rakuten", "rakuten"),
+            ("example/plus?region#uk", "example%2Fplus%3Fregion%23uk"),
+        ):
+            with (
+                self.subTest(portal_id=portal_id),
+                patch("cbys.client._open", return_value=FakeResponse(
+                    read_fixture("portals/rakuten.json"),
+                )) as transport,
+            ):
+                self.client.get_portal(portal_id)
+                transport.assert_called_once()
+                self.assertEqual(transport.call_args.args[0].selector,
+                                 f"/api/v1/portals/{segment}.json")
+
     def test_retries_429_503_and_honors_retry_after(self):
         with (
             patch("cbys.client._open", side_effect=[
@@ -539,6 +555,63 @@ class CLITests(unittest.TestCase):
         self.assertEqual(result.returncode, 2, result.stderr)
         self.assertIn("unrecognized arguments", result.stderr)
         self.assert_attribution(result.stderr, "https://checkbeforeyoushop.com")
+
+    def test_example_rejects_invalid_store_fields_before_printing(self):
+        for field, bad_value in (
+            ("data.rates", {}),
+            ("data.merchant", []),
+            ("attribution", None),
+            ("disclosure", None),
+        ):
+            for missing in (True, False):
+                with self.subTest(field=field, missing=missing):
+                    payload = read_fixture("merchants/nike.json")
+                    target = payload["data"] if field.startswith("data.") else payload
+                    key = field.split(".")[-1]
+                    if missing:
+                        del target[key]
+                    else:
+                        target[key] = bad_value
+                    result = self.example_with_store_fixture(payload)
+                    self.assertEqual(result.returncode, 1, result.stderr)
+                    self.assertIn(field, result.stderr)
+                    self.assertNotIn("Traceback", result.stderr)
+                    self.assertEqual(result.stdout, "")
+
+    def test_example_accepts_an_empty_rates_array(self):
+        payload = read_fixture("merchants/nike.json")
+        payload["data"].update(rates=[], best_rates=[])
+        result = self.example_with_store_fixture(payload)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("No tracked rate rows match this selection.", result.stdout)
+
+    def test_example_prints_each_rows_listing_qualifier(self):
+        payload = read_fixture("merchants/nike.json")
+        row = payload["data"]["rates"][0]
+        payload["data"]["rates"] = [
+            dict(row, rate_value=5, rate_display="5%", listing_label="New customers only"),
+            dict(row, rate_value=3, rate_display="3%", listing_label="Returning customers only"),
+            dict(row, rate_value=2, rate_display="2%", listing_label=None),
+        ]
+        result = self.example_with_store_fixture(payload)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        rows = [line for line in result.stdout.splitlines() if line.startswith("- ")]
+        self.assertEqual(len(rows), 3)
+        self.assertIn("(New customers only)", rows[0])
+        self.assertIn("5%", rows[0])
+        self.assertIn("(Returning customers only)", rows[1])
+        self.assertIn("3%", rows[1])
+        self.assertIn("2%", rows[2])
+        self.assertNotIn("only)", rows[2])
+
+    def example_with_store_fixture(self, payload):
+        with synthetic_fixtures("Synthetic merchant detail for CLI regression tests", {
+            "/api/v1/merchants/nike.json": (200, payload),
+        }) as directory:
+            return subprocess.run(
+                [sys.executable, "example.py", "nike", "--fixtures", directory],
+                cwd=ROOT, capture_output=True, text=True, timeout=10,
+            )
 
     def test_store_shows_full_verdict_without_cross_unit_summary(self):
         payload = read_fixture("merchants/nike.json")

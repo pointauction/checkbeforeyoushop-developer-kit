@@ -198,6 +198,10 @@
 
     function showStore(envelope, focusFrom) {
       const { merchant, verdict, rates } = envelope.data;
+      if (!Array.isArray(rates) || typeof envelope.attribution !== 'string' ||
+          typeof envelope.disclosure !== 'string') {
+        throw new Error('Invalid merchant response');
+      }
       const intro = element('div', 'store-intro');
       if (merchant.domain) intro.append(element('p', 'domain', merchant.domain));
       if (verdict?.headline || verdict?.caveats?.length) {

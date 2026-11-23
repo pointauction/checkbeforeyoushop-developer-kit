@@ -128,6 +128,21 @@ test('an empty fixture response is distinct from a missing fixture', async ({ pa
   await expect(page.getByRole('heading', { name: 'Request not in fixtures' })).toBeVisible();
 });
 
+test('an invalid rates field shows a lookup error while an empty array shows no listings', async ({ page }) => {
+  await page.addInitScript(() => {
+    globalThis.__CBYS_DEMO_TEST_TRANSFORM__ = (path, response) => {
+      if (path === '/api/v1/merchants/nike.json') response.body.data.rates = '';
+      if (path === '/api/v1/merchants/square.json') response.body.data.rates = [];
+      return response;
+    };
+  });
+  await page.goto(demoUrl);
+  await search(page, 'nike');
+  await expect(page.getByRole('heading', { name: 'Couldn’t load the lookup' })).toBeVisible();
+  await search(page, 'square');
+  await expect(page.getByText('No tracked listings returned for this store.')).toBeVisible();
+});
+
 test('a higher stale rate sorts after fresh rates and displays its own confirmation', async ({ page }) => {
   await page.addInitScript(() => {
     globalThis.__CBYS_DEMO_TEST_TRANSFORM__ = (path, response) => {
